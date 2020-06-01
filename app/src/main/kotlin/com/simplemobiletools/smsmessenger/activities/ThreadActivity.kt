@@ -54,6 +54,7 @@ class ThreadActivity : SimpleActivity() {
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
+    private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentUris = LinkedHashSet<Uri>()
@@ -96,13 +97,14 @@ class ThreadActivity : SimpleActivity() {
             }
 
             // check if no participant came from a privately stored contact in Simple Contacts
-            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
                 participants.filter { it.name == it.phoneNumber }.forEach { participant ->
                     privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
                         senderNumbersToReplace[participant.phoneNumber] = name
                         participant.name = name
+                        participant.photoUri = photoUri
                     }
                 }
 
@@ -218,9 +220,10 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        SimpleContactsHelper(this).getAvailableContacts(false) {
+        SimpleContactsHelper(this).getAvailableContacts(false) { contacts ->
+            contacts.addAll(privateContacts)
             runOnUiThread {
-                val adapter = AutoCompleteTextViewAdapter(this, it)
+                val adapter = AutoCompleteTextViewAdapter(this, contacts)
                 add_contact_or_number.setAdapter(adapter)
                 add_contact_or_number.imeOptions = EditorInfo.IME_ACTION_NEXT
                 add_contact_or_number.setOnItemClickListener { _, _, position, _ ->
@@ -235,7 +238,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        confirm_inserted_number.setOnClickListener {
+        confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
             addSelectedContact(contact)
@@ -323,10 +326,9 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val baseString = R.string.block_confirmation
-        val numbers = participants.map { it.phoneNumber }.toTypedArray()
+        val numbers = participants.map { it.phoneNumber }
         val numbersString = TextUtils.join(", ", numbers)
-        val question = String.format(resources.getString(baseString), numbersString)
+        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
         ConfirmationDialog(this, question) {
             ensureBackgroundThread {
@@ -341,9 +343,13 @@ class ThreadActivity : SimpleActivity() {
 
     private fun askConfirmDelete() {
         ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
-            deleteConversation(threadId)
-            refreshMessages()
-            finish()
+            ensureBackgroundThread {
+                deleteConversation(threadId)
+                runOnUiThread {
+                    refreshMessages()
+                    finish()
+                }
+            }
         }
     }
 
@@ -415,6 +421,7 @@ class ThreadActivity : SimpleActivity() {
             if (!it.read) {
                 hadUnreadItems = true
                 markMessageRead(it.id, it.isMMS)
+                conversationsDB.markRead(threadId.toLong())
             }
         }
 
@@ -466,7 +473,6 @@ class ThreadActivity : SimpleActivity() {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                     attachmentView.thread_attachment_preview.beGone()
                     attachmentView.thread_remove_attachment.beGone()
-                    showErrorToast(e?.localizedMessage ?: "")
                     return false
                 }
 
@@ -513,9 +519,13 @@ class ThreadActivity : SimpleActivity() {
 
         if (attachmentUris.isNotEmpty()) {
             for (uri in attachmentUris) {
-                val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                val mimeType = contentResolver.getType(uri) ?: continue
-                message.addMedia(byteArray, mimeType)
+                try {
+                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
+                    val mimeType = contentResolver.getType(uri) ?: continue
+                    message.addMedia(byteArray, mimeType)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
             }
         }
 

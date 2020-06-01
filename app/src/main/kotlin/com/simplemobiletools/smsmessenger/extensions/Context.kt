@@ -20,13 +20,19 @@ import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ReplyActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
+import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.util.*
 import kotlin.collections.ArrayList
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
+
+fun Context.getMessagessDB() = MessagesDatabase.getInstance(this)
+
+val Context.conversationsDB: ConversationsDao get() = getMessagessDB().ConversationsDao()
 
 fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
@@ -46,6 +52,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val sortOrder = "${Sms._ID} DESC LIMIT 100"
 
     val blockStatus = HashMap<String, Boolean>()
+    val blockedNumbers = getBlockedNumbers()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
@@ -53,7 +60,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
             blockStatus[senderNumber]!!
         } else {
-            val isBlocked = isNumberBlocked(senderNumber)
+            val isBlocked = isNumberBlocked(senderNumber, blockedNumbers)
             blockStatus[senderNumber] = isBlocked
             isBlocked
         }
@@ -146,7 +153,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         messages.add(message)
 
         participants.forEach {
-            contactsMap.put(it.rawId, it)
+            contactsMap[it.rawId] = it
         }
     }
 
@@ -171,7 +178,7 @@ fun Context.getMMSSender(msgId: Int): String {
     return ""
 }
 
-fun Context.getConversations(): ArrayList<Conversation> {
+fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
     val projection = arrayOf(
         Threads._ID,
@@ -181,11 +188,18 @@ fun Context.getConversations(): ArrayList<Conversation> {
         Threads.RECIPIENT_IDS
     )
 
-    val selection = "${Threads.MESSAGE_COUNT} > ?"
-    val selectionArgs = arrayOf("0")
+    var selection = "${Threads.MESSAGE_COUNT} > ?"
+    var selectionArgs = arrayOf("0")
+    if (threadId != null) {
+        selection += " AND ${Threads._ID} = ?"
+        selectionArgs = arrayOf("0", threadId.toString())
+    }
+
     val sortOrder = "${Threads.DATE} DESC"
 
     val conversations = ArrayList<Conversation>()
+    val simpleContactHelper = SimpleContactsHelper(this)
+    val blockedNumbers = getBlockedNumbers()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
         var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
@@ -198,19 +212,19 @@ fun Context.getConversations(): ArrayList<Conversation> {
             date /= 1000
         }
 
-        val read = cursor.getIntValue(Threads.READ) == 1
         val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
         val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
-        if (phoneNumbers.any { isNumberBlocked(it) }) {
+        if (phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
             return@queryCursor
         }
 
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
-        val photoUri = if (phoneNumbers.size == 1) SimpleContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
+        val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+        val read = cursor.getIntValue(Threads.READ) == 1
+        val conversation = Conversation(null, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
 
         conversations.add(conversation)
     }
@@ -365,7 +379,7 @@ fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
     return ""
 }
 
-fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
+fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): ArrayList<SimpleContact> {
     val contacts = ArrayList<SimpleContact>()
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
@@ -375,16 +389,29 @@ fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
     val selection = "1 == 1) GROUP BY (${Sms.ADDRESS}"
     val selectionArgs = null
     val sortOrder = "${Sms.DATE} DESC LIMIT 20"
+    val blockedNumbers = getBlockedNumbers()
 
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
-        if (namePhoto == null || namePhoto.name == senderNumber || isNumberBlocked(senderNumber)) {
+        var senderName = namePhoto?.name ?: ""
+        var photoUri = namePhoto?.photoUri ?: ""
+        if (namePhoto == null || isNumberBlocked(senderNumber, blockedNumbers)) {
             return@queryCursor
+        } else if (namePhoto.name == senderNumber) {
+            if (privateContacts.isNotEmpty()) {
+                val privateContact = privateContacts.firstOrNull { it.phoneNumber == senderNumber }
+                if (privateContact != null) {
+                    senderName = privateContact.name
+                    photoUri = privateContact.photoUri
+                } else {
+                    return@queryCursor
+                }
+            } else {
+                return@queryCursor
+            }
         }
 
-        val senderName = namePhoto.name
-        val photoUri = namePhoto.photoUri ?: ""
         val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
@@ -438,14 +465,16 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     return newUri?.lastPathSegment?.toInt() ?: 0
 }
 
-fun Context.deleteConversation(id: Int) {
+fun Context.deleteConversation(threadId: Int) {
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
-    val selectionArgs = arrayOf(id.toString())
+    val selectionArgs = arrayOf(threadId.toString())
     contentResolver.delete(uri, selection, selectionArgs)
 
     uri = Mms.CONTENT_URI
     contentResolver.delete(uri, selection, selectionArgs)
+
+    conversationsDB.deleteThreadId(threadId.toLong())
 }
 
 fun Context.deleteMessage(id: Int, isMMS: Boolean) {
@@ -484,16 +513,6 @@ fun Context.getThreadId(addresses: Set<String>): Long {
     }
 }
 
-fun Context.isNumberBlocked(number: String): Boolean {
-    if (!isNougatPlus()) {
-        return false
-    }
-
-    val blockedNumbers = getBlockedNumbers()
-    val numberToCompare = number.trimToComparableNumber()
-    return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare) || blockedNumbers.map { it.number }.contains(numberToCompare)
-}
-
 @SuppressLint("NewApi")
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, messageId: Int, isMMS: Boolean) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -529,6 +548,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         action = MARK_AS_READ
         putExtra(MESSAGE_ID, messageId)
         putExtra(MESSAGE_IS_MMS, isMMS)
+        putExtra(THREAD_ID, threadID)
     }
     val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
     val replyIntent = Intent(this, ReplyActivity::class.java).apply {

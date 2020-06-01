@@ -19,6 +19,7 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.getConversations
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
@@ -128,9 +129,9 @@ class MainActivity : SimpleActivity() {
                 handlePermission(PERMISSION_SEND_SMS) {
                     if (it) {
                         handlePermission(PERMISSION_READ_CONTACTS) {
+                            initMessenger()
                             bus = EventBus.getDefault()
                             bus!!.register(this)
-                            initMessenger()
                         }
                     } else {
                         finish()
@@ -144,8 +145,29 @@ class MainActivity : SimpleActivity() {
 
     private fun initMessenger() {
         storeStateVariables()
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        getCachedConversations()
 
+        no_conversations_placeholder_2.setOnClickListener {
+            launchNewConversation()
+        }
+
+        conversations_fab.setOnClickListener {
+            launchNewConversation()
+        }
+    }
+
+    private fun getCachedConversations() {
+        ensureBackgroundThread {
+            val conversations = conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+            runOnUiThread {
+                setupConversations(conversations)
+                getNewConversations(conversations)
+            }
+        }
+    }
+
+    private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
             val conversations = getConversations()
 
@@ -155,35 +177,56 @@ class MainActivity : SimpleActivity() {
                 conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
                     privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
                         conversation.title = name
+                        conversation.photoUri = photoUri
                     }
                 }
             }
 
             runOnUiThread {
-                val hasConversations = conversations.isNotEmpty()
-                conversations_list.beVisibleIf(hasConversations)
-                no_conversations_placeholder.beVisibleIf(!hasConversations)
-                no_conversations_placeholder_2.beVisibleIf(!hasConversations)
+                setupConversations(conversations)
+            }
 
-                ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
-                    Intent(this, ThreadActivity::class.java).apply {
-                        putExtra(THREAD_ID, (it as Conversation).id)
-                        putExtra(THREAD_TITLE, it.title)
-                        startActivity(this)
-                    }
-                }.apply {
-                    conversations_list.adapter = this
+            conversations.forEach { clonedConversation ->
+                if (!cachedConversations.map { it.thread_id }.contains(clonedConversation.thread_id)) {
+                    conversationsDB.insertOrUpdate(clonedConversation)
+                    cachedConversations.add(clonedConversation)
+                }
+            }
+
+            cachedConversations.forEach { cachedConversation ->
+                if (!conversations.map { it.thread_id }.contains(cachedConversation.thread_id)) {
+                    conversationsDB.delete(cachedConversation.id!!)
+                }
+            }
+
+            cachedConversations.forEach { cachedConversation ->
+                val conv = conversations.firstOrNull { it.thread_id == cachedConversation.thread_id && it.getStringToCompare() != cachedConversation.getStringToCompare() }
+                if (conv != null) {
+                    conversationsDB.insertOrUpdate(conv)
                 }
             }
         }
+    }
 
+    private fun setupConversations(conversations: ArrayList<Conversation>) {
+        val hasConversations = conversations.isNotEmpty()
+        conversations_list.beVisibleIf(hasConversations)
+        no_conversations_placeholder.beVisibleIf(!hasConversations)
+        no_conversations_placeholder_2.beVisibleIf(!hasConversations)
 
-        no_conversations_placeholder_2.setOnClickListener {
-            launchNewConversation()
-        }
-
-        conversations_fab.setOnClickListener {
-            launchNewConversation()
+        val currAdapter = conversations_list.adapter
+        if (currAdapter == null) {
+            ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
+                Intent(this, ThreadActivity::class.java).apply {
+                    putExtra(THREAD_ID, (it as Conversation).thread_id)
+                    putExtra(THREAD_TITLE, it.title)
+                    startActivity(this)
+                }
+            }.apply {
+                conversations_list.adapter = this
+            }
+        } else {
+            (currAdapter as ConversationsAdapter).updateConversations(conversations)
         }
     }
 

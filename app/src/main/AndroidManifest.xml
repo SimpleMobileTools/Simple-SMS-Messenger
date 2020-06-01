@@ -29,7 +29,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme" />
-
+      
         <activity-alias
             android:name=".activities.SplashActivity.Grey_black"
             android:enabled="false"
