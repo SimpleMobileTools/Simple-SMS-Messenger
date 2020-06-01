@@ -2,4 +2,9 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
+    <style name="DialogTheme" parent="Base.Theme.AppCompat.Dialog.MinWidth">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

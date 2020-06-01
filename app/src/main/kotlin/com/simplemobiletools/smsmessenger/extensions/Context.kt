@@ -1,10 +1,7 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -21,6 +18,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.activities.ReplyActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -533,6 +531,12 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         putExtra(MESSAGE_IS_MMS, isMMS)
     }
     val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+    val replyIntent = Intent(this, ReplyActivity::class.java).apply {
+        putExtra(THREAD_ID, threadID)
+        putExtra(MESSAGE_ID, messageId)
+        putExtra(MESSAGE_IS_MMS, isMMS)
+    }
+    val replyPendingIntent = PendingIntent.getActivity(this,0,replyIntent,PendingIntent.FLAG_CANCEL_CURRENT)
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
@@ -548,6 +552,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setAutoCancel(true)
         .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
         .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
+        .addAction(R.drawable.ic_check_vector, "Reply", replyPendingIntent)
         .setChannelId(channelId)
 
     notificationManager.notify(messageId, builder.build())

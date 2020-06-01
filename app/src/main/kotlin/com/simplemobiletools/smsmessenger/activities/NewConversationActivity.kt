@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -134,6 +135,7 @@ class NewConversationActivity : SimpleActivity() {
         setupLetterFastscroller(contacts)
     }
 
+    @SuppressLint("InflateParams")
     private fun fillSuggestedContacts(callback: () -> Unit) {
         ensureBackgroundThread {
             val suggestions = getSuggestedContacts()
