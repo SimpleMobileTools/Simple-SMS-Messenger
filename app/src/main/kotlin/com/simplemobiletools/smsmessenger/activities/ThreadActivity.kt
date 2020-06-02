@@ -128,7 +128,7 @@ class ThreadActivity : SimpleActivity() {
                 participants.add(contact)
             }
 
-            messages.filter { it.attachment != null }.forEach { it ->
+            messages.filter { it.attachment != null }.forEach {
                 it.attachment!!.attachments.forEach {
                     try {
                         if (it.mimetype.startsWith("image/")) {
@@ -285,8 +285,8 @@ class ThreadActivity : SimpleActivity() {
             val uri = Uri.parse(intent.getStringExtra(THREAD_ATTACHMENT_URI))
             addAttachment(uri)
         } else if (intent.extras?.containsKey(THREAD_ATTACHMENT_URIS) == true) {
-            (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<*>)?.forEach {
-                addAttachment(it as Uri)
+            (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<Uri>)?.forEach {
+                addAttachment(it)
             }
         }
     }
