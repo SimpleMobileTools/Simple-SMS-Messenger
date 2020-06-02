@@ -244,7 +244,7 @@ class MainActivity : SimpleActivity() {
 
             val manager = getSystemService(ShortcutManager::class.java)
             try {
-                manager.dynamicShortcuts = Arrays.asList(newConversation))
+                manager.dynamicShortcuts = Arrays.asList(newConversation)
                 config.lastHandledShortcutColor = appIconColor
             } catch (ignored: Exception) {
             }
