@@ -8,6 +8,7 @@
     <string name="no_conversations_found">Geen opgeslagen berichten gevonden</string>
     <string name="start_conversation">Een gesprek starten</string>
     <string name="reply">Beantwoorden</string>
+    <string name="invert_notification_shortcuts">Invert the shortcuts in the notifications</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>

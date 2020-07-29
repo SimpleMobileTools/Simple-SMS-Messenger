@@ -34,6 +34,7 @@ class SettingsActivity : SimpleActivity() {
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         setupFontSize()
+        setupInvertNotificationShortcuts()
         updateTextColors(settings_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -104,6 +105,14 @@ class SettingsActivity : SimpleActivity() {
                 config.fontSize = it as Int
                 settings_font_size.text = getFontSizeText()
             }
+        }
+    }
+
+    private fun setupInvertNotificationShortcuts() {
+        settings_invert_notification_shortcuts.isChecked = config.invertShortcuts
+        settings_invert_notification_shortcuts_holder.setOnClickListener {
+            settings_invert_notification_shortcuts.toggle()
+            config.invertShortcuts = settings_invert_notification_shortcuts.isChecked
         }
     }
 }

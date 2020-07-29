@@ -13,4 +13,8 @@ class Config(context: Context) : BaseConfig(context) {
     }
 
     fun getUseSIMIdAtNumber(number: String) = prefs.getInt(USE_SIM_ID_PREFIX + number, 0)
+
+    var invertShortcuts: Boolean
+        get() = prefs.getBoolean(INVERT_NOTIFICATION_SHORTCUTS, false)
+        set(invertShortcuts) = prefs.edit().putBoolean(INVERT_NOTIFICATION_SHORTCUTS, invertShortcuts).apply()
 }

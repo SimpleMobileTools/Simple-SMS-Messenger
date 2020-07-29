@@ -22,6 +22,8 @@ const val THREAD_RECEIVED_MESSAGE = 2
 const val THREAD_SENT_MESSAGE = 3
 const val THREAD_SENT_MESSAGE_ERROR = 4
 
+const val INVERT_NOTIFICATION_SHORTCUTS = "invert_notification_shortcuts"
+
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }
