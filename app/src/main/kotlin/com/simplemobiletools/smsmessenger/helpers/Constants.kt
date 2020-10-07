@@ -23,6 +23,11 @@ const val THREAD_SENT_MESSAGE = 3
 const val THREAD_SENT_MESSAGE_ERROR = 4
 const val THREAD_SENT_MESSAGE_SUCCESS = 5
 
+// filter constants
+const val FAVORITES = "favorites"
+const val CONTACTS = "contacts"
+const val RECENT = "recent"
+
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }

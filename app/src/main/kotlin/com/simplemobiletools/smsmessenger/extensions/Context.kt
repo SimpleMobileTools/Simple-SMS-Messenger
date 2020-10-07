@@ -231,7 +231,9 @@ fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
         val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val read = cursor.getIntValue(Threads.READ) == 1
-        val conversation = Conversation(null, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+        val isFavorite = getThreadIsFavorite(phoneNumbers)
+        val isContact = getThreadIsContact(phoneNumbers)
+        val conversation = Conversation(null, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, isFavorite, isContact, phoneNumbers.first())
         conversations.add(conversation)
     }
 
@@ -363,6 +365,78 @@ fun Context.getThreadContactNames(phoneNumbers: List<String>): ArrayList<String>
     }
     return names
 }
+
+// return true if any of the phone numbers are starred contacts
+fun Context.getThreadIsFavorite(phoneNumbers : List<String>) : Boolean {
+    val helper = SimpleContactsHelperExtension(this)
+    var isFavorite = false
+    phoneNumbers.forEach {
+        isFavorite = isFavorite || helper.getStarredFromPhoneNumber(it)
+    }
+    return isFavorite
+}
+
+// return true if any of the phone numbers are contacts
+fun Context.getThreadIsContact(phoneNumbers : List<String>) : Boolean {
+    val helper = SimpleContactsHelperExtension(this)
+    var isContact = false
+    phoneNumbers.forEach {
+        isContact = isContact || helper.getContactFromPhoneNumber(it) != null
+    }
+    return isContact
+}
+
+// TODO: move getStarredFromPhoneNumber and getContactFromPhoneNumber functions to SimpleContactsHelper (?)
+class SimpleContactsHelperExtension(val context: Context) {
+    fun getStarredFromPhoneNumber(number: String): Boolean {
+        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
+            return false
+        }
+
+        val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+        val projection = arrayOf(
+            PhoneLookup.STARRED
+        )
+
+        try {
+            val cursor = context.contentResolver.query(uri, projection, null, null, null)
+            cursor.use {
+                if (cursor?.moveToFirst() == true) {
+                    return cursor.getIntValue(PhoneLookup.STARRED) == 1
+                }
+            }
+        } catch (e: Exception) {
+            context.showErrorToast(e)
+        }
+
+        return false
+    }
+
+    fun getContactFromPhoneNumber(number: String): String? {
+        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
+            return null
+        }
+
+        val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+        val projection = arrayOf(
+            PhoneLookup.CONTACT_ID
+        )
+
+        try {
+            val cursor = context.contentResolver.query(uri, projection, null, null, null)
+            cursor.use {
+                if (cursor?.moveToFirst() == true) {
+                    return cursor.getStringValue(PhoneLookup.CONTACT_ID)
+                }
+            }
+        } catch (e: Exception) {
+            context.showErrorToast(e)
+        }
+
+        return null
+    }
+}
+
 
 fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
     val uri = Uri.withAppendedPath(MmsSms.CONTENT_URI, "canonical-addresses")

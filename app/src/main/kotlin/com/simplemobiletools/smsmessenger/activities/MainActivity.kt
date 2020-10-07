@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.role.RoleManager
 import android.content.Intent
+import androidx.preference.PreferenceManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
@@ -12,18 +13,19 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.tabs.TabLayout
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.getConversations
-import com.simplemobiletools.smsmessenger.extensions.updateUnreadCountBadge
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.helpers.FAVORITES
+import com.simplemobiletools.smsmessenger.helpers.CONTACTS
+import com.simplemobiletools.smsmessenger.helpers.RECENT
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import kotlinx.android.synthetic.main.activity_main.*
@@ -161,6 +163,31 @@ class MainActivity : SimpleActivity() {
         conversations_fab.setOnClickListener {
             launchNewConversation()
         }
+
+        conversations_tablayout.addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.position) {
+                    0 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(FAVORITES)
+                    1 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(CONTACTS)
+                    2 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(RECENT)
+                    else -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(RECENT)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                when(tab?.position) {
+                    0 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(FAVORITES)
+                    1 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(CONTACTS)
+                    2 -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(RECENT)
+                    else -> (conversations_list.adapter as? ConversationsAdapter)?.filter?.filter(RECENT)
+                }
+            }
+
+        } )
+
     }
 
     private fun getCachedConversations() {
@@ -194,6 +221,16 @@ class MainActivity : SimpleActivity() {
 
             runOnUiThread {
                 setupConversations(conversations)
+            }
+
+            // update cached conversations when favorites or contacts change
+            conversations.forEach { clonedConversation ->
+                val cachedConversationToUpdate = cachedConversations.firstOrNull { it.thread_id == clonedConversation.thread_id && (it.isFavorite != clonedConversation.isFavorite || it.isContact != clonedConversation.isContact) }
+                if (cachedConversationToUpdate != null) {
+                    conversationsDB.insertOrUpdate(clonedConversation)
+                    cachedConversations.remove(cachedConversationToUpdate)
+                    cachedConversations.add(clonedConversation)
+                }
             }
 
             conversations.forEach { clonedConversation ->
@@ -241,6 +278,9 @@ class MainActivity : SimpleActivity() {
             } catch (ignored: Exception) {
             }
         }
+
+        // initial filter of selected tab is required here, so user doesn't have to switch to another tab and come back
+        conversations_tablayout.getTabAt(conversations_tablayout.selectedTabPosition)?.select()
     }
 
     private fun launchNewConversation() {

@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
     implementation 'com.github.tibbi:IndicatorFastScroll:08f512858a'
     implementation "me.leolin:ShortcutBadger:1.1.22"
+    implementation "com.google.android.material:material:1.2.1"
+    implementation 'androidx.preference:preference:1.1.1'
 
     kapt "androidx.room:room-compiler:2.2.5"
     implementation "androidx.room:room-runtime:2.2.5"

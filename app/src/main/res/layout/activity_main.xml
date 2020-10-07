@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.simplemobiletools.commons.views.MyTextView
+    <com.simplemobiletools.commons.views.MyTextView
             android:id="@+id/no_conversations_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +42,7 @@
             android:id="@+id/conversations_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/conversations_tablayout"
             android:clipToPadding="false"
             android:overScrollMode="ifContentScrolls"
             android:scrollbars="none"
@@ -59,14 +60,50 @@
             <include layout="@layout/fastscroller_handle_vertical" />
 
         </com.simplemobiletools.commons.views.FastScroller>
-    </RelativeLayout>
 
-    <com.simplemobiletools.commons.views.MyFloatingActionButton
-        android:id="@+id/conversations_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_margin"
-        android:src="@drawable/ic_plus_vector" />
+        <com.simplemobiletools.commons.views.MyFloatingActionButton
+            android:id="@+id/conversations_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/conversations_tablayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:src="@drawable/ic_plus_vector" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/conversations_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorGravity="top"
+            >
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/conversations_tab_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_star_on_vector"
+                android:text="@string/favorites"
+                />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/conversations_tab_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_person_vector"
+                android:text="@string/contacts_short"
+                />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/conversations_tab_recents"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_clock_vector"
+                android:text="@string/recent"
+                />
+        </com.google.android.material.tabs.TabLayout>
+
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

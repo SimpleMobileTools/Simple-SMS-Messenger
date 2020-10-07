@@ -3,10 +3,13 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.content.Intent
 import android.graphics.Typeface
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
@@ -22,12 +25,16 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
+import com.simplemobiletools.smsmessenger.helpers.FAVORITES
+import com.simplemobiletools.smsmessenger.helpers.CONTACTS
+import com.simplemobiletools.smsmessenger.helpers.RECENT
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
-                           itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+                           itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick), Filterable {
     private var fontSize = activity.getTextSize()
+    private var filteredConversations : List<Conversation> = conversations
 
     init {
         setupDragListener(true)
@@ -55,13 +62,13 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
-    override fun getSelectableItemCount() = conversations.size
+    override fun getSelectableItemCount() = filteredConversations.size
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.thread_id
+    override fun getItemSelectionKey(position: Int) = filteredConversations.getOrNull(position)?.thread_id
 
-    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.thread_id == key }
+    override fun getItemKeyPosition(key: Int) = filteredConversations.indexOfFirst { it.thread_id == key }
 
     override fun onActionModeCreated() {}
 
@@ -70,14 +77,41 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_conversation, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val conversation = conversations[position]
+        val conversation = filteredConversations[position]
         holder.bindView(conversation, true, true) { itemView, layoutPosition ->
             setupView(itemView, conversation)
         }
         bindViewHolder(holder)
     }
 
-    override fun getItemCount() = conversations.size
+    override fun getItemCount() = filteredConversations.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                Log.d("JONATHAN", "filter string: "+constraint)
+                var filterFunction = 0
+                var results = FilterResults()
+                when(constraint) {
+                    FAVORITES -> results.values = conversations.filter {
+                        it.isFavorite
+                    }
+                    CONTACTS -> results.values = conversations.filter {
+                        it.isContact
+                    }
+                    RECENT -> results.values = conversations as List<Conversation> // the recent conversations tab includes ALL conversations
+                    else -> results.values = conversations as List<Conversation> // if we don't recognize the filter name then don't filter
+                }
+                return results;
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredConversations = results?.values as List<Conversation>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
 
     private fun askConfirmBlock() {
         val numbers = getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber }
