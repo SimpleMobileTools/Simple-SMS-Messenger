@@ -13,6 +13,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
@@ -503,13 +504,15 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
 
 fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     if (!hasPermission(PERMISSION_READ_CONTACTS)) {
-        return NamePhoto(number, null)
+        return NamePhoto(number, null, null, null)
     }
 
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
         PhoneLookup.DISPLAY_NAME,
-        PhoneLookup.PHOTO_URI
+        PhoneLookup.PHOTO_URI,
+        PhoneLookup.CONTACT_ID,
+        PhoneLookup.STARRED
     )
 
     try {
@@ -518,14 +521,16 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
             if (cursor?.moveToFirst() == true) {
                 val name = cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
                 val photoUri = cursor.getStringValue(PhoneLookup.PHOTO_URI)
-                return NamePhoto(name, photoUri)
+                val isContact = cursor.getStringValue(PhoneLookup.CONTACT_ID) != null
+                val isFavorite = cursor.getIntValue(PhoneLookup.STARRED) == 1
+                return NamePhoto(name, photoUri, isContact, isFavorite)
             }
         }
     } catch (e: Exception) {
         showErrorToast(e)
     }
 
-    return NamePhoto(number, null)
+    return NamePhoto(number, null, false, false)
 }
 
 fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Int {
@@ -637,39 +642,36 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
     val privateCursor = getMyContactsCursor().loadInBackground()
     ensureBackgroundThread {
-        var sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
+        val contactInfo = getNameAndPhotoFromPhoneNumber(address)
+        val isContact = contactInfo?.isContact == true
+        val isFavorite = contactInfo?.isFavorite == true
+        var sender = contactInfo?.name ?: ""
         if (address == sender) {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
         }
 
         Handler(Looper.getMainLooper()).post {
-            showMessageNotification(address, body, threadID, bitmap, sender)
+            showMessageNotification(address, body, threadID, bitmap, sender, isContact, isFavorite)
         }
     }
 }
 
 @SuppressLint("NewApi")
-fun Context.showMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, sender: String) {
-    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    if (isOreoPlus()) {
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
-            .build()
+fun Context.showMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, sender: String, isContact: Boolean, isFavorite: Boolean) {
 
-        val name = getString(R.string.channel_received_sms)
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        NotificationChannel(NOTIFICATION_CHANNEL, name, importance).apply {
-            setBypassDnd(false)
-            enableLights(true)
-            setSound(soundUri, audioAttributes)
-            enableVibration(true)
-            notificationManager.createNotificationChannel(this)
-        }
+    val notificationChannelId : String
+    if (isFavorite) {
+        notificationChannelId = NOTIFICATION_CHANNEL_FAVORITES
     }
+    else if (isContact) {
+        notificationChannelId = NOTIFICATION_CHANNEL_CONTACTS
+    }
+    else {
+        notificationChannelId = NOTIFICATION_CHANNEL_UNKNOWNS
+    }
+
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     val intent = Intent(this, ThreadActivity::class.java).apply {
         putExtra(THREAD_ID, threadID)
@@ -694,6 +696,7 @@ fun Context.showMessageNotification(address: String, body: String, threadID: Int
         val replyIntent = Intent(this, DirectReplyReceiver::class.java).apply {
             putExtra(THREAD_ID, threadID)
             putExtra(THREAD_NUMBER, address)
+            putExtra(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_REPLIES)
         }
 
         val replyPendingIntent = PendingIntent.getBroadcast(applicationContext, threadID, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -703,7 +706,7 @@ fun Context.showMessageNotification(address: String, body: String, threadID: Int
     }
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
+    val builder = NotificationCompat.Builder(this, notificationChannelId)
         .setContentTitle(sender)
         .setContentText(body)
         .setColor(config.primaryColor)
@@ -715,12 +718,38 @@ fun Context.showMessageNotification(address: String, body: String, threadID: Int
         .setDefaults(Notification.DEFAULT_LIGHTS)
         .setCategory(Notification.CATEGORY_MESSAGE)
         .setAutoCancel(true)
-        .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        builder.setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+    }
+
     if (replyAction != null) {
         builder.addAction(replyAction)
     }
     builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(NOTIFICATION_CHANNEL)
+        .setChannelId(notificationChannelId)
 
     notificationManager.notify(threadID, builder.build())
+}
+
+@SuppressLint("NewApi")
+fun Context.createNotificationChannel(id: String, name: String) {
+    if (isOreoPlus()) {
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
+            .build()
+
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        NotificationChannel(id, name, importance).apply {
+            setBypassDnd(false)
+            enableLights(true)
+            setSound(soundUri, audioAttributes)
+            enableVibration(true)
+            notificationManager.createNotificationChannel(this)
+        }
+    }
 }

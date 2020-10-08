@@ -13,15 +13,13 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
-import com.simplemobiletools.smsmessenger.helpers.NOTIFICATION_CHANNEL
-import com.simplemobiletools.smsmessenger.helpers.REPLY
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.helpers.*
 
 class DirectReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(THREAD_NUMBER)
         val threadId = intent.getIntExtra(THREAD_ID, 0)
+        val notificationChannelId = intent.getStringExtra(NOTIFICATION_CHANNEL_ID) ?: NOTIFICATION_CHANNEL_REPLIES
         val msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY).toString()
 
         val settings = Settings()
@@ -36,7 +34,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
             context.showErrorToast(e)
         }
 
-        val repliedNotification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+        val repliedNotification = NotificationCompat.Builder(context, notificationChannelId)
             .setSmallIcon(R.drawable.ic_messenger)
             .setContentText(msg)
             .build()

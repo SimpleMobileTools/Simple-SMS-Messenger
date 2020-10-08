@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
 import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
@@ -13,7 +14,7 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.helpers.refreshMessages
+import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
@@ -34,6 +35,7 @@ class SettingsActivity : SimpleActivity() {
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         setupFontSize()
+        setupNotifications()
         updateTextColors(settings_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -105,5 +107,28 @@ class SettingsActivity : SimpleActivity() {
                 settings_font_size.text = getFontSizeText()
             }
         }
+    }
+
+    private fun setupNotifications() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            settings_customize_notifications_holder.visibility = View.GONE
+        } else {
+            settings_customize_notifications_holder.setOnClickListener {
+                val intent = Intent()
+                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    // Android 5-7, unsupported
+                    intent.putExtra("app_package", getPackageName());
+                    intent.putExtra("app_uid", getApplicationInfo().uid);
+                } else {
+                    // Android 8 and above, supported
+                    intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
+                }
+
+                startActivity(intent)
+            }
+        }
+
     }
 }

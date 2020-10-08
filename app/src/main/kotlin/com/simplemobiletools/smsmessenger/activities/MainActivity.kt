@@ -20,11 +20,7 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
-import com.simplemobiletools.smsmessenger.helpers.FAVORITES
-import com.simplemobiletools.smsmessenger.helpers.CONTACTS
-import com.simplemobiletools.smsmessenger.helpers.RECENT
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,6 +45,11 @@ class MainActivity : SimpleActivity() {
         if (checkAppSideloading()) {
             return
         }
+
+        createNotificationChannel(NOTIFICATION_CHANNEL_FAVORITES, getString(R.string.channel_received_sms_favorites))
+        createNotificationChannel(NOTIFICATION_CHANNEL_CONTACTS, getString(R.string.channel_received_sms_contacts))
+        createNotificationChannel(NOTIFICATION_CHANNEL_UNKNOWNS, getString(R.string.channel_received_sms_unknowns))
+        createNotificationChannel(NOTIFICATION_CHANNEL_REPLIES, getString(R.string.channel_replied_sms))
 
         if (isQPlus()) {
             val roleManager = getSystemService(RoleManager::class.java)
