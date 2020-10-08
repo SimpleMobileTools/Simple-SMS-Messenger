@@ -100,7 +100,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
                     RECENT -> results.values = conversations
                     else -> results.values = conversations
                 }
-                return results;
+                return results
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
