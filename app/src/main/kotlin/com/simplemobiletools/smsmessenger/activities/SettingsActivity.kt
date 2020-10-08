@@ -110,25 +110,20 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupNotifications() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            settings_customize_notifications_holder.visibility = View.GONE
-        } else {
-            settings_customize_notifications_holder.setOnClickListener {
-                val intent = Intent()
-                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+        settings_customize_notifications_holder.setOnClickListener {
+            val intent = Intent()
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
 
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    // Android 5-7, unsupported
-                    intent.putExtra("app_package", getPackageName());
-                    intent.putExtra("app_uid", getApplicationInfo().uid);
-                } else {
-                    // Android 8 and above, supported
-                    intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
-                }
-
-                startActivity(intent)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                // Android 5-7, unsupported
+                intent.putExtra("app_package", getPackageName());
+                intent.putExtra("app_uid", getApplicationInfo().uid);
+            } else {
+                // Android 8 and above, supported
+                intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
             }
-        }
 
+            startActivity(intent)
+        }
     }
 }
