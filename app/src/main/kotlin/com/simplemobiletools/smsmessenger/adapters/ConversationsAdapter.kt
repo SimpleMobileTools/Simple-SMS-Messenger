@@ -89,8 +89,6 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                Log.d("JONATHAN", "filter string: "+constraint)
-                var filterFunction = 0
                 var results = FilterResults()
                 when(constraint) {
                     FAVORITES -> results.values = conversations.filter {
@@ -99,8 +97,8 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
                     CONTACTS -> results.values = conversations.filter {
                         it.isContact
                     }
-                    RECENT -> results.values = conversations as List<Conversation> // the recent conversations tab includes ALL conversations
-                    else -> results.values = conversations as List<Conversation> // if we don't recognize the filter name then don't filter
+                    RECENT -> results.values = conversations
+                    else -> results.values = conversations
                 }
                 return results;
             }
