@@ -87,21 +87,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:icon="@drawable/ic_star_on_vector"
-                android:text="@string/favorites"
                 />
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/conversations_tab_contacts"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:icon="@drawable/ic_person_vector"
-                android:text="@string/contacts_short"
                 />
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/conversations_tab_recents"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:icon="@drawable/ic_clock_vector"
-                android:text="@string/recent"
                 />
         </com.google.android.material.tabs.TabLayout>
 
