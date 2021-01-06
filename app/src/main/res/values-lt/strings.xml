@@ -1,34 +1,34 @@
 <resources>
     <string name="app_name">Paprastas SMS Siuntiklis</string>
     <string name="app_launcher_name">SMS Siuntiklis</string>
-    <string name="type_a_message">Rašykite žinutę…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
-    <string name="add_person">Pridėti žmogų</string>
-    <string name="attachment">Priedas</string>
-    <string name="no_conversations_found">Nebuvo rasta išsaugotų pokalbių</string>
-    <string name="start_conversation">Pradėtipokalbį</string>
-    <string name="reply">Reply</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="type_a_message">Componi messaggio</string>
+    <string name="message_not_sent_short">Messaggio non inviato</string>
+    <string name="message_not_sent_touch_retry">Non inviato. Tocca per riprovare</string>
+    <string name="message_sending_error">Il tuo messaggio a \'%s\' non è stato inviato</string>
+    <string name="add_person">Aggiungi persona</string>
+    <string name="attachment">Allegato</string>
+    <string name="no_conversations_found">Nessuna conversazione trovata</string>
+    <string name="start_conversation">Inizia conversazione</string>
+    <string name="reply">Rispondi</string>
+    <string name="show_character_counter">Mostra contatore caratteri</string>
+    <string name="loading_messages">Caricamento messaggi…</string>
+    <string name="no_reply_support">Il mittente non accetta risposte</string>
+    <string name="draft">Bozza</string>
+    <string name="sending">Invio…</string>
 
     <!-- New conversation -->
-    <string name="new_conversation">Naujas pokalbis</string>
-    <string name="add_contact_or_number">Pridėti kontaktą arba numerį…</string>
-    <string name="suggestions">Pasiūlymai</string>
+    <string name="New_conversation">Nuova conversazione</string>
+    <string name="add_contact_or_number">Aggiungi contatto o numero…</string>
+    <string name="suggestions">Suggerimenti</string>
 
     <!-- Notifications -->
-    <string name="channel_received_sms">Gautos žinutės</string>
-    <string name="new_message">Nauja žinutė</string>
-    <string name="mark_as_read">Mark as Read</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="channel_received_sms">SMS ricevuto</string>
+    <string name="new_message">Nuovo messaggio</string>
+    <string name="mark_as_read">Letto</string>
+    <string name="mark_as_unread">Non letto</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Ar tikrai norite ištrinti visas šio pokalbio žinutes?</string>
+    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l'intera conversazione?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
@@ -43,9 +43,9 @@
     </plurals>
 
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
-    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_1_title">Perché l'applicazione richiede l'accesso ad internet?</string>
+    <string name="faq_1_text">Purteoppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
+    Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l'invio degli MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
