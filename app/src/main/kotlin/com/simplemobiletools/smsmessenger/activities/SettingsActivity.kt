@@ -13,7 +13,8 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.helpers.refreshMessages
+import com.simplemobiletools.smsmessenger.extensions.getAllowLinksText
+import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
@@ -35,6 +36,7 @@ class SettingsActivity : SimpleActivity() {
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         setupFontSize()
+        setupAllowLinks()
         setupShowCharacterCounter()
         updateTextColors(settings_scrollview)
 
@@ -113,6 +115,22 @@ class SettingsActivity : SimpleActivity() {
             RadioGroupDialog(this@SettingsActivity, items, config.fontSize) {
                 config.fontSize = it as Int
                 settings_font_size.text = getFontSizeText()
+            }
+        }
+    }
+    
+    private fun setupAllowLinks() {
+        settings_allow_links.text = getAllowLinksText()
+        settings_allow_links_holder.setOnClickListener {
+            val items = arrayListOf(
+                RadioItem(ALLOW_LINKS_SENT, getString(R.string.allow_links_in_sent)),
+                RadioItem(ALLOW_LINKS_RECEIVED, getString(R.string.allow_links_in_received)),
+                RadioItem(ALLOW_LINKS_ALWAYS, getString(R.string.allow_links_always)),
+                RadioItem(ALLOW_LINKS_NEVER, getString(R.string.allow_links_never)))
+
+            RadioGroupDialog(this@SettingsActivity, items, config.allowLinks) {
+                config.allowLinks = it as Int
+                settings_allow_links.text = getAllowLinksText()
             }
         }
     }

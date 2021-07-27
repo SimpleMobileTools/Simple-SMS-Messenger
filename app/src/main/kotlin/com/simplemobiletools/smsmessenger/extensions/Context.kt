@@ -51,6 +51,14 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagessDB()
 
 val Context.messagesDB: MessagesDao get() = getMessagessDB().MessagesDao()
 
+fun Context.getAllowLinksText() = getString(when (config.allowLinks) {
+    ALLOW_LINKS_SENT -> R.string.allow_links_in_sent
+    ALLOW_LINKS_RECEIVED -> R.string.allow_links_in_received
+    ALLOW_LINKS_ALWAYS -> R.string.allow_links_always
+    ALLOW_LINKS_NEVER -> R.string.allow_links_never
+    else -> R.string.allow_links_in_sent
+})
+
 fun Context.getMessages(threadId: Long): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(

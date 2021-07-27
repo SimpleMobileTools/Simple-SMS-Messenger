@@ -17,4 +17,9 @@ class Config(context: Context) : BaseConfig(context) {
     var showCharacterCounter: Boolean
         get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
         set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
+   
+    // We set a default value of 1 which is ALLOW_LINKS_SENT 
+    var allowLinks: Int
+        get() = prefs.getInt(ALLOW_LINKS, ALLOW_LINKS_SENT)
+        set(allowLinks) = prefs.edit().putInt(ALLOW_LINKS, allowLinks).apply()
 }

@@ -32,6 +32,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
+import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
@@ -215,6 +216,17 @@ class ThreadAdapter(
         view.apply {
             thread_message_holder.isSelected = selectedKeys.contains(message.hashCode())
             thread_message_body.apply {
+		if (message.isReceivedMessage()) {
+		  if (activity.config.allowLinks != ALLOW_LINKS_RECEIVED && 
+		      activity.config.allowLinks != ALLOW_LINKS_ALWAYS) {
+		     setAutoLinkMask(0)
+		  }
+		} else {
+		  if ((activity.config.allowLinks != ALLOW_LINKS_SENT) && 
+		      (activity.config.allowLinks != ALLOW_LINKS_ALWAYS)) {
+		     setAutoLinkMask(0)
+		  }
+		}
                 text = message.body
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }

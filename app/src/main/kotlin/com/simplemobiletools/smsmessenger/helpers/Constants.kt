@@ -26,6 +26,13 @@ const val THREAD_SENT_MESSAGE_ERROR = 4
 const val THREAD_SENT_MESSAGE_SUCCESS = 5
 const val THREAD_SENT_MESSAGE_SENDING = 6
 
+// allow following links in messages
+const val ALLOW_LINKS = "allow_links"
+const val ALLOW_LINKS_SENT = 1
+const val ALLOW_LINKS_RECEIVED = 2
+const val ALLOW_LINKS_ALWAYS = 3
+const val ALLOW_LINKS_NEVER = 4
+
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }

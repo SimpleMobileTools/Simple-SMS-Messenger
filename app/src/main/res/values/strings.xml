@@ -17,6 +17,13 @@
     <string name="sending">Sending…</string>
     <string name="export_messages">Export messages</string>
     <string name="import_messages">Import messages</string>
+    
+    <!-- Settings --> 
+    <string name="allow_links">Allow links in messages</string>
+    <string name="allow_links_in_sent">Sent messages</string>
+    <string name="allow_links_in_received">Received messages</string>
+    <string name="allow_links_always">Always</string>
+    <string name="allow_links_never">Never</string>
 
     <!-- New conversation -->
     <string name="new_conversation">New conversation</string>
