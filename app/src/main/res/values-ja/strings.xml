@@ -29,6 +29,7 @@
     <string name="new_message">新しいメッセージ</string>
     <string name="mark_as_read">既読にする</string>
     <string name="mark_as_unread">未読にする</string>
+    <string name="use_custom_notifications">Use custom notifications</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">本当にこの会話の全てのメッセージを削除しますか？</string>

@@ -35,6 +35,7 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import kotlinx.android.synthetic.main.dialog_notifications.view.*
 import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.FileNotFoundException
 import java.util.*
@@ -548,6 +549,12 @@ fun Context.deleteConversation(threadId: Long) {
 
     conversationsDB.deleteThreadId(threadId)
     messagesDB.deleteThreadMessages(threadId)
+
+    if (config.customNotifications.contains(threadId.toString()) && isOreoPlus()) {
+        config.removeCustomNotificationsByThreadId(threadId)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.deleteNotificationChannel(threadId.hashCode().toString())
+    }
 }
 
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {
@@ -688,7 +695,9 @@ fun Context.getNameFromAddress(address: String, privateCursor: Cursor?): String 
 fun Context.showMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    if (isOreoPlus()) {
+    val hasCustomNotifications = config.customNotifications.contains(threadId.toString())
+    val notificationChannel = if (hasCustomNotifications) threadId.hashCode().toString() else NOTIFICATION_CHANNEL
+    if (isOreoPlus() && !hasCustomNotifications) {
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_NOTIFICATION)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -738,7 +747,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     }
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
+    val builder = NotificationCompat.Builder(this, notificationChannel).apply {
         when (config.lockScreenVisibilitySetting) {
             LOCK_SCREEN_SENDER_MESSAGE -> {
                 setLargeIcon(largeIcon)
@@ -766,7 +775,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     }
 
     builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(NOTIFICATION_CHANNEL)
+        .setChannelId(notificationChannel)
 
     notificationManager.notify(threadId.hashCode(), builder.build())
 }

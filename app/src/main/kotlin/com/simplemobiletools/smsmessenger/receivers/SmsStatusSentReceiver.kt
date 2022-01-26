@@ -65,7 +65,9 @@ class SmsStatusSentReceiver : SentReceiver() {
     private fun showNotification(context: Context, recipientName: String, threadId: Long) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        if (isOreoPlus()) {
+        val hasCustomNotifications = context.config.customNotifications.contains(threadId.toString())
+        val notificationChannel = if (hasCustomNotifications) threadId.hashCode().toString() else NOTIFICATION_CHANNEL
+        if (isOreoPlus() && !hasCustomNotifications) {
             val audioAttributes = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -91,7 +93,7 @@ class SmsStatusSentReceiver : SentReceiver() {
         val summaryText = String.format(context.getString(R.string.message_sending_error), recipientName)
 
         val largeIcon = SimpleContactsHelper(context).getContactLetterIcon(recipientName)
-        val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+        val builder = NotificationCompat.Builder(context, notificationChannel)
             .setContentTitle(context.getString(R.string.message_not_sent_short))
             .setContentText(summaryText)
             .setColor(context.getAdjustedPrimaryColor())
@@ -104,7 +106,7 @@ class SmsStatusSentReceiver : SentReceiver() {
             .setCategory(Notification.CATEGORY_MESSAGE)
             .setAutoCancel(true)
             .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-            .setChannelId(NOTIFICATION_CHANNEL)
+            .setChannelId(notificationChannel)
 
         notificationManager.notify(threadId.hashCode(), builder.build())
     }

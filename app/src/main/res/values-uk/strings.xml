@@ -29,6 +29,7 @@
     <string name="new_message">Нове повідомлення</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
+    <string name="use_custom_notifications">Use custom notifications</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Видалити усі повідомлення у цьому листуванні?</string>

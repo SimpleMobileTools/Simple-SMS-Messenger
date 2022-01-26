@@ -40,6 +40,7 @@ import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.NotificationsDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -73,6 +74,7 @@ class ThreadActivity : SimpleActivity() {
     private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
     private val imageCompressor by lazy { ImageCompressor(this) }
     private var lastAttachmentUri: String? = null
+    private var threadName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,6 +150,7 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
+            findItem(R.id.notifications).isVisible = isOreoPlus()
         }
 
         updateMenuItemColors(menu)
@@ -165,6 +168,7 @@ class ThreadActivity : SimpleActivity() {
             R.id.dial_number -> dialNumber()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
+            R.id.notifications -> customizeNotifications()
             android.R.id.home -> onHomePressed()
             else -> return super.onOptionsItemSelected(item)
         }
@@ -237,6 +241,8 @@ class ThreadActivity : SimpleActivity() {
             val hasParticipantWithoutName = participants.any {
                 it.phoneNumbers.contains(it.name)
             }
+
+            threadName = participants.joinToString(", ") { it.name }
 
             try {
                 if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
@@ -585,6 +591,11 @@ class ThreadActivity : SimpleActivity() {
                 bus?.post(Events.RefreshMessages())
             }
         }
+    }
+
+    @SuppressLint("NewApi")
+    private fun customizeNotifications() {
+        NotificationsDialog(this, threadId, threadName)
     }
 
     @SuppressLint("MissingPermission")

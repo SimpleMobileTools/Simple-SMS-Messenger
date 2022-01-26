@@ -75,4 +75,16 @@ class Config(context: Context) : BaseConfig(context) {
     var importMms: Boolean
         get() = prefs.getBoolean(IMPORT_MMS, true)
         set(importMms) = prefs.edit().putBoolean(IMPORT_MMS, importMms).apply()
+
+    var customNotifications: Set<String>
+        get() = prefs.getStringSet(CUSTOM_NOTIFICATIONS, HashSet<String>())!!
+        set(customNotifications) = prefs.edit().putStringSet(CUSTOM_NOTIFICATIONS, customNotifications).apply()
+
+    fun addCustomNotificationsByThreadId(threadId: Long) {
+        customNotifications = customNotifications.plus(threadId.toString())
+    }
+
+    fun removeCustomNotificationsByThreadId(threadId: Long) {
+        customNotifications = customNotifications.minus(threadId.toString())
+    }
 }
