@@ -242,13 +242,14 @@ class MainActivity : SimpleActivity() {
                 }
             }
 
-            if (config.appRunCount == 1) {
+            if (config.appRunCount == 1 || !config.wasDbRevertedAfterClear) {
                 conversations.map { it.threadId }.forEach { threadId ->
                     val messages = getMessages(threadId)
                     messages.chunked(30).forEach { currentMessages ->
                         messagesDB.insertMessages(*currentMessages.toTypedArray())
                     }
                 }
+                config.wasDbRevertedAfterClear = true
             }
         }
     }

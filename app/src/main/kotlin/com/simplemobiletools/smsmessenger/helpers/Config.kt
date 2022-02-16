@@ -79,4 +79,8 @@ class Config(context: Context) : BaseConfig(context) {
     var wasDbCleared: Boolean
         get() = prefs.getBoolean(WAS_DB_CLEARED, false)
         set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
+
+    var wasDbRevertedAfterClear: Boolean
+        get() = prefs.getBoolean(WAS_DB_REVERTED_AFTER_CLEAR, false)
+        set(wasDbRevertedAfterClear) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbRevertedAfterClear).apply()
 }
