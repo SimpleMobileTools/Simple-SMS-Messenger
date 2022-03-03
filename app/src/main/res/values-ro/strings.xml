@@ -59,7 +59,9 @@
     <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Mesajele</string>
+    <string name="password">Password</string>
     <string name="export_messages">Exportă mesajele</string>
     <string name="export_sms">Exportă mesajele SMS</string>
     <string name="export_mms">Exportă mesajele MMS</string>

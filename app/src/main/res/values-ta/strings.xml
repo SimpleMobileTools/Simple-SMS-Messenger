@@ -53,7 +53,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">செய்திகளை</string>
+    <string name="password">Password</string>
     <string name="export_messages">செய்திகளை ஏற்றுமதி செய்யவும்</string>
     <string name="export_sms">ஏற்றுமதி எஸ்எம்எஸ்</string>
     <string name="export_mms">ஏற்றுமதி MMS</string>

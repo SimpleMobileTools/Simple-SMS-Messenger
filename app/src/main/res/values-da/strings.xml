@@ -53,7 +53,9 @@
     <string name="group_message_mms">Send gruppemeddelelser som MMS</string>
     <string name="send_long_message_mms">Send lange beskeder som MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Eksporter beskeder</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Eksportér MMS</string>

@@ -53,7 +53,9 @@
     <string name="group_message_mms">Groepsberichten sturen als MMS</string>
     <string name="send_long_message_mms">Lange berichten als MMS versturen</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Berichten</string>
+    <string name="password">Password</string>
     <string name="export_messages">Berichten exporteren</string>
     <string name="export_sms">SMS-berichten exporteren</string>
     <string name="export_mms">MMS-berichten exporteren</string>

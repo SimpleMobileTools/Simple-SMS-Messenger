@@ -61,7 +61,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">الرسائل</string>
+    <string name="password">Password</string>
     <string name="export_messages">تصدير الرسائل</string>
     <string name="export_sms">تصدير الرسائل القصيرة</string>
     <string name="export_mms">تصدير رسائل الوسائط</string>

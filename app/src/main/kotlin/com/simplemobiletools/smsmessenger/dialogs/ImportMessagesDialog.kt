@@ -1,6 +1,5 @@
 package com.simplemobiletools.smsmessenger.dialogs
 
-
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.extensions.setupDialogStuff
@@ -14,7 +13,6 @@ import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
 import kotlinx.android.synthetic.main.dialog_import_messages.view.*
-import java.io.InputStream
 
 class ImportMessagesDialog(
     private val activity: SimpleActivity,

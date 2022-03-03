@@ -1,7 +1,6 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.config
@@ -69,7 +68,6 @@ class MessagesExporter(private val context: Context) {
                 if (jMMS.length() > 0) mainObject.put("mms", jMMS)
 
                 mainArray.put(mainObject)
-                Log.d("debugFilePath", config.lastExportPath)
                 if (config.exportBackupPassword == "")
                 {
                     //If user didn't set a password we simply save the json in plain
@@ -77,7 +75,6 @@ class MessagesExporter(private val context: Context) {
                 }
                 else
                 {
-                    Log.d("debugFilePath", config.lastExportPath)
                     val salt = ByteArray(16)
                     val random = SecureRandom()
                     random.nextBytes(salt)

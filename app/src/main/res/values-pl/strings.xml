@@ -55,7 +55,9 @@
     <string name="group_message_mms">Wysyłaj wiadomości grupowe jako MMS-y</string>
     <string name="send_long_message_mms">Wysyłaj długie wiadomości jako MMS-y</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Wiadomości</string>
+    <string name="password">Password</string>
     <string name="export_messages">Eksportuj wiadomości</string>
     <string name="export_sms">Eksportuj SMS-y</string>
     <string name="export_mms">Eksportuj MMS-y</string>

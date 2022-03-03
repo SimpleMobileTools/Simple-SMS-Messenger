@@ -11,10 +11,8 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.documentfile.provider.DocumentFile
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -33,9 +31,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.BufferedInputStream
 import java.io.FileOutputStream
-import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
 
@@ -428,7 +424,6 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun tryImportMessagesFromFile(uri: Uri) {
-        Log.d("uri", uri.scheme.toString())
         when (uri.scheme) {
             "file" -> showImportEventsDialog(uri.path!!)
             "content" -> {
@@ -445,12 +440,10 @@ class MainActivity : SimpleActivity() {
                 } catch (e: Exception) {
                     showErrorToast(e)
                 }
-
             }
             else -> toast(R.string.invalid_file_format)
         }
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshMessages(event: Events.RefreshMessages) {

@@ -61,7 +61,9 @@
     <string name="send_long_message_mms">Odosielať dlhé správy ako MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Správy</string>
+    <string name="password">Password</string>
     <string name="export_messages">Exportovať správy</string>
     <string name="export_sms">Exportovať SMS</string>
     <string name="export_mms">Exportovať MMS</string>

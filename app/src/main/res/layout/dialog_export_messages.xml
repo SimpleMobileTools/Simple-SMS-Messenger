@@ -65,7 +65,7 @@
             android:paddingTop="@dimen/normal_margin"
             android:paddingEnd="@dimen/small_margin"
             android:textSize="@dimen/normal_text_size"
-            tools:text="Password" />
+            tools:text="@string/password" />
 
         <com.simplemobiletools.commons.views.MyAppCompatCheckbox
             android:id="@+id/export_sms_checkbox"

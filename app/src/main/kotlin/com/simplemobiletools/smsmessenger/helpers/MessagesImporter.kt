@@ -62,8 +62,7 @@ class MessagesImporter(private val context: Context) {
     fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
-                val inputStream: InputStream
-                inputStream = if (path.contains("/")) {
+                val inputStream = if (path.contains("/")) {
                     File(path).inputStream()
                 } else {
                     context.assets.open(path)
