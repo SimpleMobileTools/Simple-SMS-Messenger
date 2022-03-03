@@ -49,6 +49,24 @@
             android:textSize="@dimen/normal_text_size"
             tools:text="Messages" />
 
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/export_messages_password_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="@string/password_leave_blank_if_not_needed"
+            android:textSize="@dimen/smaller_text_size" />
+
+        <com.simplemobiletools.commons.views.MyEditText
+            android:id="@+id/export_messages_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:paddingTop="@dimen/normal_margin"
+            android:paddingEnd="@dimen/small_margin"
+            android:textSize="@dimen/normal_text_size"
+            tools:text="Password" />
+
         <com.simplemobiletools.commons.views.MyAppCompatCheckbox
             android:id="@+id/export_sms_checkbox"
             android:layout_width="match_parent"

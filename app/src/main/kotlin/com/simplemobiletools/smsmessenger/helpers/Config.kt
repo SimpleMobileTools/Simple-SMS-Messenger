@@ -64,6 +64,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getString(LAST_EXPORT_PATH, "")!!
         set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
 
+    var exportBackupPassword: String
+        get() = prefs.getString(EXPORT_BACKUP_PASSWORD, "")!!
+        set(exportBackupPassword) = prefs.edit().putString(EXPORT_BACKUP_PASSWORD, exportBackupPassword).apply()
+
     var exportSms: Boolean
         get() = prefs.getBoolean(EXPORT_SMS, true)
         set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()
@@ -71,6 +75,10 @@ class Config(context: Context) : BaseConfig(context) {
     var exportMms: Boolean
         get() = prefs.getBoolean(EXPORT_MMS, true)
         set(exportMms) = prefs.edit().putBoolean(EXPORT_MMS, exportMms).apply()
+
+    var importBackupPassword: String
+        get() = prefs.getString(IMPORT_BACKUP_PASSWORD, "")!!
+        set(importBackupPassword) = prefs.edit().putString(IMPORT_BACKUP_PASSWORD, importBackupPassword).apply()
 
     var importSms: Boolean
         get() = prefs.getBoolean(IMPORT_SMS, true)

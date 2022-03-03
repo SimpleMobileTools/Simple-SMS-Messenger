@@ -1,9 +1,13 @@
 package com.simplemobiletools.smsmessenger.dialogs
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.documentfile.provider.DocumentFile
+import com.simplemobiletools.commons.extensions.beGone
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.commons.extensions.toast
+import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
@@ -15,7 +19,8 @@ import kotlinx.android.synthetic.main.dialog_import_messages.view.*
 
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
-    private val path: String,
+    private val path: String?,
+    private var file: DocumentFile?,
 ) {
 
     private val config = activity.config
@@ -25,6 +30,11 @@ class ImportMessagesDialog(
         val view = (activity.layoutInflater.inflate(R.layout.dialog_import_messages, null) as ViewGroup).apply {
             import_sms_checkbox.isChecked = config.importSms
             import_mms_checkbox.isChecked = config.importMms
+        }
+        if (path?.substringAfterLast(".", "") != "sec" || file.name.replaceAfterLast(".","") != "sec")
+        {
+            view.import_messages_password.beGone()
+            view.import_messages_password_label.beGone()
         }
 
         AlertDialog.Builder(activity)
@@ -46,6 +56,7 @@ class ImportMessagesDialog(
                         activity.toast(R.string.importing)
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
+                        config.exportBackupPassword = view.import_messages_password.value
                         ensureBackgroundThread {
                             MessagesImporter(activity).importMessages(path) {
                                 handleParseResult(it)
