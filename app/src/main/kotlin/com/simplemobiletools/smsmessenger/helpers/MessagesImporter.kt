@@ -1,8 +1,6 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
-import android.provider.Telephony.*
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast

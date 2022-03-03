@@ -41,7 +41,7 @@
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme" />
 
-        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.MainActivity" />
 
         <activity
             android:name=".activities.ThreadActivity"

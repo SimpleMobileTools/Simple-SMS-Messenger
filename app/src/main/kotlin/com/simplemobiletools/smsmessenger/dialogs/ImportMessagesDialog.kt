@@ -1,10 +1,8 @@
 package com.simplemobiletools.smsmessenger.dialogs
 
-import android.util.Log
+
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.documentfile.provider.DocumentFile
-import com.simplemobiletools.commons.extensions.beGone
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.extensions.value
