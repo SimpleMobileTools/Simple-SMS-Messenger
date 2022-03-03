@@ -94,7 +94,9 @@ class MessagesExporter(private val context: Context) {
                     outputStream.write(cipher.iv)
 
                     val cout: OutputStream = CipherOutputStream(outputStream, cipher)
-                    cout.write(mainArray.toString().toByteArray())
+                    cout.bufferedWriter().use { writer ->
+                        cout.write(mainArray.toString().toByteArray())
+                    }
                     cout.flush()
                     outputStream.write(cipher.doFinal())
 

@@ -1,11 +1,8 @@
 package com.simplemobiletools.smsmessenger.helpers
 
-import android.R.attr.password
 import android.content.Context
 import android.provider.Telephony.*
-import android.text.TextUtils
-import androidx.appcompat.widget.ThemedSpinnerAdapter.Helper
-import androidx.documentfile.provider.DocumentFile
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast
@@ -21,6 +18,7 @@ import javax.crypto.SecretKey
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
+import kotlin.text.StringBuilder
 
 
 class MessagesImporter(private val context: Context) {
@@ -35,7 +33,7 @@ class MessagesImporter(private val context: Context) {
     private var messagesFailed = 0
     private var errorPassword : Boolean = false
 
-    fun readBuffer(inputStream: InputStream, buffer: ByteArray)
+    private fun readBuffer(inputStream: InputStream, buffer: ByteArray)
     {
         var left = buffer.size
 
@@ -48,87 +46,86 @@ class MessagesImporter(private val context: Context) {
         }
     }
 
-    fun importMessages(path: String?, file: DocumentFile?, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
+    private fun stringBuilder(inputStream: InputStream): StringBuilder
+    {
+        var data = StringBuilder()
+
+        inputStream.bufferedReader().use { reader ->
+            var line = reader.readLine()
+            while( line != null)
+            {
+                data.append(line)
+                line = reader.readLine()
+            }
+        }
+        return data
+    }
+
+    fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
-                //if extension is not "sec" then the file must be not encrypted
-                var inputStream: InputStream
-
-                if(path != null)
-                {
-                    val extension = path.substringAfterLast(".","")
-                    inputStream = if (path.contains("/")) {
-                        File(path).inputStream()
-                    } else {
-                        context.assets.open(path)
-                    }
-                }
-                else if (file != null)
-                {
-                    inputStream = File(file.uri)
+                val inputStream: InputStream
+                inputStream = if (path.contains("/")) {
+                    File(path).inputStream()
+                } else {
+                    context.assets.open(path)
                 }
 
-                if (extension == "sec")
+                val password = config.importBackupPassword
+                val data: StringBuilder
+                if (password != "")
                 {
-                    val password = config.importBackupPassword
-                    if(password == "")
-                    {
-                        errorPassword = true
-                        throw Exception("No password provided")
-                    }
-
                     try {
-                            BufferedInputStream(inputStream).use { raw ->
-                                val salt = ByteArray(16)
-                                val prefix = ByteArray(16)
-                                readBuffer(raw, salt)
-                                readBuffer(raw, prefix)
-                                val keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-                                val keySpec: KeySpec = PBEKeySpec(password.toCharArray(), salt, KEY_ITERATIONS, KEY_LENGTH)
-                                val secret: SecretKey = keyFactory.generateSecret(keySpec)
-                                val cipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-                                val iv = IvParameterSpec(prefix)
-                                cipher.init(Cipher.DECRYPT_MODE, secret, iv)
-                                inputStream = CipherInputStream(raw, cipher)
-                            }
-                    }
-                    catch (e: Exception)
-                    {
+                        BufferedInputStream(inputStream).use { raw ->
+                            val salt = ByteArray(16)
+                            val prefix = ByteArray(16)
+                            readBuffer(raw, salt)
+                            readBuffer(raw, prefix)
+                            val keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+                            val keySpec: KeySpec = PBEKeySpec(password.toCharArray(), salt, KEY_ITERATIONS, KEY_LENGTH)
+                            val secret: SecretKey = keyFactory.generateSecret(keySpec)
+                            val cipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+                            val iv = IvParameterSpec(prefix)
+                            cipher.init(Cipher.DECRYPT_MODE, secret, iv)
+                            data = stringBuilder(CipherInputStream(raw, cipher))
+                        }
+                    } catch (e: Exception) {
                         throw Exception("Error while decrypting backup, please check your password.")
-                    }
+                        }
+                }
+                else
+                {
+                    data = stringBuilder(inputStream)
                 }
 
-
-
-                inputStream.bufferedReader().use { reader ->
-                    val json = reader.readText()
-                    val type = object : TypeToken<List<ExportedMessage>>() {}.type
-                    val messages = gson.fromJson<List<ExportedMessage>>(json, type)
-                    val totalMessages = messages.flatMap { it.sms ?: emptyList() }.size + messages.flatMap { it.mms ?: emptyList() }.size
-                    if (totalMessages <= 0) {
-                        callback.invoke(IMPORT_NOTHING_NEW)
-                        return@ensureBackgroundThread
-                    }
-
-                    onProgress.invoke(totalMessages, messagesImported)
-                    for (message in messages) {
-                        if (config.importSms) {
-                            message.sms?.forEach { backup ->
-                                messageWriter.writeSmsMessage(backup)
-                                messagesImported++
-                                onProgress.invoke(totalMessages, messagesImported)
-                            }
-                        }
-                        if (config.importMms) {
-                            message.mms?.forEach { backup ->
-                                messageWriter.writeMmsMessage(backup)
-                                messagesImported++
-                                onProgress.invoke(totalMessages, messagesImported)
-                            }
-                        }
-                        refreshMessages()
-                    }
+                val json = data.toString()
+                val type = object : TypeToken<List<ExportedMessage>>() {}.type
+                val messages = gson.fromJson<List<ExportedMessage>>(json, type)
+                val totalMessages = messages.flatMap { it.sms ?: emptyList() }.size + messages.flatMap { it.mms ?: emptyList() }.size
+                if (totalMessages <= 0) {
+                    callback.invoke(IMPORT_NOTHING_NEW)
+                    return@ensureBackgroundThread
                 }
+
+                onProgress.invoke(totalMessages, messagesImported)
+                for (message in messages) {
+                    if (config.importSms) {
+                        message.sms?.forEach { backup ->
+                            messageWriter.writeSmsMessage(backup)
+                            messagesImported++
+                            onProgress.invoke(totalMessages, messagesImported)
+                        }
+                    }
+                    if (config.importMms) {
+                        message.mms?.forEach { backup ->
+                            messageWriter.writeMmsMessage(backup)
+                            messagesImported++
+                            onProgress.invoke(totalMessages, messagesImported)
+                        }
+                    }
+                    refreshMessages()
+                }
+
             } catch (e: Exception) {
                 context.showErrorToast(e)
                 messagesFailed++

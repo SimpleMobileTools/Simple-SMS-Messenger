@@ -16,11 +16,11 @@ import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
 import kotlinx.android.synthetic.main.dialog_import_messages.view.*
+import java.io.InputStream
 
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
-    private val path: String?,
-    private var file: DocumentFile?,
+    private val path: String,
 ) {
 
     private val config = activity.config
@@ -30,11 +30,6 @@ class ImportMessagesDialog(
         val view = (activity.layoutInflater.inflate(R.layout.dialog_import_messages, null) as ViewGroup).apply {
             import_sms_checkbox.isChecked = config.importSms
             import_mms_checkbox.isChecked = config.importMms
-        }
-        if (path?.substringAfterLast(".", "") != "sec" || file.name.replaceAfterLast(".","") != "sec")
-        {
-            view.import_messages_password.beGone()
-            view.import_messages_password_label.beGone()
         }
 
         AlertDialog.Builder(activity)
@@ -56,7 +51,7 @@ class ImportMessagesDialog(
                         activity.toast(R.string.importing)
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
-                        config.exportBackupPassword = view.import_messages_password.value
+                        config.importBackupPassword = view.import_messages_password.value
                         ensureBackgroundThread {
                             MessagesImporter(activity).importMessages(path) {
                                 handleParseResult(it)

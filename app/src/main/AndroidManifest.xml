@@ -41,21 +41,7 @@
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme" />
 
-        <activity android:name=".activities.MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.OPENABLE"/>
-                <data android:scheme="file" />
-                <data android:mimeType="application/octet-stream" />
-                <data android:pathPattern=".*\\.sec" />
-                <data android:pathPattern=".*\\..*\\.sec"/>
-                <data android:pathPattern=".*\\..*\\..*\\.sec"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.sec"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.sec"/>
-                <data android:host="*" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.MainActivity"/>
 
         <activity
             android:name=".activities.ThreadActivity"

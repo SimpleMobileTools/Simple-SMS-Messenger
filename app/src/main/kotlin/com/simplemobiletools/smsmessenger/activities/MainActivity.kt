@@ -33,7 +33,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.BufferedInputStream
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
 
@@ -147,7 +149,7 @@ class MainActivity : SimpleActivity() {
                 finish()
             }
         } else if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            tryImportMessagesFromFile(resultData)
+            tryImportMessagesFromFile(resultData.data!!)
         } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             val outputStream = contentResolver.openOutputStream(resultData.data!!)
             exportMessagesTo(outputStream)
@@ -417,33 +419,35 @@ class MainActivity : SimpleActivity() {
 
     private fun importEvents() {
         FilePickerDialog(this) {
-            showImportEventsDialog(it, null)
+            showImportEventsDialog(it)
         }
     }
 
-    private fun showImportEventsDialog(path: String?, file: DocumentFile?) {
-        ImportMessagesDialog(this, path, file)
+    private fun showImportEventsDialog(path: String) {
+        ImportMessagesDialog(this, path)
     }
 
-    private fun tryImportMessagesFromFile(intentData : Intent) {
-        val uri = intentData.data
-
-        if (uri != null)
-            try {
-                val df = DocumentFile.fromSingleUri(this, uri)
-                if (df != null) {
-                    val ext : String? = df.name?.substringAfterLast(".","")
-                    if (ext == "sec" || ext == "json") {
-                        showImportEventsDialog(null, df)
-                        return
-                    }
-                    else
-                    {
-                        throw Exception("Wrong filetype")
-                    }
+    private fun tryImportMessagesFromFile(uri: Uri) {
+        Log.d("uri", uri.scheme.toString())
+        when (uri.scheme) {
+            "file" -> showImportEventsDialog(uri.path!!)
+            "content" -> {
+                val tempFile = getTempFile("messages", "backup.json")
+                if (tempFile == null) {
+                    toast(R.string.unknown_error_occurred)
+                    return
                 }
-        } catch (ex: Exception) {
-            //TODO
+                try {
+                    val inputStream = contentResolver.openInputStream(uri)
+                    val out = FileOutputStream(tempFile)
+                    inputStream!!.copyTo(out)
+                    showImportEventsDialog(tempFile.absolutePath)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+
+            }
+            else -> toast(R.string.invalid_file_format)
         }
     }
 
