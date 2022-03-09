@@ -53,6 +53,9 @@ const val LOCK_SCREEN_SENDER_MESSAGE = 1
 const val LOCK_SCREEN_SENDER = 2
 const val LOCK_SCREEN_NOTHING = 3
 
+//Notifications
+const val EXPORT_IMPORT_NOTIFICATION_ID = 33
+
 const val FILE_SIZE_NONE = -1L
 const val FILE_SIZE_100_KB = 102_400L
 const val FILE_SIZE_200_KB = 204_800L

@@ -22,6 +22,9 @@ class MessagesImporter(private val context: Context) {
     enum class ImportResult {
         IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW, NO_PASSWORD_PROVIDED
     }
+    enum class ImportState {
+        DECRYPTING, RESTORING
+    }
 
     private val gson = Gson()
     private val messageWriter = MessagesWriter(context)
@@ -43,7 +46,7 @@ class MessagesImporter(private val context: Context) {
         }
     }
 
-    fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
+    fun importMessages(path: String, onProgress: (state: ImportState, total: Int, current: Int) -> Unit = { _, _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
                 val inputStream = if (path.contains("/")) {
@@ -60,6 +63,7 @@ class MessagesImporter(private val context: Context) {
                 if (password != "")
                 {
                     try {
+                        onProgress.invoke(ImportState.DECRYPTING, 0, 0)
                         rawInputStream = BufferedInputStream(inputStream)
                         val salt = ByteArray(16)
                         val prefix = ByteArray(16)
@@ -95,20 +99,20 @@ class MessagesImporter(private val context: Context) {
                     return@ensureBackgroundThread
                 }
 
-                onProgress.invoke(totalMessages, messagesImported)
+                onProgress.invoke(ImportState.RESTORING, totalMessages, messagesImported)
                 for (message in messages) {
                     if (config.importSms) {
                         message.sms?.forEach { backup ->
                             messageWriter.writeSmsMessage(backup)
                             messagesImported++
-                            onProgress.invoke(totalMessages, messagesImported)
+                            onProgress.invoke(ImportState.RESTORING, totalMessages, messagesImported)
                         }
                     }
                     if (config.importMms) {
                         message.mms?.forEach { backup ->
                             messageWriter.writeMmsMessage(backup)
                             messagesImported++
-                            onProgress.invoke(totalMessages, messagesImported)
+                            onProgress.invoke(ImportState.RESTORING, totalMessages, messagesImported)
                         }
                     }
                     refreshMessages()

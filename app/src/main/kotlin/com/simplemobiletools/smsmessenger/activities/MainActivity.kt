@@ -385,12 +385,17 @@ class MainActivity : SimpleActivity() {
 
     private fun exportMessagesTo(outputStream: OutputStream?) {
         toast(R.string.exporting)
+        val exportNotification = ImportExportProgressNotification(this, ImportExportProgressNotification.ImportOrExport.EXPORT)
         ensureBackgroundThread {
-            smsExporter.exportMessages(outputStream) {
+            exportNotification.spawnProgressNotification()
+            smsExporter.exportMessages(outputStream, {
+                state: MessagesExporter.ExportState, total: Int, current: Int ->  exportNotification.updateNotification(state, total, current)
+            }) {
                 val toastId = when (it) {
                     MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
                     else -> R.string.exporting_failed
                 }
+                exportNotification.setFinish(it == MessagesExporter.ExportResult.EXPORT_OK)
 
                 toast(toastId)
             }
@@ -420,7 +425,8 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun showImportEventsDialog(path: String) {
-        ImportMessagesDialog(this, path)
+        val importNotification = ImportExportProgressNotification(this, ImportExportProgressNotification.ImportOrExport.IMPORT)
+        ImportMessagesDialog(this, path, importNotification)
     }
 
     private fun tryImportMessagesFromFile(uri: Uri) {

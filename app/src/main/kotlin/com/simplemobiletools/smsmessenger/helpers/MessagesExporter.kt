@@ -19,19 +19,22 @@ class MessagesExporter(private val context: Context) {
     enum class ExportResult {
         EXPORT_FAIL, EXPORT_OK
     }
+    enum class ExportState {
+        EXPORT, ENCRYPT
+    }
 
     private val config = context.config
     private val messageReader = MessagesReader(context)
     private val gson = Gson()
 
-    private fun jsonWriter(workOutputStream: OutputStream, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ExportResult) -> Unit) {
+    private fun jsonWriter(workOutputStream: OutputStream, onProgress: (state: ExportState, total: Int, current: Int) -> Unit = {_, _, _ -> }, callback: (result: ExportResult) -> Unit) {
         val writer = JsonWriter(workOutputStream.bufferedWriter())
         writer.use {
             try {
                 var written = 0
                 writer.beginArray()
                 val conversationIds = context.getConversationIds()
-                val totalMessages = messageReader.getMessagesCount()
+                val totalMessages = messageReader.getMessagesCount(config.exportSms, config.exportMms)
                 for (threadId in conversationIds) {
                     writer.beginObject()
                     if (config.exportSms && messageReader.getSmsCount() > 0) {
@@ -40,7 +43,7 @@ class MessagesExporter(private val context: Context) {
                         messageReader.forEachSms(threadId) {
                             writer.jsonValue(gson.toJson(it))
                             written++
-                            onProgress.invoke(totalMessages, written)
+                            onProgress.invoke(ExportState.EXPORT, totalMessages, written)
                         }
                         writer.endArray()
                     }
@@ -51,7 +54,7 @@ class MessagesExporter(private val context: Context) {
                         messageReader.forEachMms(threadId) {
                             writer.jsonValue(gson.toJson(it))
                             written++
-                            onProgress.invoke(totalMessages, written)
+                            onProgress.invoke(ExportState.EXPORT, totalMessages, written)
                         }
 
                         writer.endArray()
@@ -66,7 +69,7 @@ class MessagesExporter(private val context: Context) {
         }
     }
 
-    fun exportMessages(outputStream: OutputStream?, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ExportResult) -> Unit) {
+    fun exportMessages(outputStream: OutputStream?, onProgress: (state: ExportState, total: Int, current: Int) -> Unit = { _, _, _ -> }, callback: (result: ExportResult) -> Unit) {
         ensureBackgroundThread {
             if (outputStream == null) {
                 callback.invoke(ExportResult.EXPORT_FAIL)
@@ -98,7 +101,9 @@ class MessagesExporter(private val context: Context) {
                 val cin: InputStream = outputFile.inputStream()
 
                 var left = cin.available()
+                val total = left
                 do {
+                    onProgress.invoke(ExportState.ENCRYPT, total, total - left)
                     val byteArray = ByteArray(8192)
                     val readBytes = cin.read(byteArray, 0, 8192)
                     left -= readBytes

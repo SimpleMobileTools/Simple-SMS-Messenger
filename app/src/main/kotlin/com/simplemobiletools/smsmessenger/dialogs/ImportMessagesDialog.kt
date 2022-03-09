@@ -9,6 +9,7 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.helpers.ImportExportProgressNotification
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.dialog_import_messages.view.*
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
     private val path: String,
+    private val importNotification: ImportExportProgressNotification,
 ) {
 
     private val config = activity.config
@@ -44,12 +46,14 @@ class ImportMessagesDialog(
                         }
 
                         ignoreClicks = true
+                        importNotification.spawnProgressNotification()
                         activity.toast(R.string.importing)
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
                         config.importBackupPassword = view.import_messages_password.value
                         ensureBackgroundThread {
-                            MessagesImporter(activity).importMessages(path) {
+                            MessagesImporter(activity).importMessages(path,
+                                {state, total, current -> importNotification.updateNotification(state, total, current)}) {
                                 handleParseResult(it)
                                 dismiss()
                             }
@@ -67,5 +71,6 @@ class ImportMessagesDialog(
                 else -> R.string.no_items_found
             }
         )
+        importNotification.setFinish(result == IMPORT_OK)
     }
 }
