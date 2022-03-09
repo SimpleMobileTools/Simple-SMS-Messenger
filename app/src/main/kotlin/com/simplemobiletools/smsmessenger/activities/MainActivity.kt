@@ -389,7 +389,7 @@ class MainActivity : SimpleActivity() {
         ensureBackgroundThread {
             exportNotification.spawnProgressNotification()
             smsExporter.exportMessages(outputStream, {
-                state: MessagesExporter.ExportState, total: Int, current: Int ->  exportNotification.updateNotification(state, total, current)
+                state, total, current ->  exportNotification.updateNotification(state, total, current)
             }) {
                 val toastId = when (it) {
                     MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful

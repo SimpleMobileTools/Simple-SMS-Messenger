@@ -36,19 +36,18 @@ class ImportExportProgressNotification(
     }
 
     fun setFinish(hasSucceed: Boolean) {
-        if (isInit)
-        {
+        if (isInit) {
             isInit = false
-            notification.setContentTitle(if(type == ImportOrExport.EXPORT) activity.getString(R.string.exporting_successful) else activity.getString(R.string.importing_successful))
-            if(hasSucceed)
-            {
+            val contentTitle =  if(type == ImportOrExport.EXPORT) activity.getString(R.string.exporting_successful)
+                                else activity.getString(R.string.importing_successful)
+            notification.setContentTitle(contentTitle)
+
+            if(hasSucceed) {
                 notification.setContentText("Success")
                     .setProgress(0,0, false)
                     .setOngoing(false)
                     .setAutoCancel(true)
-            }
-            else
-            {
+            } else {
                 notification.setContentText("Something went wrong")
                     .setProgress(0,0, false)
                     .setOngoing(false)
@@ -60,7 +59,8 @@ class ImportExportProgressNotification(
 
     fun spawnProgressNotification()
     {
-        val contentTitle = if(type == ImportOrExport.IMPORT) activity.getString(R.string.importing_messages) else activity.getString(R.string.exporting_messages)
+        val contentTitle =  if(type == ImportOrExport.IMPORT) activity.getString(R.string.importing_messages)
+                            else activity.getString(R.string.exporting_messages)
         //Creating a notification and setting its various attributes
         notification =
             NotificationCompat.Builder(activity, channelId)
@@ -85,15 +85,12 @@ class ImportExportProgressNotification(
                                 .setProgress(progressMax, progress.toInt(), false)
                 }
 
-                if (type == ImportOrExport.EXPORT)
-                {
+                if (type == ImportOrExport.EXPORT) {
                     when(state) {
                         MessagesExporter.ExportState.EXPORT -> notification.setContentTitle(activity.getString(R.string.exporting_messages))
                         MessagesExporter.ExportState.ENCRYPT -> notification.setContentTitle(activity.getString(R.string.encrypting_backup))
                     }
-                }
-                else
-                {
+                } else {
                     when(state) {
                         MessagesImporter.ImportState.DECRYPTING -> {
                             notification.setContentTitle(activity.getString(R.string.decrypting_backup))
@@ -106,9 +103,7 @@ class ImportExportProgressNotification(
                 notificationManager.notify(EXPORT_IMPORT_NOTIFICATION_ID, notification.build())
                 startTime = System.currentTimeMillis()
                 waitTime = 0L
-            }
-            else
-            {
+            } else {
                 waitTime = Date().time - startTime
             }
         }

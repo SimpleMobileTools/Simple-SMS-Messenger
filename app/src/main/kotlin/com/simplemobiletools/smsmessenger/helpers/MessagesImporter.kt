@@ -20,7 +20,7 @@ import javax.crypto.spec.PBEKeySpec
 
 class MessagesImporter(private val context: Context) {
     enum class ImportResult {
-        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW, NO_PASSWORD_PROVIDED
+        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
     }
     enum class ImportState {
         DECRYPTING, RESTORING
@@ -31,7 +31,6 @@ class MessagesImporter(private val context: Context) {
     private val config = context.config
     private var messagesImported = 0
     private var messagesFailed = 0
-    private var errorPassword : Boolean = false
 
     private fun readBuffer(inputStream: InputStream, buffer: ByteArray)
     {
@@ -60,8 +59,7 @@ class MessagesImporter(private val context: Context) {
                 val data: InputStream
                 var rawInputStream: InputStream? = null
 
-                if (password != "")
-                {
+                if (password != "") {
                     try {
                         onProgress.invoke(ImportState.DECRYPTING, 0, 0)
                         rawInputStream = BufferedInputStream(inputStream)
@@ -79,7 +77,7 @@ class MessagesImporter(private val context: Context) {
 
                     } catch (e: Exception) {
                         throw Exception("Error while decrypting backup, please check your password.")
-                        }
+                    }
                 }
                 else
                 {
@@ -129,7 +127,6 @@ class MessagesImporter(private val context: Context) {
                 when {
                     messagesImported == 0 -> IMPORT_FAIL
                     messagesFailed > 0 -> IMPORT_PARTIAL
-                    errorPassword -> NO_PASSWORD_PROVIDED
                     else -> IMPORT_OK
                 }
             )

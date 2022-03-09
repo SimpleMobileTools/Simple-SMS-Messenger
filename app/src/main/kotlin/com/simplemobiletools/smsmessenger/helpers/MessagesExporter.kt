@@ -37,6 +37,7 @@ class MessagesExporter(private val context: Context) {
                 val totalMessages = messageReader.getMessagesCount(config.exportSms, config.exportMms)
                 for (threadId in conversationIds) {
                     writer.beginObject()
+
                     if (config.exportSms && messageReader.getSmsCount() > 0) {
                         writer.name("sms")
                         writer.beginArray()
@@ -78,8 +79,7 @@ class MessagesExporter(private val context: Context) {
 
             if (config.exportBackupPassword == "") {
                 jsonWriter(outputStream, onProgress, callback)
-            }
-            else {
+            } else {
                 val outputFile = File(context.cacheDir, "output.json")
                 jsonWriter(outputFile.outputStream(), onProgress, callback)
                 val salt = ByteArray(16)
