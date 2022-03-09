@@ -29,6 +29,12 @@
     <string name="new_message">新消息</string>
     <string name="mark_as_read">标记为已读</string>
     <string name="mark_as_unread">标记为未读</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">将群组信息作为彩信发送</string>
     <string name="send_long_message_mms">将长消息作为彩信发送</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">消息</string>
+    <string name="password">Password</string>
     <string name="export_messages">导出消息</string>
     <string name="export_sms">导出短信</string>
     <string name="export_mms">导出彩信</string>

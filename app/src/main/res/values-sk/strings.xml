@@ -30,6 +30,12 @@
     <string name="new_message">Nová správa</string>
     <string name="mark_as_read">Označiť ako prečítané</string>
     <string name="mark_as_unread">Označiť ako neprečítané</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie?</string>
@@ -61,7 +67,9 @@
     <string name="send_long_message_mms">Odosielať dlhé správy ako MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Správy</string>
+    <string name="password">Password</string>
     <string name="export_messages">Exportovať správy</string>
     <string name="export_sms">Exportovať SMS</string>
     <string name="export_mms">Exportovať MMS</string>

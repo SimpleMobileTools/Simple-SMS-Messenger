@@ -29,6 +29,12 @@
     <string name="new_message">Pesan baru</string>
     <string name="mark_as_read">Tandai sebagai Dibaca</string>
     <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Export MMS</string>

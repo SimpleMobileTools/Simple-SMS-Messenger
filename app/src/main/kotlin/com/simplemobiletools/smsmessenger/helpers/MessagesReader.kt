@@ -212,8 +212,10 @@ class MessagesReader(private val context: Context) {
         return addresses
     }
 
-    fun getMessagesCount(): Int {
-        return getSmsCount() + getMmsCount()
+    fun getMessagesCount(sms: Boolean, mms: Boolean): Int {
+        val smsCount = if(sms) getSmsCount() else 0
+        val mmsCount = if(mms) getMmsCount() else 0
+        return smsCount + mmsCount
     }
 
     fun getMmsCount(): Int {

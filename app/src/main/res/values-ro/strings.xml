@@ -30,6 +30,12 @@
     <string name="new_message">Mesaj nou</string>
     <string name="mark_as_read">Marchează ca citit</string>
     <string name="mark_as_unread">Marchează ca necitit</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Eşti sigur că vrei să ştergi toate mesajele din această conversaţie?</string>
@@ -59,7 +65,9 @@
     <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Mesajele</string>
+    <string name="password">Password</string>
     <string name="export_messages">Exportă mesajele</string>
     <string name="export_sms">Exportă mesajele SMS</string>
     <string name="export_mms">Exportă mesajele MMS</string>

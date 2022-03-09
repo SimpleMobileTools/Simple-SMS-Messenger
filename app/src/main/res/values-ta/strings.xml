@@ -29,6 +29,12 @@
     <string name="new_message">புதிய செய்தி</string>
     <string name="mark_as_read">படித்ததாக குறியிடு</string>
     <string name="mark_as_unread">படிக்காததாக குறியிடு</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">இந்த உரையாடலின் அனைத்து செய்திகளையும் நிச்சயமாக நீக்க விரும்புகிறீர்களா\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">செய்திகளை</string>
+    <string name="password">Password</string>
     <string name="export_messages">செய்திகளை ஏற்றுமதி செய்யவும்</string>
     <string name="export_sms">ஏற்றுமதி எஸ்எம்எஸ்</string>
     <string name="export_mms">ஏற்றுமதி MMS</string>

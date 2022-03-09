@@ -29,6 +29,12 @@
     <string name="new_message">رسالة جديدة</string>
     <string name="mark_as_read">ضع إشارة مقروء</string>
     <string name="mark_as_unread">وضع علامة كغير مقروءة</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">هل أنت متأكد أنك تريد حذف كافة رسائل هذه المحادثة؟</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -61,7 +67,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">الرسائل</string>
+    <string name="password">Password</string>
     <string name="export_messages">تصدير الرسائل</string>
     <string name="export_sms">تصدير الرسائل القصيرة</string>
     <string name="export_mms">تصدير رسائل الوسائط</string>

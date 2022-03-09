@@ -29,6 +29,12 @@
     <string name="new_message">Új üzenet</string>
     <string name="mark_as_read">Megjelölés olvasottként</string>
     <string name="mark_as_unread">Megjelölés olvasatlanként</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Biztos, hogy törli az összes üzenetet ebből a beszélgetésből\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Üzenetek</string>
+    <string name="password">Password</string>
     <string name="export_messages">Üzenetek exportálása</string>
     <string name="export_sms">SMS exportálása</string>
     <string name="export_mms">MMS exportálása</string>

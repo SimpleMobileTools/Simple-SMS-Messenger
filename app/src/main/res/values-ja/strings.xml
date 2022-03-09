@@ -30,6 +30,12 @@
     <string name="new_message">新しいメッセージ</string>
     <string name="mark_as_read">既読にする</string>
     <string name="mark_as_unread">未読にする</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">本当にこの会話の全てのメッセージを削除しますか？</string>
@@ -59,7 +65,9 @@
     <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Export MMS</string>

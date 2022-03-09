@@ -8,6 +8,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.EXPORT_FILE_EXT
+import com.simplemobiletools.smsmessenger.helpers.EXPORT_SECURE_FILE_EXT
 import kotlinx.android.synthetic.main.dialog_export_messages.view.*
 import java.io.File
 
@@ -51,7 +52,9 @@ class ExportMessagesDialog(
                         when {
                             filename.isEmpty() -> activity.toast(R.string.empty_name)
                             filename.isAValidFilename() -> {
-                                val file = File(realPath, "$filename$EXPORT_FILE_EXT")
+                                config.exportBackupPassword = view.export_messages_password.value //We need to get this early to set proper extension
+                                val exportFileExtension = if (config.exportBackupPassword == "") EXPORT_FILE_EXT else EXPORT_SECURE_FILE_EXT
+                                val file = File(realPath, "$filename$exportFileExtension")
                                 if (!hidePath && file.exists()) {
                                     activity.toast(R.string.name_taken)
                                     return@setOnClickListener

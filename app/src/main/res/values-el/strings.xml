@@ -30,6 +30,12 @@
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
     <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
@@ -59,7 +65,9 @@
     <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Μηνύματα</string>
+    <string name="password">Password</string>
     <string name="export_messages">Εξαγωγή μηνυμάτων</string>
     <string name="export_sms">Εξαγωγή SMS</string>
     <string name="export_mms">Εξαγωγή MMS</string>

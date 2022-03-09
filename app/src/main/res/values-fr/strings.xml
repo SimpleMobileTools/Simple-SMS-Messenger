@@ -29,6 +29,12 @@
     <string name="new_message">Nouveau message</string>
     <string name="mark_as_read">Marquer comme lu</string>
     <string name="mark_as_unread">Marquer comme non lu</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Voulez-vous vraiment supprimer tous les messages de cette conversation \?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">Envoyer des messages de groupe en MMS</string>
     <string name="send_long_message_mms">Envoyer les longs messages sous forme de MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Exporter des messages</string>
     <string name="export_sms">Exporter le SMS</string>
     <string name="export_mms">Exporter le MMS</string>

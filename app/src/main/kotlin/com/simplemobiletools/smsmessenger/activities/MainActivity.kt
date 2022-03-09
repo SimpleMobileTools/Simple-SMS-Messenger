@@ -24,10 +24,7 @@ import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
-import com.simplemobiletools.smsmessenger.helpers.MessagesExporter
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -367,7 +364,7 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             ExportMessagesDialog(this, config.lastExportPath, true) { file ->
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = EXPORT_MIME_TYPE
+                    type = if (config.exportBackupPassword != "") EXPORT_SECURE_MIME_TYPE else EXPORT_MIME_TYPE
                     putExtra(Intent.EXTRA_TITLE, file.name)
                     addCategory(Intent.CATEGORY_OPENABLE)
                     startActivityForResult(this, PICK_EXPORT_FILE_INTENT)
@@ -388,12 +385,17 @@ class MainActivity : SimpleActivity() {
 
     private fun exportMessagesTo(outputStream: OutputStream?) {
         toast(R.string.exporting)
+        val exportNotification = ImportExportProgressNotification(this, ImportExportProgressNotification.ImportOrExport.EXPORT)
         ensureBackgroundThread {
-            smsExporter.exportMessages(outputStream) {
+            exportNotification.spawnProgressNotification()
+            smsExporter.exportMessages(outputStream, { state, total, current ->
+                exportNotification.updateNotification(state, total, current)
+            }) {
                 val toastId = when (it) {
                     MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
                     else -> R.string.exporting_failed
                 }
+                exportNotification.setFinish(it == MessagesExporter.ExportResult.EXPORT_OK)
 
                 toast(toastId)
             }
@@ -404,7 +406,7 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             Intent(Intent.ACTION_GET_CONTENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = EXPORT_MIME_TYPE
+                type = "*/*"
                 startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
             }
         } else {
@@ -423,7 +425,8 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun showImportEventsDialog(path: String) {
-        ImportMessagesDialog(this, path)
+        val importNotification = ImportExportProgressNotification(this, ImportExportProgressNotification.ImportOrExport.IMPORT)
+        ImportMessagesDialog(this, path, importNotification)
     }
 
     private fun tryImportMessagesFromFile(uri: Uri) {
@@ -435,7 +438,6 @@ class MainActivity : SimpleActivity() {
                     toast(R.string.unknown_error_occurred)
                     return
                 }
-
                 try {
                     val inputStream = contentResolver.openInputStream(uri)
                     val out = FileOutputStream(tempFile)

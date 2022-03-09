@@ -29,6 +29,12 @@
     <string name="new_message">Ny Besked</string>
     <string name="mark_as_read">Marker som læst</string>
     <string name="mark_as_unread">Marker som ulæst</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Er du sikker på, at du vil slette alle beskeder i denne samtale\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -53,7 +59,9 @@
     <string name="group_message_mms">Send gruppemeddelelser som MMS</string>
     <string name="send_long_message_mms">Send lange beskeder som MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Eksporter beskeder</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Eksportér MMS</string>

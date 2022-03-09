@@ -29,6 +29,12 @@
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -55,7 +61,9 @@
     <string name="group_message_mms">Отправлять групповые сообщения как MMS</string>
     <string name="send_long_message_mms">Отправлять длинные сообщения как MMS</string>
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Сообщения</string>
+    <string name="password">Password</string>
     <string name="export_messages">Экспорт сообщений</string>
     <string name="export_sms">Экспорт SMS</string>
     <string name="export_mms">Экспорт MMS</string>

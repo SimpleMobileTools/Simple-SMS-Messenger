@@ -30,6 +30,12 @@
     <string name="new_message">പുതിയ മെസ്സേജ്</string>
     <string name="mark_as_read">വായിച്ചതായി അടയാളപ്പെടുത്തുക</string>
     <string name="mark_as_unread">വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക</string>
+    <!-- Export / Import Notifications -->
+    <string name="channel_import_export">Import/Export Progress</string>
+    <string name="importing_messages">Importing messages…</string>
+    <string name="exporting_messages">Exporting messages…</string>
+    <string name="encrypting_backup">Encrypting backup…</string>
+    <string name="decrypting_backup">Decrypting backup…</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിന്റെ എല്ലാ സന്ദേശങ്ങൾ ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</string>
@@ -59,7 +65,9 @@
     <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
+    <string name="password_leave_blank_if_not_needed">Password (leave blank if not needed)</string>
     <string name="messages">Messages</string>
+    <string name="password">Password</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Export MMS</string>

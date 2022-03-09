@@ -20,13 +20,21 @@ const val SEND_LONG_MESSAGE_MMS = "send_long_message_mms"
 const val MMS_FILE_SIZE_LIMIT = "mms_file_size_limit"
 const val PINNED_CONVERSATIONS = "pinned_conversations"
 const val LAST_EXPORT_PATH = "last_export_path"
+const val EXPORT_BACKUP_PASSWORD = "export_backup_password"
 const val EXPORT_SMS = "export_sms"
 const val EXPORT_MMS = "export_mms"
 const val EXPORT_MIME_TYPE = "application/json"
+const val EXPORT_SECURE_MIME_TYPE = "application/sec"
 const val EXPORT_FILE_EXT = ".json"
+const val EXPORT_SECURE_FILE_EXT = ".sec"
+const val IMPORT_BACKUP_PASSWORD = "import_backup_password"
 const val IMPORT_SMS = "import_sms"
 const val IMPORT_MMS = "import_mms"
 const val WAS_DB_CLEARED = "was_db_cleared"
+
+//Secure Backup Cipher Parameters
+const val KEY_ITERATIONS = 65536
+const val KEY_LENGTH = 256
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
@@ -44,6 +52,9 @@ const val THREAD_SENT_MESSAGE_SENDING = 6
 const val LOCK_SCREEN_SENDER_MESSAGE = 1
 const val LOCK_SCREEN_SENDER = 2
 const val LOCK_SCREEN_NOTHING = 3
+
+//Notifications
+const val EXPORT_IMPORT_NOTIFICATION_ID = 33
 
 const val FILE_SIZE_NONE = -1L
 const val FILE_SIZE_100_KB = 102_400L
