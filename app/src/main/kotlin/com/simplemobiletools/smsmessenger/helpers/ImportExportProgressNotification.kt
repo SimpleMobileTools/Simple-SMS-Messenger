@@ -11,10 +11,11 @@ import java.util.*
 class ImportExportProgressNotification(
     private val activity: SimpleActivity,
     private val type: ImportOrExport
-){
-    enum class ImportOrExport{
+) {
+    enum class ImportOrExport {
         IMPORT, EXPORT
     }
+
     private var isInit = false
     private lateinit var notification: NotificationCompat.Builder
     private lateinit var channelId: String
@@ -38,18 +39,18 @@ class ImportExportProgressNotification(
     fun setFinish(hasSucceed: Boolean) {
         if (isInit) {
             isInit = false
-            val contentTitle =  if(type == ImportOrExport.EXPORT) activity.getString(R.string.exporting_successful)
-                                else activity.getString(R.string.importing_successful)
+            val contentTitle = 
+                if (type == ImportOrExport.EXPORT) activity.getString(R.string.exporting_successful) else activity.getString(R.string.importing_successful)
             notification.setContentTitle(contentTitle)
 
-            if(hasSucceed) {
+            if (hasSucceed) {
                 notification.setContentText("Success")
-                    .setProgress(0,0, false)
+                    .setProgress(0, 0, false)
                     .setOngoing(false)
                     .setAutoCancel(true)
             } else {
                 notification.setContentText("Something went wrong")
-                    .setProgress(0,0, false)
+                    .setProgress(0, 0, false)
                     .setOngoing(false)
                     .setAutoCancel(true)
             }
@@ -57,10 +58,9 @@ class ImportExportProgressNotification(
         }
     }
 
-    fun spawnProgressNotification()
-    {
-        val contentTitle =  if(type == ImportOrExport.IMPORT) activity.getString(R.string.importing_messages)
-                            else activity.getString(R.string.exporting_messages)
+    fun spawnProgressNotification() {
+        val contentTitle =
+            if (type == ImportOrExport.IMPORT) activity.getString(R.string.importing_messages) else activity.getString(R.string.exporting_messages)
         //Creating a notification and setting its various attributes
         notification =
             NotificationCompat.Builder(activity, channelId)
@@ -73,28 +73,27 @@ class ImportExportProgressNotification(
 
         notificationManager.notify(EXPORT_IMPORT_NOTIFICATION_ID, notification.build())
         isInit = true
-        }
+    }
 
     fun updateNotification(state: Any, total: Int, current: Int) {
-        if(isInit) {
-            if (waitTime > 500)
-            {
+        if (isInit) {
+            if (waitTime > 500) {
                 if (total > 1 && current <= total && current > 0) {
                     val progress = current.toDouble() / total * 100.00
                     notification.setContentText(progress.toInt().toString() + "%")
-                                .setProgress(progressMax, progress.toInt(), false)
+                        .setProgress(progressMax, progress.toInt(), false)
                 }
 
                 if (type == ImportOrExport.EXPORT) {
-                    when(state) {
+                    when (state) {
                         MessagesExporter.ExportState.EXPORT -> notification.setContentTitle(activity.getString(R.string.exporting_messages))
                         MessagesExporter.ExportState.ENCRYPT -> notification.setContentTitle(activity.getString(R.string.encrypting_backup))
                     }
                 } else {
-                    when(state) {
+                    when (state) {
                         MessagesImporter.ImportState.DECRYPTING -> {
                             notification.setContentTitle(activity.getString(R.string.decrypting_backup))
-                                        .setProgress(100, 50, true)
+                                .setProgress(100, 50, true)
                         }
                         MessagesImporter.ImportState.RESTORING -> notification.setContentTitle(activity.getString(R.string.importing_messages))
                     }

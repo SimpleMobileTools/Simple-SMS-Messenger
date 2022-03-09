@@ -19,6 +19,7 @@ class MessagesExporter(private val context: Context) {
     enum class ExportResult {
         EXPORT_FAIL, EXPORT_OK
     }
+
     enum class ExportState {
         EXPORT, ENCRYPT
     }
@@ -27,7 +28,11 @@ class MessagesExporter(private val context: Context) {
     private val messageReader = MessagesReader(context)
     private val gson = Gson()
 
-    private fun jsonWriter(workOutputStream: OutputStream, onProgress: (state: ExportState, total: Int, current: Int) -> Unit = {_, _, _ -> }, callback: (result: ExportResult) -> Unit) {
+    private fun jsonWriter(
+        workOutputStream: OutputStream,
+        onProgress: (state: ExportState, total: Int, current: Int) -> Unit = { _, _, _ -> },
+        callback: (result: ExportResult) -> Unit
+    ) {
         val writer = JsonWriter(workOutputStream.bufferedWriter())
         writer.use {
             try {
@@ -70,7 +75,11 @@ class MessagesExporter(private val context: Context) {
         }
     }
 
-    fun exportMessages(outputStream: OutputStream?, onProgress: (state: ExportState, total: Int, current: Int) -> Unit = { _, _, _ -> }, callback: (result: ExportResult) -> Unit) {
+    fun exportMessages(
+        outputStream: OutputStream?,
+        onProgress: (state: ExportState, total: Int, current: Int) -> Unit = { _, _, _ -> },
+        callback: (result: ExportResult) -> Unit
+    ) {
         ensureBackgroundThread {
             if (outputStream == null) {
                 callback.invoke(ExportResult.EXPORT_FAIL)
@@ -108,7 +117,7 @@ class MessagesExporter(private val context: Context) {
                     val readBytes = cin.read(byteArray, 0, 8192)
                     left -= readBytes
                     cout.write(byteArray, 0, readBytes)
-                } while(left > 0)
+                } while (left > 0)
 
                 cout.flush()
 

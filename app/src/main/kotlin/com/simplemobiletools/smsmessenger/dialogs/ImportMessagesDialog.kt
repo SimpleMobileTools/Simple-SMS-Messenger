@@ -53,7 +53,7 @@ class ImportMessagesDialog(
                         config.importBackupPassword = view.import_messages_password.value
                         ensureBackgroundThread {
                             MessagesImporter(activity).importMessages(path,
-                                {state, total, current -> importNotification.updateNotification(state, total, current)}) {
+                                { state, total, current -> importNotification.updateNotification(state, total, current) }) {
                                 handleParseResult(it)
                                 dismiss()
                             }

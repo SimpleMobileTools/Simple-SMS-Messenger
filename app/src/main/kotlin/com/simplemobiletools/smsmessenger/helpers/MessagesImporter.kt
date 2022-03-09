@@ -22,6 +22,7 @@ class MessagesImporter(private val context: Context) {
     enum class ImportResult {
         IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
     }
+
     enum class ImportState {
         DECRYPTING, RESTORING
     }
@@ -32,12 +33,10 @@ class MessagesImporter(private val context: Context) {
     private var messagesImported = 0
     private var messagesFailed = 0
 
-    private fun readBuffer(inputStream: InputStream, buffer: ByteArray)
-    {
+    private fun readBuffer(inputStream: InputStream, buffer: ByteArray) {
         var left = buffer.size
 
-        while(left > 0)
-        {
+        while (left > 0) {
             val count = inputStream.read(buffer, buffer.size - left, left)
             if (count < 0)
                 throw Exception("Bad file encryption")
@@ -45,7 +44,11 @@ class MessagesImporter(private val context: Context) {
         }
     }
 
-    fun importMessages(path: String, onProgress: (state: ImportState, total: Int, current: Int) -> Unit = { _, _, _ -> }, callback: (result: ImportResult) -> Unit) {
+    fun importMessages(
+        path: String,
+        onProgress: (state: ImportState, total: Int, current: Int) -> Unit = { _, _, _ -> },
+        callback: (result: ImportResult) -> Unit
+    ) {
         ensureBackgroundThread {
             try {
                 val inputStream = if (path.contains("/")) {
@@ -78,9 +81,7 @@ class MessagesImporter(private val context: Context) {
                     } catch (e: Exception) {
                         throw Exception("Error while decrypting backup, please check your password.")
                     }
-                }
-                else
-                {
+                } else {
                     data = inputStream
                 }
 
