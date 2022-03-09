@@ -65,6 +65,7 @@
             android:paddingTop="@dimen/normal_margin"
             android:paddingEnd="@dimen/small_margin"
             android:textSize="@dimen/normal_text_size"
+            android:inputType="textVisiblePassword"
             tools:text="@string/password" />
 
         <com.simplemobiletools.commons.views.MyAppCompatCheckbox

@@ -53,7 +53,8 @@ class ExportMessagesDialog(
                             filename.isEmpty() -> activity.toast(R.string.empty_name)
                             filename.isAValidFilename() -> {
                                 config.exportBackupPassword = view.export_messages_password.value //We need to get this early to set proper extension
-                                val file = if (config.exportBackupPassword == "") File(realPath, "$filename$EXPORT_FILE_EXT") else File(realPath, "$filename$EXPORT_SECURE_FILE_EXT")
+                                val exportFileExtension = if (config.exportBackupPassword == "") EXPORT_FILE_EXT else EXPORT_SECURE_FILE_EXT
+                                val file = File(realPath, "$filename$exportFileExtension")
                                 if (!hidePath && file.exists()) {
                                     activity.toast(R.string.name_taken)
                                     return@setOnClickListener

@@ -16,7 +16,6 @@ import javax.crypto.SecretKey
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
-import kotlin.text.StringBuilder
 
 
 class MessagesImporter(private val context: Context) {
@@ -44,21 +43,6 @@ class MessagesImporter(private val context: Context) {
         }
     }
 
-    private fun stringBuilder(inputStream: InputStream): StringBuilder
-    {
-        var data = StringBuilder()
-
-        inputStream.bufferedReader().use { reader ->
-            var line = reader.readLine()
-            while( line != null)
-            {
-                data.append(line)
-                line = reader.readLine()
-            }
-        }
-        return data
-    }
-
     fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
@@ -69,35 +53,42 @@ class MessagesImporter(private val context: Context) {
                 }
 
                 val password = config.importBackupPassword
-                val data: StringBuilder
+
+                val data: InputStream
+                var rawInputStream: InputStream? = null
+
                 if (password != "")
                 {
                     try {
-                        BufferedInputStream(inputStream).use { raw ->
-                            val salt = ByteArray(16)
-                            val prefix = ByteArray(16)
-                            readBuffer(raw, salt)
-                            readBuffer(raw, prefix)
-                            val keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-                            val keySpec: KeySpec = PBEKeySpec(password.toCharArray(), salt, KEY_ITERATIONS, KEY_LENGTH)
-                            val secret: SecretKey = keyFactory.generateSecret(keySpec)
-                            val cipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-                            val iv = IvParameterSpec(prefix)
-                            cipher.init(Cipher.DECRYPT_MODE, secret, iv)
-                            data = stringBuilder(CipherInputStream(raw, cipher))
-                        }
+                        rawInputStream = BufferedInputStream(inputStream)
+                        val salt = ByteArray(16)
+                        val prefix = ByteArray(16)
+                        readBuffer(rawInputStream, salt)
+                        readBuffer(rawInputStream, prefix)
+                        val keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+                        val keySpec: KeySpec = PBEKeySpec(password.toCharArray(), salt, KEY_ITERATIONS, KEY_LENGTH)
+                        val secret: SecretKey = keyFactory.generateSecret(keySpec)
+                        val cipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+                        val iv = IvParameterSpec(prefix)
+                        cipher.init(Cipher.DECRYPT_MODE, secret, iv)
+                        data = CipherInputStream(rawInputStream, cipher)
+
                     } catch (e: Exception) {
                         throw Exception("Error while decrypting backup, please check your password.")
                         }
                 }
                 else
                 {
-                    data = stringBuilder(inputStream)
+                    data = inputStream
                 }
 
-                val json = data.toString()
                 val type = object : TypeToken<List<ExportedMessage>>() {}.type
-                val messages = gson.fromJson<List<ExportedMessage>>(json, type)
+
+                val messages: List<ExportedMessage>
+                data.bufferedReader().use {
+                    messages = gson.fromJson(it, type)
+                }
+
                 val totalMessages = messages.flatMap { it.sms ?: emptyList() }.size + messages.flatMap { it.mms ?: emptyList() }.size
                 if (totalMessages <= 0) {
                     callback.invoke(IMPORT_NOTHING_NEW)
@@ -121,6 +112,8 @@ class MessagesImporter(private val context: Context) {
                         }
                     }
                     refreshMessages()
+
+                    rawInputStream?.close()
                 }
 
             } catch (e: Exception) {
