@@ -8,10 +8,7 @@ import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.extensions.notificationManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.getSendMessageSettings
-import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
-import com.simplemobiletools.smsmessenger.extensions.removeDiacriticsIfNeeded
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.REPLY
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
@@ -25,6 +22,13 @@ class DirectReplyReceiver : BroadcastReceiver() {
         msg = context.removeDiacriticsIfNeeded(msg)
 
         val settings = context.getSendMessageSettings()
+        if (address != null) {
+            val SIMId = context.config.getUseSIMIdAtNumber(address)
+            if (SIMId != 0){
+                settings.subscriptionId = SIMId
+            }
+        }
+
         val transaction = Transaction(context, settings)
         val message = com.klinker.android.send_message.Message(msg, address)
 
