@@ -24,7 +24,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
         val settings = context.getSendMessageSettings()
         if (address != null) {
             val SIMId = context.config.getUseSIMIdAtNumber(address)
-            if (SIMId != 0){
+            if (SIMId != 0) {
                 settings.subscriptionId = SIMId
             }
         }
