@@ -48,4 +48,19 @@
             android:textSize="@dimen/normal_text_size"
             tools:text="Sent message" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/thread_message_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/thread_message_wrapper"
+        app:layout_constraintTop_toTopOf="@+id/thread_message_wrapper"
+        app:layout_constraintBottom_toBottomOf="@+id/thread_message_wrapper"
+        android:paddingLeft="@dimen/normal_margin"
+        android:textSize="@dimen/smaller_text_size"
+        tools:text="13 September, 13:30"
+        android:visibility="invisible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,6 +28,7 @@ import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.mydebug
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
@@ -283,7 +285,16 @@ class ThreadAdapter(
             }
 
             thread_message_body.setOnClickListener {
-                holder.viewClicked(message)
+                if (actModeCallback.isSelectable) {
+                    holder.viewClicked(message)
+                } else {
+                    showTimestamp(view, message)
+                }
+            }
+
+            thread_message_date_time.apply {
+                text = message.date.formatDate(context, "dd.MM")
+                setTextColor(textColor)
             }
 
             thread_mesage_attachments_holder.removeAllViews()
@@ -443,6 +454,17 @@ class ThreadAdapter(
         view.thread_sending.apply {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             setTextColor(textColor)
+        }
+    }
+
+    private fun showTimestamp(view: View, message: Message) {
+        view.thread_message_date_time.apply {
+            mydebug("testing")
+            if (isVisible()) {
+                beInvisible()
+            } else {
+                beVisible()
+            }
         }
     }
 
