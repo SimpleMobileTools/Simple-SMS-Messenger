@@ -28,7 +28,6 @@ import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.mydebug
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
@@ -459,7 +458,6 @@ class ThreadAdapter(
 
     private fun showTimestamp(view: View, message: Message) {
         view.thread_message_date_time.apply {
-            mydebug("testing")
             if (isVisible()) {
                 beInvisible()
             } else {
