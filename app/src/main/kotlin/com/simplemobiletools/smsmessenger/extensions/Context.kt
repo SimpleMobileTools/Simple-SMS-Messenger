@@ -16,14 +16,18 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.ContactsContract.CommonDataKinds.Nickname
+import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.OpenableColumns
 import android.provider.Telephony.*
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.klinker.android.send_message.Transaction.getAddressSeparator
@@ -447,7 +451,7 @@ fun Context.getThreadPhoneNumbers(recipientIds: List<Int>): ArrayList<String> {
 fun Context.getThreadContactNames(phoneNumbers: List<String>, privateContacts: ArrayList<SimpleContact>): ArrayList<String> {
     val names = ArrayList<String>()
     phoneNumbers.forEach { number ->
-        val name = SimpleContactsHelper(this).getNameFromPhoneNumber(number)
+        val name = getNameAndPhotoFromPhoneNumber(number).name
         if (name != number) {
             names.add(name)
         } else {
@@ -524,6 +528,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
     return contacts
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     if (!hasPermission(PERMISSION_READ_CONTACTS)) {
         return NamePhoto(number, null)
@@ -532,19 +537,39 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
         PhoneLookup.DISPLAY_NAME,
-        PhoneLookup.PHOTO_URI
+        PhoneLookup.PHOTO_URI,
+        PhoneLookup.CONTACT_ID
     )
 
     try {
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor.use {
-            if (cursor?.moveToFirst() == true) {
-                val name = cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
-                val photoUri = cursor.getStringValue(PhoneLookup.PHOTO_URI)
-                return NamePhoto(name, photoUri)
+        val phoneLookupCursor = contentResolver.query(uri, projection, null, null, null)
+        phoneLookupCursor.use {
+            if (phoneLookupCursor?.moveToFirst() == true) {
+                val contactId = phoneLookupCursor.getStringValue(PhoneLookup.CONTACT_ID)
+                val photoUri = phoneLookupCursor.getStringValue(PhoneLookup.PHOTO_URI)
+
+                var name = phoneLookupCursor.getStringValue(PhoneLookup.DISPLAY_NAME)
+
+                val contactsContractCursor = contentResolver.query(Data.CONTENT_URI,
+                    arrayOf(Nickname.NAME),
+                    Data.CONTACT_ID + " = ? AND " + Data.MIMETYPE + "= ?",
+                    arrayOf(contactId, Nickname.CONTENT_ITEM_TYPE),
+                    null
+                )
+                contactsContractCursor.use {
+                    if (contactsContractCursor?.moveToFirst() == true) {
+                        val nick = contactsContractCursor.getString(contactsContractCursor.getColumnIndexOrThrow(Nickname.NAME))
+                        if (nick != null && nick.isNotEmpty()) {
+                            name = nick
+                        }
+
+                        return NamePhoto(name, photoUri)
+                    }
+                }
             }
         }
     } catch (e: Exception) {
+        println("\n\n\n\n\n" + e.message)
     }
 
     return NamePhoto(number, null)
