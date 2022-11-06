@@ -550,22 +550,23 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
 
                 var name = phoneLookupCursor.getStringValue(PhoneLookup.DISPLAY_NAME)
 
-                val contactsContractCursor = contentResolver.query(Data.CONTENT_URI,
-                    arrayOf(Nickname.NAME),
-                    Data.CONTACT_ID + " = ? AND " + Data.MIMETYPE + "= ?",
-                    arrayOf(contactId, Nickname.CONTENT_ITEM_TYPE),
-                    null
-                )
-                contactsContractCursor.use {
-                    if (contactsContractCursor?.moveToFirst() == true) {
-                        val nick = contactsContractCursor.getString(contactsContractCursor.getColumnIndexOrThrow(Nickname.NAME))
-                        if (nick != null && nick.isNotEmpty()) {
-                            name = nick
+                if (config.displayNickname) {
+                    val contactsContractCursor = contentResolver.query(Data.CONTENT_URI,
+                        arrayOf(Nickname.NAME),
+                        Data.CONTACT_ID + " = ? AND " + Data.MIMETYPE + "= ?",
+                        arrayOf(contactId, Nickname.CONTENT_ITEM_TYPE),
+                        null
+                    )
+                    contactsContractCursor.use {
+                        if (contactsContractCursor?.moveToFirst() == true) {
+                            val nick = contactsContractCursor.getString(contactsContractCursor.getColumnIndexOrThrow(Nickname.NAME))
+                            if (nick != null && nick.isNotEmpty()) {
+                                name = nick
+                            }
                         }
-
-                        return NamePhoto(name, photoUri)
                     }
                 }
+                return NamePhoto(name, photoUri)
             }
         }
     } catch (e: Exception) {

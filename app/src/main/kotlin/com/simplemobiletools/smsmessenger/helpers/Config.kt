@@ -86,4 +86,8 @@ class Config(context: Context) : BaseConfig(context) {
     var wasDbCleared: Boolean
         get() = prefs.getBoolean(WAS_DB_CLEARED, false)
         set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
+
+    var displayNickname: Boolean
+        get() = prefs.getBoolean(DISPLAY_NICKNAME, false)
+        set(displayNickname) = prefs.edit().putBoolean(DISPLAY_NICKNAME, displayNickname).apply()
 }

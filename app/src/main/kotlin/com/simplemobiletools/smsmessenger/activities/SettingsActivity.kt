@@ -43,6 +43,7 @@ class SettingsActivity : SimpleActivity() {
         setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
+        setupDisplayNickname()
         updateTextColors(settings_nested_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -195,6 +196,14 @@ class SettingsActivity : SimpleActivity() {
         settings_send_group_message_mms_holder.setOnClickListener {
             settings_send_group_message_mms.toggle()
             config.sendGroupMessageMMS = settings_send_group_message_mms.isChecked
+        }
+    }
+
+    private fun setupDisplayNickname() {
+        settings_display_nickname.isChecked = config.displayNickname
+        settings_display_nickname_holder.setOnClickListener {
+            settings_display_nickname.toggle()
+            config.displayNickname = settings_display_nickname.isChecked
         }
     }
 

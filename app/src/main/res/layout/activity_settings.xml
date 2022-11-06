@@ -193,6 +193,21 @@
                         tools:text="@string/medium" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/settings_display_nickname_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_bottom_corners"
+                    android:padding="@dimen/activity_margin">
+
+                    <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+                        android:id="@+id/settings_display_nickname"
+                        style="@style/SettingsCheckboxStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_display_nickname" />
+                </RelativeLayout>
             </LinearLayout>
 
             <TextView
