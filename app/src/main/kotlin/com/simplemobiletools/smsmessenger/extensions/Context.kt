@@ -528,7 +528,6 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
     return contacts
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     if (!hasPermission(PERMISSION_READ_CONTACTS)) {
         return NamePhoto(number, null)
