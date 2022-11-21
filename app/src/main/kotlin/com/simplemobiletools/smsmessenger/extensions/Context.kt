@@ -683,7 +683,11 @@ fun Context.updateMessageSubscriptionId(messageId: Long, subscriptionId: Int) {
     }
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(messageId.toString())
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
+    try {
+        contentResolver.update(uri, contentValues, selection, selectionArgs)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 
 fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {

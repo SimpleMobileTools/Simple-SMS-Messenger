@@ -83,6 +83,7 @@ class ThreadActivity : SimpleActivity() {
     private var participants = ArrayList<SimpleContact>()
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
+    private var lastMaxId = 0L
     private val availableSIMCards = ArrayList<SIMCard>()
     private var lastAttachmentUri: String? = null
     private var capturedImageUri: Uri? = null
@@ -131,6 +132,7 @@ class ThreadActivity : SimpleActivity() {
                     }
 
                     setupThread()
+                    storeLastMessageId()
                 }
             } else {
                 finish()
@@ -1289,7 +1291,6 @@ class ThreadActivity : SimpleActivity() {
             notificationManager.cancel(threadId.hashCode())
         }
 
-        val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
         val newThreadId = getThreadId(participants.getAddresses().toSet())
         val newMessages = getMessages(newThreadId, getImageResolutions = true, includeScheduledMessages = false)
 
@@ -1309,11 +1310,17 @@ class ThreadActivity : SimpleActivity() {
             maybeUpdateMessageSubId(latestMessage)
             messagesDB.insertOrIgnore(latestMessage)
         }
+        storeLastMessageId()
 
         setupAdapter()
         runOnUiThread {
             setupSIMSelector()
         }
+    }
+
+    private fun storeLastMessageId() {
+        lastMaxId = messages.filterNot { it.isScheduled }
+            .maxByOrNull { it.id }?.id ?: 0L
     }
 
     @SuppressLint("MissingPermission")
