@@ -134,19 +134,15 @@ class ImageCompressor(private val context: Context) {
 
         private fun decodeSampledBitmapFromFile(imageFile: File, reqWidth: Int, reqHeight: Int): Bitmap {
             return BitmapFactory.Options().run {
-                inJustDecodeBounds = true
-                BitmapFactory.decodeFile(imageFile.absolutePath, this)
-
-                inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
-
-                inJustDecodeBounds = false
+                inSampleSize = calculateInSampleSize(loadBitmap(imageFile), reqWidth, reqHeight)
                 BitmapFactory.decodeFile(imageFile.absolutePath, this)
             }
         }
 
-        private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        private fun calculateInSampleSize(bitmap: Bitmap, reqWidth: Int, reqHeight: Int): Int {
             // Raw height and width of image
-            val (height: Int, width: Int) = options.run { outHeight to outWidth }
+            val height = bitmap.height
+            val width = bitmap.width
             var inSampleSize = 1
 
             if (height > reqHeight || width > reqWidth) {
@@ -165,11 +161,7 @@ class ImageCompressor(private val context: Context) {
         }
 
         fun isSatisfied(imageFile: File): Boolean {
-            return BitmapFactory.Options().run {
-                inJustDecodeBounds = true
-                BitmapFactory.decodeFile(imageFile.absolutePath, this)
-                calculateInSampleSize(this, width, height) <= 1
-            }
+            return calculateInSampleSize(loadBitmap(imageFile), width, height) <= 1
         }
 
         fun satisfy(imageFile: File): File {
