@@ -3,7 +3,6 @@ package com.simplemobiletools.smsmessenger.helpers
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.content.Context
@@ -41,7 +40,9 @@ class NotificationHelper(private val context: Context) {
 
         val hasCustomNotifications = context.config.customNotifications.contains(threadId.toString())
         val notificationChannel = if (hasCustomNotifications) notificationId.toString() else NOTIFICATION_CHANNEL
-        maybeCreateChannel(notificationChannel, context.getString(R.string.channel_received_sms))
+        if (!hasCustomNotifications) {
+            maybeCreateChannel(notificationChannel, context.getString(R.string.channel_received_sms))
+        }
 
         val contentIntent = Intent(context, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, threadId)
@@ -124,7 +125,9 @@ class NotificationHelper(private val context: Context) {
     fun showSendingFailedNotification(recipientName: String, threadId: Long) {
         val hasCustomNotifications = context.config.customNotifications.contains(threadId.toString())
         val notificationChannel = if (hasCustomNotifications) threadId.hashCode().toString() else NOTIFICATION_CHANNEL
-        maybeCreateChannel(notificationChannel, context.getString(R.string.message_not_sent_short))
+        if (!hasCustomNotifications) {
+            maybeCreateChannel(notificationChannel, context.getString(R.string.message_not_sent_short))
+        }
 
         val notificationId = generateRandomId().hashCode()
         val intent = Intent(context, ThreadActivity::class.java).apply {

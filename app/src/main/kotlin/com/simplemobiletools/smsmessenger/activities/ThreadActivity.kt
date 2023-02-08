@@ -57,7 +57,6 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
-import com.simplemobiletools.smsmessenger.dialogs.NotificationsDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.messaging.*
@@ -107,7 +106,6 @@ class ThreadActivity : SimpleActivity() {
     private lateinit var scheduledDateTime: DateTime
 
     private var isAttachmentPickerVisible = false
-    private var threadName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -225,7 +223,6 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber()
-            findItem(R.id.notifications).isVisible = isOreoPlus()
             findItem(R.id.manage_people).isVisible = !isSpecialNumber()
             findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty()
 
@@ -251,7 +248,6 @@ class ThreadActivity : SimpleActivity() {
                 R.id.dial_number -> dialNumber()
                 R.id.manage_people -> managePeople()
                 R.id.mark_as_unread -> markAsUnread()
-                R.id.notifications -> customizeNotifications()
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
@@ -317,8 +313,6 @@ class ThreadActivity : SimpleActivity() {
             val hasParticipantWithoutName = participants.any { contact ->
                 contact.phoneNumbers.map { it.normalizedNumber }.contains(contact.name)
             }
-
-            threadName = participants.joinToString(", ") { it.name }
 
             try {
                 if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
@@ -919,10 +913,6 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    @SuppressLint("NewApi")
-    private fun customizeNotifications() {
-        NotificationsDialog(this, threadId, threadName)
-    }
 
     private fun addNumberToContact() {
         val phoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.normalizedNumber ?: return

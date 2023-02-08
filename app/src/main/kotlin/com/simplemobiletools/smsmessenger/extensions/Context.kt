@@ -36,9 +36,6 @@ import com.simplemobiletools.smsmessenger.messaging.MessagingUtils
 import com.simplemobiletools.smsmessenger.messaging.MessagingUtils.Companion.ADDRESS_SEPARATOR
 import com.simplemobiletools.smsmessenger.messaging.SmsSender
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
-import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
-import kotlinx.android.synthetic.main.dialog_notifications.view.*
 import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.FileNotFoundException
 
