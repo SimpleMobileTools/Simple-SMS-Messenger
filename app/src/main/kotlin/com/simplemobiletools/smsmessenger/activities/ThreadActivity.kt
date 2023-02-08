@@ -913,7 +913,6 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-
     private fun addNumberToContact() {
         val phoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.normalizedNumber ?: return
         Intent().apply {
