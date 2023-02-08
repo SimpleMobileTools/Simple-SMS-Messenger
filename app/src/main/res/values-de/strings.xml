@@ -1,40 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Schlichter SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_launcher_name">SMS-Messenger</string>
     <string name="type_a_message">Schreibe eine Nachricht …</string>
-    <string name="message_not_sent_short">Nachricht nicht versendet</string>
-    <string name="message_not_sent_touch_retry">Nachricht nicht versendet. Berühre, um es erneut zu versuchen.</string>
+    <string name="message_not_sent_short">Nachricht nicht gesendet</string>
+    <string name="message_not_sent_touch_retry">Nachricht nicht gesendet. Berühren, um es erneut zu versuchen.</string>
     <string name="message_sending_error">Deine Nachricht an %s wurde nicht gesendet</string>
     <string name="add_person">Person hinzufügen</string>
     <string name="attachment">Anhang</string>
-    <string name="no_conversations_found">Keine gespeicherten Chats gefunden</string>
-    <string name="start_conversation">Neuen Chat beginnen</string>
+    <string name="no_conversations_found">Keine gespeicherten Unterhaltungen gefunden</string>
+    <string name="start_conversation">Neue Unterhaltung beginnen</string>
     <string name="reply">Antworten</string>
-    <string name="show_character_counter">Zeige einen Zeichenzähler während dem Schreiben von Nachrichten</string>
+    <string name="show_character_counter">Zeichenzähler beim Schreiben von Nachrichten anzeigen</string>
     <string name="loading_messages">Nachrichten werden geladen …</string>
     <string name="no_reply_support">Der Absender unterstützt keine Antworten</string>
     <string name="draft">Entwurf</string>
     <string name="sending">Wird gesendet …</string>
     <string name="pin_conversation">Oben anheften</string>
-    <string name="unpin_conversation">Losheften</string>
+    <string name="unpin_conversation">Lösen</string>
     <string name="forward_message">Weiterleiten</string>
+    <string name="compress_error">Bild kann nicht auf ausgewählte Größe komprimiert werden</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Doppeltes Element wurde nicht aufgenommen</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">und %d andere</item>
+        <item quantity="other">und %d anderen</item>
+    </plurals>
     <!-- New conversation -->
-    <string name="new_conversation">Neuer Chat</string>
+    <string name="new_conversation">Neue Unterhaltung</string>
     <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
     <string name="suggestions">Vorschläge</string>
+    <!-- Group conversation -->
+    <string name="members">Mitglieder</string>
+    <string name="conversation_name">Unterhaltungsname</string>
+    <string name="conversation_details">Unterhaltungsdetails</string>
+    <string name="rename_conversation">Unterhaltung umbenennen</string>
+    <string name="rename_conversation_warning">Nur du kannst den Namen dieser Unterhaltung sehen</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Geplante Nachricht</string>
+    <string name="schedule_message">Nachricht planen</string>
+    <string name="schedule_send">Versand planen</string>
+    <string name="cancel_schedule_send">Geplanten Versand abbrechen</string>
+    <string name="must_pick_time_in_the_future">Man muss einen Zeitpunkt in der Zukunft wählen</string>
+    <string name="schedule_send_warning">Lassen Sie das Telefon eingeschaltet und vergewissern Sie sich, dass die Anwendung im Hintergrund nicht abgeschaltet wird.</string>
+    <string name="update_message">Nachricht aktualisieren</string>
+    <string name="send_now">Jetzt senden</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>
     <string name="mark_as_read">Als gelesen markieren</string>
     <string name="mark_as_unread">Als ungelesen markieren</string>
+    <string name="me">Ich</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chats löschen\?</string>
+    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieser Unterhaltung löschen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d Chat</item>
-        <item quantity="other">%d Chats</item>
+        <item quantity="one">%d Unterhaltung</item>
+        <item quantity="other">%d Unterhaltungen</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
@@ -47,10 +71,12 @@
     <string name="sender_only">Nur Absender</string>
     <string name="enable_delivery_reports">Zustellungsberichte aktivieren</string>
     <string name="use_simple_characters">Akzente und diakritische Zeichen beim Senden von Nachrichten entfernen</string>
-    <string name="mms_file_size_limit">Größe gesendeter MMS-Bilder ändern</string>
+    <string name="send_on_enter">Nachricht beim Drücken der Eingabetaste senden</string>
+    <string name="mms_file_size_limit">Größe der gesendeten MMS-Bilder</string>
     <string name="mms_file_size_limit_none">Keine Begrenzung</string>
     <string name="outgoing_messages">Ausgehende Nachrichten</string>
     <string name="group_message_mms">Gruppennachrichten als MMS versenden</string>
+    <string name="send_long_message_mms">Lange Nachrichten als MMS senden</string>
     <!-- Export / Import -->
     <string name="messages">Nachrichten</string>
     <string name="export_messages">Nachrichten exportieren</string>
@@ -59,19 +85,23 @@
     <string name="import_messages">Nachrichten importieren</string>
     <string name="import_sms">SMS importieren</string>
     <string name="import_mms">MMS importieren</string>
-    <string name="no_option_selected">Sie müssen mindestens ein Element auswählen</string>
+    <string name="no_option_selected">Mindestens ein Element muss auswählt werden</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Nachricht kann nicht an eine leere Nummer gesendet werden</string>
+    <string name="unable_to_save_message">Nachricht konnte nicht in der Telefondatenbank gespeichert werden</string>
+    <string name="error_service_is_unavailable">Nachricht konnte nicht gesendet werden, Dienst nicht verfügbar</string>
+    <string name="error_radio_turned_off">Nachricht konnte nicht gesendet werden, Mobilfunk ausgeschaltet</string>
+    <string name="carrier_send_error">Nachricht konnte nicht gesendet werden, Netzbetreiberfehler</string>
+    <string name="unknown_error_occurred_sending_message">Nachricht konnte nicht gesendet werden, Fehlercode: %d</string>
+    <string name="invalid_short_code">Auf solche Short Codes kann nicht geantwortet werden</string>
+    <string name="invalid_short_code_desc">Du kannst nur auf Short Codes mit Nummern wie „503501“ antworten, nicht aber auf Codes mit Buchstaben und Zahlen wie „AB-CD0“.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Warum benötigt die Anwendung einen Internetzugang\?</string>
-    <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden.
-    Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
+    <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden. Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
     <string name="faq_2_title">Die Gegenseite empfängt meine MMS nicht. Kann ich etwas dagegen tun\?</string>
-    <string name="faq_2_text">Die MMS-Größe wird von den Netzbetreibern begrenzt. Sie können versuchen, in den Anwendungseinstellungen ein kleineres Limit einzustellen.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Einfacher SMS-Messenger – Nachrichten einfach verwalten</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Eine einfache und schnelle Möglichkeit zur Verwaltung von SMS- und MMS-Nachrichten ohne Werbung.</string>
-    <string name="app_long_description"> In tolle Möglichkeit mit deinen Verwandten in Kontakt zu bleiben, indem sowohl SMS als auch MMS Nachrichten gesendet werden. Die Anwendung handhabt auch Gruppennachrichten gut, genauso wie das Blockieren von Nummern ab Android 7+. Damit die Nutzung sich vertrauter und komfortabler anfühlt, kannst du das Datumsformat in verschiedenen Arten anpassen. Zudem kannst du zwischen 12 und 24 Stunden Format auswählen. Im Vergleich zur Konkurrenz ist die Anwendungsgröße sehr klein, wodurch es sehr schnell heruntergeladen ist. Es kommt standardmäßig mit einem Material-Design und Dunkelmodus, was für ein großartiges Nutzererlebnis und leichte Nutzbarkeit sorgt. Da es keine Internetverbindung verwendet, bietet diese Anwendung mehr Datenschutz, Sicherheit und Stabilität als andere Anwendungen. Beinhaltet keine Werbung oder unnötige Berechtigungen. Es ist komplett quelloffen, und bietet anpassbare Farben. <b>Entdecke alle Simple Tools hier:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="faq_2_text">Die MMS-Größe wird von den Netzbetreibern begrenzt. Du kannst versuchen, in den Anwendungseinstellungen ein kleineres Limit einzustellen.</string>
+    <string name="faq_3_title">Unterstützt die Anwendung geplante Nachrichten\?</string>
+    <string name="faq_3_text">Ja, du kannst den Versand von Nachrichten für die Zukunft planen, indem du lange auf die Senden-Schaltfläche drückst und das gewünschte Datum und die Uhrzeit auswählst.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

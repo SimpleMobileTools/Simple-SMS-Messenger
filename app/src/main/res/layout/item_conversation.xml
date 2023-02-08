@@ -13,7 +13,9 @@
         android:id="@+id/conversation_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/small_margin"
         android:paddingTop="@dimen/activity_margin"
+        android:paddingEnd="@dimen/normal_margin"
         android:paddingBottom="@dimen/activity_margin">
 
         <ImageView
@@ -24,7 +26,8 @@
             android:layout_alignBottom="@+id/conversation_date"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/normal_margin"
-            android:layout_marginEnd="@dimen/normal_margin" />
+            android:layout_marginEnd="@dimen/normal_margin"
+            tools:src="@mipmap/ic_sms_messenger" />
 
         <RelativeLayout
             android:id="@+id/pin_indicator_l"
@@ -40,8 +43,9 @@
                 android:id="@+id/pin_indicator"
                 android:layout_width="@dimen/pin_icon_size"
                 android:layout_height="@dimen/pin_icon_size"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_pin" />
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_pin_filled_vector" />
+
         </RelativeLayout>
 
         <TextView
@@ -51,7 +55,10 @@
             android:layout_toEndOf="@+id/conversation_image"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/activity_margin"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/big_text_size"
             tools:text="John" />
 
@@ -61,13 +68,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/conversation_address"
             android:layout_toEndOf="@+id/conversation_image"
-            android:textColor="@color/color_primary"
-            android:textStyle="italic"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/small_margin"
+            android:text="@string/draft"
+            android:textAlignment="viewStart"
+            android:textColor="@color/color_primary"
+            android:textDirection="locale"
             android:textSize="@dimen/normal_text_size"
-            android:text="@string/draft" />
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/conversation_body_short"
@@ -77,7 +87,10 @@
             android:layout_toEndOf="@+id/draft_indicator"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/activity_margin"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/normal_text_size"
             tools:text="Hey buddy!" />
 
@@ -89,6 +102,8 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:layout_toEndOf="@+id/conversation_image"
             android:alpha="0.4"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/smaller_text_size"
             tools:text="13:30" />
 

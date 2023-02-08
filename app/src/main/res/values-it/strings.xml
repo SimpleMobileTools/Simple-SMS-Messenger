@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Messaggi SMS</string>
+    <string name="app_name">Messaggi SMS Semplici</string>
     <string name="app_launcher_name">Messaggi SMS</string>
     <string name="type_a_message">Componi un messaggio…</string>
     <string name="message_not_sent_short">Messaggio non inviato</string>
@@ -19,26 +19,53 @@
     <string name="pin_conversation">Fissa in alto</string>
     <string name="unpin_conversation">Rimuovi</string>
     <string name="forward_message">Inoltra</string>
+    <string name="compress_error">Impossibile comprimere l\'immagine alla dimensione selezionata</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">L\'elemento duplicato non è stato incluso</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">e %d altro</item>
+        <item quantity="many">e %d altri</item>
+        <item quantity="other">e %d altri</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nuova conversazione</string>
     <string name="add_contact_or_number">Inserisci contatto o numero…</string>
     <string name="suggestions">Suggerimenti</string>
+    <!-- Group conversation -->
+    <string name="members">Membri</string>
+    <string name="conversation_name">Nome della conversazione</string>
+    <string name="conversation_details">Dettagli della conversazione</string>
+    <string name="rename_conversation">Rinomina la conversazione</string>
+    <string name="rename_conversation_warning">Solo tu puoi vedere il nome di questa conversazione</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Messaggio programmato</string>
+    <string name="schedule_message">Messaggio programmato</string>
+    <string name="schedule_send">Invio programmato</string>
+    <string name="cancel_schedule_send">Annulla l\'invio programmato</string>
+    <string name="must_pick_time_in_the_future">Devi scegliere un momento del futuro</string>
+    <string name="schedule_send_warning">Tieni il telefono acceso e assicurati che non ci sia nulla che chiuda l\'app in background.</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Invia ora</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ricevuto</string>
     <string name="new_message">Nuovo messaggio</string>
     <string name="mark_as_read">Letto</string>
     <string name="mark_as_unread">Non letto</string>
+    <string name="me">Io</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Vuoi davvero eliminare tutti i messaggi di questa conversazione\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversazione</item>
+        <item quantity="many">%d conversazioni</item>
         <item quantity="other">%d conversazioni</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d messaggio</item>
+        <item quantity="many">%d messaggi</item>
         <item quantity="other">%d messaggi</item>
     </plurals>
     <!-- Settings -->
@@ -47,31 +74,37 @@
     <string name="sender_only">Solo mittente</string>
     <string name="enable_delivery_reports">Abilita conferma di consegna</string>
     <string name="use_simple_characters">Rimuovi gli accenti e i diacritici all\'invio di messaggi</string>
+    <string name="send_on_enter">Invia il messaggio premendo Invio</string>
     <string name="mms_file_size_limit">Ridimensiona le immagini MMS inviate</string>
     <string name="mms_file_size_limit_none">Nessun limite</string>
     <string name="outgoing_messages">Messaggi in uscita</string>
     <string name="group_message_mms">Invia messaggi di gruppo come MMS</string>
+    <string name="send_long_message_mms">Invia i messaggi lunghi come MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messaggi</string>
     <string name="export_messages">Esporta messaggi</string>
     <string name="export_sms">Esporta SMS</string>
     <string name="export_mms">Esporta MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
+    <string name="import_messages">Importa messaggi</string>
+    <string name="import_sms">Importa SMS</string>
     <string name="import_mms">Importa MMS</string>
     <string name="no_option_selected">Devi selezionare almeno un elemento</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Non è possibile inviare un messaggio a un numero vuoto</string>
+    <string name="unable_to_save_message">Impossibile salvare il messaggio nella base di dati della telefonia</string>
+    <string name="error_service_is_unavailable">Impossibile inviare il messaggio, servizio non disponibile</string>
+    <string name="error_radio_turned_off">Impossibile inviare il messaggio, la radio è spenta</string>
+    <string name="carrier_send_error">Impossibile inviare il messaggio, errore del vettore</string>
+    <string name="unknown_error_occurred_sending_message">Impossibile inviare il messaggio, codice di errore: %d</string>
+    <string name="invalid_short_code">Non è possibile rispondere a codici brevi come questo</string>
+    <string name="invalid_short_code_desc">È possibile rispondere solo a codici brevi con numeri come «503501», ma non a codici contenenti lettere e numeri come «AB-CD0».</string>
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
-    <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
-    Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
+    <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada. Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
     <string name="faq_2_title">L\'altro capo non riceve i miei MMS, c\'è qualcosa che posso fare\?</string>
     <string name="faq_2_text">La dimensione degli MMS è limitata dai vettori, puoi provare a impostare un limite più piccolo nelle impostazioni dell\'app.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Semplice SMS Messenger – gestisci facilmente i messaggi</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Un modo facile e veloce per gestire i messaggi SMS e MMS senza pubblicità.</string>
-    <string name="app_long_description"> Un ottimo modo per rimanere in contatto con i tuoi parenti, inviando sia messaggi SMS che MMS. L\'applicazione gestisce correttamente anche la messaggistica di gruppo, proprio come il blocco dei numeri da Android 7+. Offre molti formati di data tra cui scegliere, per farvi sentire a vostro agio nell\'usarla. È possibile alternare il formato 12 e 24 ore. Ha una dimensione dell\'app davvero minuscola rispetto alla concorrenza, rendendola davvero veloce da scaricare. Viene fornito con Material Design e tema scuro per impostazione predefinita, fornisce una grande esperienza utente per un facile utilizzo. La mancanza di accesso a internet ti dà più privacy, sicurezza e stabilità rispetto ad altre app. Non contiene annunci o permessi inutili. È completamente opensource, fornisce colori personalizzabili. <b>Scopri la suite completa di Simple Tools qui:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="faq_3_title">L\'app supporta i messaggi programmati\?</string>
+    <string name="faq_3_text">Sì, è possibile programmare l\'invio di messaggi in futuro premendo a lungo il pulsante Invia e scegliendo la data e l\'ora desiderate.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

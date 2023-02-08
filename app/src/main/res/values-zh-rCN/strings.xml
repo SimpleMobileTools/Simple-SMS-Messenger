@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">简易短信</string>
+    <string name="app_name">简单短信</string>
     <string name="app_launcher_name">短信</string>
     <string name="type_a_message">输入一个消息…</string>
     <string name="message_not_sent_short">消息未发送</string>
@@ -19,26 +19,47 @@
     <string name="pin_conversation">置顶固定</string>
     <string name="unpin_conversation">取消固定</string>
     <string name="forward_message">转发</string>
+    <string name="compress_error">无法将图像压缩到选定的大小</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">未包含重复项</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="other">及其他 %d 个联系人</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">新的对话</string>
     <string name="add_contact_or_number">添加联系人或者号码…</string>
     <string name="suggestions">建议</string>
+    <!-- Group conversation -->
+    <string name="members">成员</string>
+    <string name="conversation_name">对话名</string>
+    <string name="conversation_details">对话详情</string>
+    <string name="rename_conversation">重命名对话</string>
+    <string name="rename_conversation_warning">只有你能看到这个对话的名称</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">定时消息</string>
+    <string name="schedule_message">消息定时</string>
+    <string name="schedule_send">定时发送</string>
+    <string name="cancel_schedule_send">取消定时发送</string>
+    <string name="must_pick_time_in_the_future">必须选择未来的时间</string>
+    <string name="schedule_send_warning">保持手机开机，并确保应用后台不被终止.</string>
+    <string name="update_message">更新消息</string>
+    <string name="send_now">立即发送</string>
     <!-- Notifications -->
     <string name="channel_received_sms">接收到的短信</string>
     <string name="new_message">新消息</string>
     <string name="mark_as_read">标记为已读</string>
     <string name="mark_as_unread">标记为未读</string>
+    <string name="me">自己</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d 个对话</item>
         <item quantity="other">%d 个对话</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d 个消息</item>
         <item quantity="other">%d 个消息</item>
     </plurals>
     <!-- Settings -->
@@ -47,10 +68,12 @@
     <string name="sender_only">仅发信人</string>
     <string name="enable_delivery_reports">启用送达报告</string>
     <string name="use_simple_characters">发送消息时删除重音和变音符号</string>
+    <string name="send_on_enter">按下 Enter 键发送消息</string>
     <string name="mms_file_size_limit">调整发送的彩信图片的大小</string>
     <string name="mms_file_size_limit_none">无限制</string>
     <string name="outgoing_messages">外发消息</string>
     <string name="group_message_mms">将群组信息作为彩信发送</string>
+    <string name="send_long_message_mms">将长消息作为彩信发送</string>
     <!-- Export / Import -->
     <string name="messages">消息</string>
     <string name="export_messages">导出消息</string>
@@ -60,37 +83,22 @@
     <string name="import_sms">导入短信</string>
     <string name="import_mms">导入彩信</string>
     <string name="no_option_selected">您必须至少选择一项</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">无法发送消息到空号</string>
+    <string name="unable_to_save_message">无法保存消息到电话通信（telephony）数据库</string>
+    <string name="error_service_is_unavailable">无法发送消息，服务不可用</string>
+    <string name="error_radio_turned_off">无法发送消息，无线电收发器关闭</string>
+    <string name="carrier_send_error">无法发送消息，运营商错误</string>
+    <string name="unknown_error_occurred_sending_message">无法发送消息，错误代码：%d</string>
+    <string name="invalid_short_code">无法回复类似这样的短码</string>
+    <string name="invalid_short_code_desc">你只能回复类似 \"503501\" 这样的短码，不能回复 \"AB-CD0\" 这样既包含字母又包含数字的短码。</string>
     <!-- FAQ -->
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
-    <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。
-    但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
+    <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。 但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
     <string name="faq_2_title">对方没有收到我的彩信，我能做些什么吗\?</string>
     <string name="faq_2_text">彩信大小受运营商限制，你可以尝试在程序设置中设定一个较小的限制。</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">简易短信 - 轻松管理消息</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">简单、快速和无广告的方式管理短信和彩信。</string>
-    <string name="app_long_description">
-        发送短信和彩信是一个和您亲友保持联系的绝佳方式。这个应用也可以可以正确处理群消息，在 Android 7 以上版本亦可阻止号码。
-
-        它提供多个日期格式以便选择，符合您使用习惯。您也可以在 12 和 24 时制格式之间选择。
-
-        它相对于其他竞品有着极小的大小，使得其下载非常快。
-
-        它遵循质感设计且默认应用黑暗模式，提供便于使用的极佳的用户体验。
-
-        不包含广告及非必要的权限，而且完全开放源代码，并提供自定义颜色。
-
-        <b>于此查看简易工具系列全套:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="faq_3_title">本应用支持定时消息吗？</string>
+    <string name="faq_3_text">是的，你可以长按“发送”按钮并选择所需的日期和时间安排将来要发送的消息。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

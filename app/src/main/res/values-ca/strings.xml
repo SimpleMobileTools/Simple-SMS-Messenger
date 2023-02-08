@@ -19,27 +19,51 @@
     <string name="pin_conversation">Fixa a la part superior</string>
     <string name="unpin_conversation">No fixis</string>
     <string name="forward_message">Reenvia</string>
+    <string name="compress_error">No s\'ha pogut comprimir la imatge a la mida seleccionada</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">No s\'ha inclòs l\'element duplicat</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">i %d altra</item>
+        <item quantity="other">i %d d\'altres</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Conversa nova</string>
     <string name="add_contact_or_number">Afegeix un contacte o número…</string>
     <string name="suggestions">Suggeriments</string>
+    <!-- Group conversation -->
+    <string name="members">Membres</string>
+    <string name="conversation_name">Nom de la conversa</string>
+    <string name="conversation_details">Detalls de la conversa</string>
+    <string name="rename_conversation">Canvia el nom de la conversa</string>
+    <string name="rename_conversation_warning">Només vós podeu veure el nom d\'aquesta conversa</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Missatge programat</string>
+    <string name="schedule_message">Programa un missatge</string>
+    <string name="schedule_send">Programa l\'enviament</string>
+    <string name="cancel_schedule_send">Cancel·la la programació de l\'enviament</string>
+    <string name="must_pick_time_in_the_future">Cal triar una hora futura</string>
+    <string name="schedule_send_warning">Mantingueu el telèfon engegat i assegureu-vos que no hi hagi res que mati les aplicacions en segon pla.</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Envia ara</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS rebut</string>
     <string name="new_message">Missatge nou</string>
     <string name="mark_as_read">Marca com a llegit</string>
     <string name="mark_as_unread">Marcar com no llegit</string>
+    <string name="me">Me</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Confirmeu que voleu suprimir tots els missatges d\'aquesta conversa\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
-        <item quantity="other">%d converses</item>
+        <item quantity="other">%d de converses</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d missatge</item>
-        <item quantity="other">%d missatges</item>
+        <item quantity="other">%d de missatges</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Visibilitat de notificacions a la pantalla de bloqueig</string>
@@ -47,10 +71,12 @@
     <string name="sender_only">Només el remitent</string>
     <string name="enable_delivery_reports">Activa els informes de lliurament</string>
     <string name="use_simple_characters">Elimina els accents i els diacrítics en enviar missatges</string>
+    <string name="send_on_enter">Envieu el missatge prement Retorn</string>
     <string name="mms_file_size_limit">Canvia la mida de les imatges MMS enviades</string>
     <string name="mms_file_size_limit_none">Sense límit</string>
     <string name="outgoing_messages">Missatges sortints</string>
     <string name="group_message_mms">Envia missatges de grup com a MMS</string>
+    <string name="send_long_message_mms">Envia missatges llargs com a MMS</string>
     <!-- Export / Import -->
     <string name="messages">Missatges</string>
     <string name="export_messages">Exporta els missatges</string>
@@ -60,19 +86,24 @@
     <string name="import_sms">Importa SMS</string>
     <string name="import_mms">Importa MMS</string>
     <string name="no_option_selected">Cal seleccionar almenys un element</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">El missatge no es pot enviar a un número buit</string>
+    <string name="unable_to_save_message">No es pot desar el missatge a la base de dades de telefonia</string>
+    <string name="error_service_is_unavailable">No s\'ha pogut enviar el missatge, servei no disponible</string>
+    <string name="error_radio_turned_off">No s\'ha pogut enviar el missatge, la ràdio està apagada</string>
+    <string name="carrier_send_error">No s\'ha pogut enviar el missatge, error de l\'operador</string>
+    <string name="unknown_error_occurred_sending_message">No s\'ha pogut enviar el missatge, codi d\'error: %d</string>
+    <string name="invalid_short_code">No es pot respondre a codis curts com aquest</string>
+    <string name="invalid_short_code_desc">Només podeu respondre a codis curts amb números com «503501», però no a codis que continguin lletres i números com «AB-CD0».</string>
     <!-- FAQ -->
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger: gestioneu missatges fàcilment</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Una manera fàcil i ràpida de gestionar missatges SMS i MMS sense anuncis.</string>
-    <string name="app_long_description"> Una bona manera de mantenir-se en contacte amb els vostres familiars, enviant missatges SMS i MMS. L\'aplicació també gestiona adequadament els missatges de grup, així com bloquejar números a partir de l\'Android 7. Ofereix molts formats de dates per triar, perquè us sentiu còmode utilitzant-lo. També podeu canviar entre el format de 12 i 24 hores. Té una mida d\'aplicació molt petita en comparació amb la competència, la qual cosa la fa molt ràpida de baixar. De manera predeterminada, inclou el «material design» i un tema fosc, proporciona una gran experiència d\'usuari per a un ús fàcil. La manca d\'accés a Internet us ofereix més privadesa, seguretat i estabilitat que altres aplicacions. No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. <b>Consulteu el conjunt complet d\'eines Simples aquí:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b>https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="faq_2_text">La mida dels MMS està limitada pels operadors, podeu provar d\'establir un límit més petit a la configuració de l\'aplicació.</string>
+    <string name="faq_3_title">L\'aplicació admet missatges programats\?</string>
+    <string name="faq_3_text">Sí, podeu programar missatges per enviar-los en el futur prement prolongadament el botó Envia i escollint la data i l\'hora desitjades.</string>
+    <string name="faq_2_title">L\'altre extrem no ha rebut el meu MMS, hi puc fer alguna cosa\?</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
     -->
-    <string name="faq_2_text">La mida dels MMS està limitada pels operadors, podeu provar d\'establir un límit més petit a la configuració de l\'aplicació.</string>
-    <string name="faq_2_title">L\'altre extrem no ha rebut el meu MMS, hi puc fer alguna cosa\?</string>
 </resources>

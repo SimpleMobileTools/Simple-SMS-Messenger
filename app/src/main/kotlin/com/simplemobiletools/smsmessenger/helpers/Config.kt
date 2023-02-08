@@ -2,8 +2,8 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
 import com.simplemobiletools.commons.helpers.BaseConfig
+import com.simplemobiletools.smsmessenger.extensions.getDefaultKeyboardHeight
 import com.simplemobiletools.smsmessenger.models.Conversation
-import java.util.HashSet
 
 class Config(context: Context) : BaseConfig(context) {
     companion object {
@@ -24,9 +24,21 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(USE_SIMPLE_CHARACTERS, false)
         set(useSimpleCharacters) = prefs.edit().putBoolean(USE_SIMPLE_CHARACTERS, useSimpleCharacters).apply()
 
+    var sendOnEnter: Boolean
+        get() = prefs.getBoolean(SEND_ON_ENTER, false)
+        set(sendOnEnter) = prefs.edit().putBoolean(SEND_ON_ENTER, sendOnEnter).apply()
+
     var enableDeliveryReports: Boolean
-        get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, true)
+        get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, false)
         set(enableDeliveryReports) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, enableDeliveryReports).apply()
+
+    var sendLongMessageMMS: Boolean
+        get() = prefs.getBoolean(SEND_LONG_MESSAGE_MMS, false)
+        set(sendLongMessageMMS) = prefs.edit().putBoolean(SEND_LONG_MESSAGE_MMS, sendLongMessageMMS).apply()
+
+    var sendGroupMessageMMS: Boolean
+        get() = prefs.getBoolean(SEND_GROUP_MESSAGE_MMS, false)
+        set(sendGroupMessageMMS) = prefs.edit().putBoolean(SEND_GROUP_MESSAGE_MMS, sendGroupMessageMMS).apply()
 
     var lockScreenVisibilitySetting: Int
         get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
@@ -75,6 +87,14 @@ class Config(context: Context) : BaseConfig(context) {
     var importMms: Boolean
         get() = prefs.getBoolean(IMPORT_MMS, true)
         set(importMms) = prefs.edit().putBoolean(IMPORT_MMS, importMms).apply()
+
+    var wasDbCleared: Boolean
+        get() = prefs.getBoolean(WAS_DB_CLEARED, false)
+        set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
+
+    var keyboardHeight: Int
+        get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, context.getDefaultKeyboardHeight())
+        set(keyboardHeight) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, keyboardHeight).apply()
 
     var customNotifications: Set<String>
         get() = prefs.getStringSet(CUSTOM_NOTIFICATIONS, HashSet<String>())!!

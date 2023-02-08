@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/conversation_details_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/conversation_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_primary"
+        app:title="@string/conversation_details"
+        app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+
+    <LinearLayout
+        android:id="@+id/conversation_details_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/conversation_name_heading"
+            style="@style/MaterialSectionLabelStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:text="@string/conversation_name" />
+
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/conversation_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_edit_vector"
+            android:drawablePadding="@dimen/bigger_margin"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:maxLines="1"
+            android:paddingStart="@dimen/activity_margin"
+            android:paddingTop="@dimen/bigger_margin"
+            android:paddingEnd="@dimen/activity_margin"
+            android:paddingBottom="@dimen/bigger_margin"
+            android:textSize="@dimen/bigger_text_size"
+            tools:text="Conversation name" />
+
+        <include
+            android:id="@+id/settings_conversation_name_divider"
+            layout="@layout/divider" />
+
+        <TextView
+            android:id="@+id/members_heading"
+            style="@style/MaterialSectionLabelStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:text="@string/members" />
+
+        <com.simplemobiletools.commons.views.MyRecyclerView
+            android:id="@+id/participants_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:clipToPadding="false"
+            app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_contact_with_number" />
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

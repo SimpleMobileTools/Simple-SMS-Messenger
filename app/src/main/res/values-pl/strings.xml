@@ -19,15 +19,41 @@
     <string name="pin_conversation">Przypnij na górze</string>
     <string name="unpin_conversation">Odepnij</string>
     <string name="forward_message">Przekaż dalej</string>
+    <string name="compress_error">Nie udało się skompresować obrazu do wybranego rozmiaru</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Powielony element nie został uwzględniony</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">i %d inny</item>
+        <item quantity="few">i %d inne</item>
+        <item quantity="many">i %d innych</item>
+        <item quantity="other">i %d innych</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nowa rozmowa</string>
     <string name="add_contact_or_number">Dodaj kontakt lub numer…</string>
     <string name="suggestions">Propozycje</string>
+    <!-- Group conversation -->
+    <string name="members">Członkowie</string>
+    <string name="conversation_name">Nazwa rozmowy</string>
+    <string name="conversation_details">Szczegóły rozmowy</string>
+    <string name="rename_conversation">Zmień nazwę rozmowy</string>
+    <string name="rename_conversation_warning">Tylko Ty widzisz tę nazwę rozmowy.</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Zaplanowana wiadomość</string>
+    <string name="schedule_message">Zaplanuj wiadomość</string>
+    <string name="schedule_send">Zaplanuj wysłanie</string>
+    <string name="cancel_schedule_send">Anuluj zaplanowane wysłanie</string>
+    <string name="must_pick_time_in_the_future">Musisz wybrać czas w przyszłości</string>
+    <string name="schedule_send_warning">Pozostaw telefon włączony i upewnij się, że nic nie wyłącza aplikacji w tle.</string>
+    <string name="update_message">Zaktualizuj wiadomość</string>
+    <string name="send_now">Wyślij teraz</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymany SMS</string>
     <string name="new_message">Nowa wiadomość</string>
     <string name="mark_as_read">Oznacz jako przeczytane</string>
     <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
+    <string name="me">Ja</string>
     <string name="use_custom_notifications">Używaj niestandardowych powiadomień</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Czy usunąć wszystkie wiadomości z tej rozmowy\?</string>
@@ -35,12 +61,14 @@
     <plurals name="delete_conversations">
         <item quantity="one">%d rozmowę</item>
         <item quantity="few">%d rozmowy</item>
+        <item quantity="many">%d rozmów</item>
         <item quantity="other">%d rozmów</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d wiadomość</item>
         <item quantity="few">%d wiadomości</item>
+        <item quantity="many">%d wiadomości</item>
         <item quantity="other">%d wiadomości</item>
     </plurals>
     <!-- Settings -->
@@ -49,10 +77,12 @@
     <string name="sender_only">Tylko nadawca</string>
     <string name="enable_delivery_reports">Włącz raporty doręczeń</string>
     <string name="use_simple_characters">Usuwaj akcenty i znaki diakrytyczne podczas wysyłania wiadomości</string>
+    <string name="send_on_enter">Wysyłaj wiadomości po naciśnięciu klawisza Enter</string>
     <string name="mms_file_size_limit">Rozmiar wysyłanych obrazków w MMS-ach</string>
     <string name="mms_file_size_limit_none">Bez limitu</string>
     <string name="outgoing_messages">Wiadomości wychodzące</string>
     <string name="group_message_mms">Wysyłaj wiadomości grupowe jako MMS-y</string>
+    <string name="send_long_message_mms">Wysyłaj długie wiadomości jako MMS-y</string>
     <!-- Export / Import -->
     <string name="messages">Wiadomości</string>
     <string name="export_messages">Eksportuj wiadomości</string>
@@ -62,37 +92,22 @@
     <string name="import_sms">Importuj SMS-y</string>
     <string name="import_mms">Importuj MMS-y</string>
     <string name="no_option_selected">Musisz wybrać co najmniej jedną opcję</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Nie można wysłać wiadomości na pusty numer</string>
+    <string name="unable_to_save_message">Nie udało się zapisać wiadomości w bazie danych telefonu</string>
+    <string name="error_service_is_unavailable">Nie udało się wysłać wiadomości z powodu niedostępności usługi</string>
+    <string name="error_radio_turned_off">Nie udało się wysłać wiadomości z powodu wyłączonej sieci komórkowej</string>
+    <string name="carrier_send_error">Nie udało się wysłać wiadomości z powodu błędu operatora</string>
+    <string name="unknown_error_occurred_sending_message">Nie udało się wysłać wiadomości. Kod błędu: %1$d</string>
+    <string name="invalid_short_code">Nie można odpowiadać na numery Short Code tego typu</string>
+    <string name="invalid_short_code_desc">Możesz odpowiadać tylko na numery Short Code zawierające same cyfry, np. „503501”, ale nie na takie, które zawierają inne znaki, jak „AB-CD0”.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
-    <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą.
-    Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>
+    <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą. Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>
     <string name="faq_2_title">Druga osoba nie otrzymuje moich MMS-ów. Czy mogę coś z tym zrobić\?</string>
     <string name="faq_2_text">Rozmiar MMS-ów jest ograniczany przez operatorów. Możesz spróbować ustawić mniejszy limit w ustawieniach aplikacji.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Proste wiadomości SMS - Łatwo zarządzaj SMS-ami</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Łatwy i szybki sposób zarządzania wiadomościami SMS i MMS bez reklam</string>
-    <string name="app_long_description">
-        Świetny sposób na utrzymywanie kontaktu z bliskimi przez wysyłanie zarówno wiadomości SMS, jak i MMS. Aplikacja poprawnie obsługuje również wiadomości grupowe, podobnie jak blokowanie numerów z Androida 7+.
-
-        Oferuje wiele formatów daty do wyboru, abyś czuł(a) się komfortowo podczas korzystania z niej. Możesz także przełączać się między 12- i 24-godzinnym formatem czasu.
-
-        Zajmuje naprawdę mało miejsca w porównaniu do konkurencji, dzięki czemu można ją szybko pobrać.
-
-        Domyślnie jest wyposażona w Material Design i ciemny motyw, zapewniając doskonałe doświadczenie użytkownika dla łatwego użytkowania. Brak dostępu do Internetu zapewnia większą prywatność, bezpieczeństwo i stabilność niż inne aplikacje.
-
-        Nie zawiera reklam ani niepotrzebnych uprawnień. Jest w pełni otwartoźródłowa, zapewnia konfigurowalną kolorystykę. 
-
-        <b>Sprawdź pełen zestaw od Simple Tools tutaj:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="faq_3_title">Czy aplikacja obsługuje planowanie wiadomości?</string>
+    <string name="faq_3_text">Tak. Możesz zaplanować wysłanie wiadomości w przyszłości, naciskając długo przycisk Wyślij i wybierając czas docelowy.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

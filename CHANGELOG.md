@@ -1,6 +1,204 @@
 Changelog
 ==========
 
+Version 5.17.4 *(2023-02-08)*
+----------------------------
+
+ * Allow showing conversation details at non-group conversations too
+ * Added some UI, translation and stability improvements
+
+Version 5.17.3 *(2023-02-01)*
+----------------------------
+
+ * Fixed loading bar getting stuck on first load
+ * Added some UI, translation and stability improvements
+
+Version 5.17.2 *(2023-01-12)*
+----------------------------
+
+ * Fixed a search related glitch
+ * Do not allow replying to some short codes
+ * Show a loading progress bar at first app launch
+ * Added some message sending/receiving reliability related improvements
+
+Version 5.17.1 *(2023-01-06)*
+----------------------------
+
+ * Fixed a glitch with the top Search menu on some devices
+
+Version 5.17.0 *(2023-01-03)*
+----------------------------
+
+ * Use Material You theme by default on Android 12+
+ * Increased minimal required Android OS version to 6
+ * Added some UI, translation and stability improvements
+
+Version 5.16.6 *(2022-12-14)*
+----------------------------
+
+ * Fixed an invalid error message showing up from time to time
+ * Added some notification reliability improvements
+ * Added some translation, UI and stability improvements
+
+Version 5.16.5 *(2022-11-30)*
+----------------------------
+
+ * Allow renaming group conversations
+ * Added a Conversation details screen at the group conversations
+ * Added some translation, UI and stability improvements
+
+Version 5.16.4 *(2022-11-21)*
+----------------------------
+
+ * Added some translation, UI and stability improvements
+
+Version 5.16.3 *(2022-11-19)*
+----------------------------
+
+ * Added some UI improvements at sending/receiving messages
+ * Fixed an error message showing up at sending messages
+ * Added some translation, UI and stability improvements
+
+Version 5.16.2 *(2022-11-13)*
+----------------------------
+
+ * Allow sending any file attachment, not just images
+ * Add an option to enable sending messages at pressing Enter
+ * Require Simple Thank You for blocking numbers
+ * Added many translation, UX and stability improvements
+
+Version 5.16.1 *(2022-10-26)*
+----------------------------
+
+ * Allow scheduling messages by long pressing the Send button
+ * Added many translation, UX and stability improvements
+
+Version 5.16.0 *(2022-10-02)*
+----------------------------
+
+ * Allow blocking numbers by pattern
+ * Adding a preview of received vCard content
+ * Improving some behaviour with multiple SIM cards
+ * Added Monochrome icon and Language picker support on Android 13+
+ * Allow capturing new photos as message attachments
+ * Adding a Get Simple Phone button into the About section
+ * Added some translation and UX improvements
+
+Version 5.15.0 *(2022-07-10)*
+----------------------------
+
+ * Adding some materialish design updates, especially in the System theme
+ * Adding some stability and translation improvements
+
+Version 5.14.4 *(2022-06-29)*
+----------------------------
+
+ * Adding some stability and translation improvements
+
+Version 5.14.3 *(2022-06-26)*
+----------------------------
+
+ * Delete stored messages to reset the db
+
+Version 5.14.2 *(2022-06-26)*
+----------------------------
+
+ * Take Default number into consideration at new conversations
+ * Added some translation and UX improvements
+
+Version 5.14.1 *(2022-06-19)*
+----------------------------
+
+ * Add a SMS/MMS label under the Send button
+ * Fix handling of numbers with spaces in them
+ * Set Send group messages as MMS to false by default
+ * Added some translation and UX improvements
+
+Version 5.14.0 *(2022-06-07)*
+----------------------------
+
+ * Load older messages at scrolling at the top
+ * Fixed the Indonesian translation
+ * Allow blocking incoming messages from not stored contacts
+ * Use proper SIM at replying from the top notification
+ * Added some stability, translation and UX improvements
+
+Version 5.13.2 *(2022-05-03)*
+----------------------------
+
+ * Allow sending group messages as individual SMS instead of 1 MMS
+ * Added some translation improvements
+
+Version 5.13.1 *(2022-04-13)*
+----------------------------
+
+ * Fix sending messages on Android 12+
+
+Version 5.13.0 *(2022-04-12)*
+----------------------------
+
+ * Added Material You theme support on Android 12+
+ * Fixed a glitch with received message notification not being shown in some cases
+ * Added some stability, translation and UX improvements
+
+Version 5.12.7 *(2022-03-25)*
+----------------------------
+
+ * Improved the character counter, show message count
+ * Allow storing unknown numbers easier
+ * Added some stability, translation and UX improvements
+
+Version 5.12.6 *(2022-03-07)*
+----------------------------
+
+ * Fixed some glitches related to showing images
+ * Added message forwarding
+ * Added a Privacy policy in the About section 
+ * Added other UX, stability and translation improvements
+
+Version 5.12.5 *(2022-02-26)*
+----------------------------
+
+ * Disable delivery reports by default, it can cost money
+ * Split long messages into multiple smaller ones by default, avoid sending MMS (by Aga-C)
+ * Added some UX, stability and translation improvements
+
+Version 5.12.4 *(2022-02-11)*
+----------------------------
+
+ * Improve the way image attachments are resized, show an error if something goes wrong
+ * Added many improvements related to having multiple SIM cards or contacts having multiple numbers
+ * Fixed a glitch with wrong sender shown at MMS notification
+ * Allow opening contact details screen by clicking the avatar at the conversation (by Aga-C)
+ * Added other UX, stability and translation improvements
+
+Version 5.12.3 *(2022-02-10)*
+----------------------------
+
+ * Improve the way image attachments are resized, show an error if something goes wrong
+ * Added many improvements related to having multiple SIM cards or contacts having multiple numbers
+ * Fixed a glitch with wrong sender shown at MMS notification
+ * Allow opening contact details screen by clicking the avatar at the conversation (by Aga-C)
+ * Added other UX, stability and translation improvements
+
+Version 5.12.2 *(2022-02-10)*
+----------------------------
+
+ * Improve the way image attachments are resized, show an error if something goes wrong
+ * Added many improvements related to having multiple SIM cards or contacts having multiple numbers
+ * Fixed a glitch with wrong sender shown at MMS notification
+ * Allow opening contact details screen by clicking the avatar at the conversation (by Aga-C)
+ * Added other UX, stability and translation improvements
+
+Version 5.12.1 *(2022-02-08)*
+----------------------------
+
+ * Improve the way image attachments are resized, show an error if something goes wrong
+ * Added many improvements related to having multiple SIM cards or contacts having multiple numbers
+ * Fixed a glitch with wrong sender shown at MMS notification
+ * Allow opening contact details screen by clicking the avatar at the conversation (by Aga-C)
+ * Added other UX, stability and translation improvements
+
 Version 5.12.0 *(2022-01-19)*
 ----------------------------
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_name">Простые сообщения</string>
     <string name="app_launcher_name">Сообщения</string>
     <string name="type_a_message">Введите сообщение…</string>
     <string name="message_not_sent_short">Сообщение не отправлено</string>
@@ -19,15 +19,41 @@
     <string name="pin_conversation">Закрепить сверху</string>
     <string name="unpin_conversation">Открепить</string>
     <string name="forward_message">Переслать</string>
+    <string name="compress_error">Невозможно сжать изображение до выбранного размера</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Дубликат не включён</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">и ещё %d</item>
+        <item quantity="few">и ещё %d</item>
+        <item quantity="many">и ещё %d</item>
+        <item quantity="other">и ещё %d</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
     <string name="add_contact_or_number">Добавить контакт или номер…</string>
     <string name="suggestions">Предложения</string>
+    <!-- Group conversation -->
+    <string name="members">Участники</string>
+    <string name="conversation_name">Название переписки</string>
+    <string name="conversation_details">Подробности переписки</string>
+    <string name="rename_conversation">Переименовать переписку</string>
+    <string name="rename_conversation_warning">Только вы можете видеть это название переписки</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Отложенная отправка</string>
+    <string name="schedule_message">Отложенная отправка</string>
+    <string name="schedule_send">Отложенная отправка</string>
+    <string name="cancel_schedule_send">Отменить отложенную отправку</string>
+    <string name="must_pick_time_in_the_future">Время должно быть в будущем</string>
+    <string name="schedule_send_warning">Держите устройство включённым и убедитесь, что ничто не завершает принудительно приложение в фоновом режиме.</string>
+    <string name="update_message">Обновить сообщение</string>
+    <string name="send_now">Отправить сейчас</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
+    <string name="me">Я</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
@@ -36,12 +62,14 @@
         <item quantity="one">%d переписку</item>
         <item quantity="few">%d переписки</item>
         <item quantity="many">%d переписок</item>
+        <item quantity="other">%d переписок</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d сообщение</item>
         <item quantity="few">%d сообщения</item>
         <item quantity="many">%d сообщений</item>
+        <item quantity="other">%d сообщений</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Отображение уведомлений на экране блокировки</string>
@@ -49,10 +77,12 @@
     <string name="sender_only">Только отправитель</string>
     <string name="enable_delivery_reports">Использовать отчёты о доставке</string>
     <string name="use_simple_characters">Удалять ударения и диакритические знаки при отправке сообщений</string>
+    <string name="send_on_enter">Отправлять сообщение при нажатии Enter</string>
     <string name="mms_file_size_limit">Изменять размер отправляемых в MMS изображений</string>
     <string name="mms_file_size_limit_none">Нет ограничения</string>
     <string name="outgoing_messages">Исходящие сообщения</string>
     <string name="group_message_mms">Отправлять групповые сообщения как MMS</string>
+    <string name="send_long_message_mms">Отправлять длинные сообщения как MMS</string>
     <!-- Export / Import -->
     <string name="messages">Сообщения</string>
     <string name="export_messages">Экспорт сообщений</string>
@@ -62,37 +92,22 @@
     <string name="import_sms">Импорт SMS</string>
     <string name="import_mms">Импорт MMS</string>
     <string name="no_option_selected">Необходимо выбрать хотя бы один элемент</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Невозможно отправить сообщение на пустой номер</string>
+    <string name="unable_to_save_message">Невозможно сохранить сообщение в базу данных</string>
+    <string name="error_service_is_unavailable">Невозможно отправить сообщение: служба недоступна</string>
+    <string name="error_radio_turned_off">Невозможно отправить сообщение: радиомодуль отключён</string>
+    <string name="carrier_send_error">Невозможно отправить сообщение: ошибка оператора связи</string>
+    <string name="unknown_error_occurred_sending_message">Невозможно отправить сообщение. Код ошибки: %d</string>
+    <string name="invalid_short_code">Невозможно отвечать на такие короткие номера</string>
+    <string name="invalid_short_code_desc">Отвечать можно только на короткие номера, состоящие из цифр, такие как \"503501\", но не на номера, содержащие буквы и цифры, такие как \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ в интернет\?</string>
-    <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.
-    Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
+    <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём. Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
     <string name="faq_2_title">MMS не доходят до получателя, можно ли что-нибудь с этим сделать\?</string>
     <string name="faq_2_text">Размер MMS ограничивается операторами связи, можно попробовать уменьшить лимит в настройках приложения.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger — лёгкое управление SMS</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Простой и быстрый способ управления сообщениями SMS и MMS без рекламы.</string>
-    <string name="app_long_description">
-        SMS/MMS-сообщения — это отличный способ оставаться на связи со своими родственниками. Приложение также правильно обрабатывает групповые сообщения и блокировку номеров на Android 7+.
-
-        Поддерживается множество вариантов отображения даты, чтобы вам было удобно пользоваться приложением. Также вы можете переключаться между 12- и 24-часовым форматом времени.
-
-        Наше приложение имеет очень маленький размер по сравнению с конкурентами, что делает его загрузку такой быстрой.
-
-        Приложение выпускается с материальным дизайном и тёмной темой по умолчанию, что обеспечивает удобное использование. Отсутствие доступа в интернет обеспечивает вам больше приватности, безопасности и стабильности, чем в других приложениях.
-
-        Не содержит рекламы или ненужных разрешений. Полностью открытый исходный код, есть возможность настроить цвета интерфейса.
-
-        <b>Ознакомьтесь с полным набором инструментов серии Simple здесь:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="faq_3_title">Приложение поддерживает отложенную отправку сообщений\?</string>
+    <string name="faq_3_text">Да, вы можете запланировать отправку сообщений в будущем, нажав и удерживая кнопку \"Отправить\" и выбрав нужную дату и время.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

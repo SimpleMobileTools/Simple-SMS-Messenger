@@ -2,16 +2,20 @@ package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Parcelable
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.adapters.MyRecyclerViewListAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
@@ -20,32 +24,51 @@ import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
+import com.simplemobiletools.smsmessenger.messaging.isShortCodeWithLetters
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(
-    activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
+    activity: SimpleActivity, recyclerView: MyRecyclerView, onRefresh: () -> Unit, itemClick: (Any) -> Unit
+) : MyRecyclerViewListAdapter<Conversation>(activity, recyclerView, ConversationDiffCallback(), itemClick, onRefresh),
+    RecyclerViewFastScroller.OnPopupTextUpdate {
     private var fontSize = activity.getTextSize()
     private var drafts = HashMap<Long, String?>()
 
+    private var recyclerViewState: Parcelable? = null
+
     init {
         setupDragListener(true)
-        fetchDrafts(drafts)
+        ensureBackgroundThread {
+            fetchDrafts(drafts)
+        }
+        setHasStableIds(true)
+
+        registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() = restoreRecyclerViewState()
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) = restoreRecyclerViewState()
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) = restoreRecyclerViewState()
+        })
     }
 
     override fun getActionMenuId() = R.menu.cab_conversations
 
     override fun prepareActionMode(menu: Menu) {
         val selectedItems = getSelectedItems()
+        val isSingleSelection = isOneItemSelected()
+        val selectedConversation = selectedItems.firstOrNull() ?: return
+        val isGroupConversation = selectedConversation.isGroupConversation
 
         menu.apply {
+            findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
-            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_add_number_to_contact).isVisible = isSingleSelection && !isGroupConversation
+            findItem(R.id.cab_dial_number).isVisible = isSingleSelection && !isGroupConversation && !isShortCodeWithLetters(selectedConversation.phoneNumber)
+            findItem(R.id.cab_copy_number).isVisible = isSingleSelection && !isGroupConversation
+            findItem(R.id.cab_rename_conversation).isVisible = isSingleSelection && isGroupConversation
             findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
             findItem(R.id.cab_mark_as_unread).isVisible = selectedItems.any { it.read }
             checkPinBtnVisibility(this)
@@ -59,10 +82,11 @@ class ConversationsAdapter(
 
         when (id) {
             R.id.cab_add_number_to_contact -> addNumberToContact()
-            R.id.cab_block_number -> askConfirmBlock()
+            R.id.cab_block_number -> tryBlocking()
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_rename_conversation -> renameConversation(getSelectedItems().first())
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
             R.id.cab_pin_conversation -> pinConversation(true)
@@ -71,13 +95,13 @@ class ConversationsAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = conversations.size
+    override fun getSelectableItemCount() = itemCount
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.hashCode()
+    override fun getItemSelectionKey(position: Int) = currentList.getOrNull(position)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.hashCode() == key }
+    override fun getItemKeyPosition(key: Int) = currentList.indexOfFirst { it.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -86,19 +110,27 @@ class ConversationsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_conversation, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val conversation = conversations[position]
-        holder.bindView(conversation, true, true) { itemView, layoutPosition ->
+        val conversation = getItem(position)
+        holder.bindView(conversation, allowSingleClick = true, allowLongClick = true) { itemView, _ ->
             setupView(itemView, conversation)
         }
         bindViewHolder(holder)
     }
 
-    override fun getItemCount() = conversations.size
+    override fun getItemId(position: Int) = getItem(position).threadId
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
             Glide.with(activity).clear(holder.itemView.conversation_image)
+        }
+    }
+
+    private fun tryBlocking() {
+        if (activity.isOrWasThankYouInstalled()) {
+            askConfirmBlock()
+        } else {
+            FeatureLockedDialog(activity) { }
         }
     }
 
@@ -118,8 +150,7 @@ class ConversationsAdapter(
         }
 
         val numbersToBlock = getSelectedItems()
-        val positions = getSelectedItemPositions()
-        conversations.removeAll(numbersToBlock)
+        val newList = currentList.toMutableList().apply { removeAll(numbersToBlock) }
 
         ensureBackgroundThread {
             numbersToBlock.map { it.phoneNumber }.forEach { number ->
@@ -127,7 +158,7 @@ class ConversationsAdapter(
             }
 
             activity.runOnUiThread {
-                removeSelectedItems(positions)
+                submitList(newList)
                 finishActMode()
             }
         }
@@ -165,26 +196,41 @@ class ConversationsAdapter(
             return
         }
 
-        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
-        val positions = getSelectedItemPositions()
+        val conversationsToRemove = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         conversationsToRemove.forEach {
             activity.deleteConversation(it.threadId)
             activity.notificationManager.cancel(it.hashCode())
         }
 
-        try {
-            conversations.removeAll(conversationsToRemove)
+        val newList = try {
+            currentList.toMutableList().apply { removeAll(conversationsToRemove) }
         } catch (ignored: Exception) {
+            currentList.toMutableList()
         }
 
         activity.runOnUiThread {
-            if (conversationsToRemove.isEmpty()) {
+            if (newList.none { selectedKeys.contains(it.hashCode()) }) {
                 refreshMessages()
                 finishActMode()
             } else {
-                removeSelectedItems(positions)
-                if (conversations.isEmpty()) {
+                submitList(newList)
+                if (newList.isEmpty()) {
                     refreshMessages()
+                }
+            }
+        }
+    }
+
+    private fun renameConversation(conversation: Conversation) {
+        RenameConversationDialog(activity, conversation) {
+            ensureBackgroundThread {
+                val updatedConv = activity.renameConversation(conversation, newTitle = it)
+                activity.runOnUiThread {
+                    finishActMode()
+                    currentList.toMutableList().apply {
+                        set(indexOf(conversation), updatedConv)
+                        updateConversations(this as ArrayList<Conversation>)
+                    }
                 }
             }
         }
@@ -195,16 +241,13 @@ class ConversationsAdapter(
             return
         }
 
-        val conversationsMarkedAsRead = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+        val conversationsMarkedAsRead = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
             conversationsMarkedAsRead.filter { conversation -> !conversation.read }.forEach {
                 activity.markThreadMessagesRead(it.threadId)
             }
 
-            activity.runOnUiThread {
-                refreshMessages()
-                finishActMode()
-            }
+            refreshConversations()
         }
     }
 
@@ -213,16 +256,13 @@ class ConversationsAdapter(
             return
         }
 
-        val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+        val conversationsMarkedAsUnread = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
             conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
                 activity.markThreadMessagesUnread(it.threadId)
             }
 
-            activity.runOnUiThread {
-                refreshMessages()
-                finishActMode()
-            }
+            refreshConversations()
         }
     }
 
@@ -236,7 +276,7 @@ class ConversationsAdapter(
         }
     }
 
-    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+    private fun getSelectedItems() = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
 
     private fun pinConversation(pin: Boolean) {
         val conversations = getSelectedItems()
@@ -250,10 +290,10 @@ class ConversationsAdapter(
             activity.config.removePinnedConversations(conversations)
         }
 
-        activity.runOnUiThread {
-            refreshMessages()
-            finishActMode()
+        getSelectedItemPositions().forEach {
+            notifyItemChanged(it)
         }
+        refreshConversations()
     }
 
     private fun checkPinBtnVisibility(menu: Menu) {
@@ -275,22 +315,21 @@ class ConversationsAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateConversations(newConversations: ArrayList<Conversation>) {
-        val latestConversations = newConversations.clone() as ArrayList<Conversation>
-        val oldHashCode = conversations.hashCode()
-        val newHashCode = latestConversations.hashCode()
-        if (newHashCode != oldHashCode) {
-            conversations = latestConversations
-            notifyDataSetChanged()
-        }
+    fun updateConversations(newConversations: ArrayList<Conversation>, commitCallback: (() -> Unit)? = null) {
+        saveRecyclerViewState()
+        submitList(newConversations.toList(), commitCallback)
     }
 
     fun updateDrafts() {
-        val newDrafts = HashMap<Long, String?>()
-        fetchDrafts(newDrafts)
-        if (drafts.hashCode() != newDrafts.hashCode()) {
-            drafts = newDrafts
-            notifyDataSetChanged()
+        ensureBackgroundThread {
+            val newDrafts = HashMap<Long, String?>()
+            fetchDrafts(newDrafts)
+            if (drafts.hashCode() != newDrafts.hashCode()) {
+                drafts = newDrafts
+                activity.runOnUiThread {
+                    notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -298,9 +337,10 @@ class ConversationsAdapter(
         view.apply {
             val smsDraft = drafts[conversation.threadId]
             draft_indicator.beVisibleIf(smsDraft != null)
-            draft_indicator.setTextColor(adjustedPrimaryColor)
+            draft_indicator.setTextColor(properPrimaryColor)
 
             pin_indicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
+            pin_indicator.applyColorFilter(textColor)
 
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 
@@ -319,15 +359,16 @@ class ConversationsAdapter(
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
 
-            if (conversation.read) {
-                conversation_address.setTypeface(null, Typeface.NORMAL)
-                conversation_body_short.setTypeface(null, Typeface.NORMAL)
+            val style = if (conversation.read) {
                 conversation_body_short.alpha = 0.7f
+                if (conversation.isScheduled) Typeface.ITALIC else Typeface.NORMAL
             } else {
-                conversation_address.setTypeface(null, Typeface.BOLD)
-                conversation_body_short.setTypeface(null, Typeface.BOLD)
                 conversation_body_short.alpha = 1f
+                if (conversation.isScheduled) Typeface.BOLD_ITALIC else Typeface.BOLD
+
             }
+            conversation_address.setTypeface(null, style)
+            conversation_body_short.setTypeface(null, style)
 
             arrayListOf<TextView>(conversation_address, conversation_body_short, conversation_date).forEach {
                 it.setTextColor(textColor)
@@ -344,5 +385,30 @@ class ConversationsAdapter(
         }
     }
 
-    override fun onChange(position: Int) = conversations.getOrNull(position)?.title ?: ""
+    override fun onChange(position: Int) = currentList.getOrNull(position)?.title ?: ""
+
+    private fun refreshConversations() {
+        activity.runOnUiThread {
+            refreshMessages()
+            finishActMode()
+        }
+    }
+
+    private fun saveRecyclerViewState() {
+        recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
+    private fun restoreRecyclerViewState() {
+        recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+    }
+
+    private class ConversationDiffCallback : DiffUtil.ItemCallback<Conversation>() {
+        override fun areItemsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
+            return Conversation.areItemsTheSame(oldItem, newItem)
+        }
+
+        override fun areContentsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
+            return Conversation.areContentsTheSame(oldItem, newItem)
+        }
+    }
 }

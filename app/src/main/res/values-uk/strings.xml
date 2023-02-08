@@ -1,105 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_name">Прості Повідомлення</string>
     <string name="app_launcher_name">Повідомлення</string>
     <string name="type_a_message">Введіть повідомлення…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Повідомлення не надіслано</string>
+    <string name="message_not_sent_touch_retry">Не надіслано. Торкніться, щоб повторити спробу.</string>
+    <string name="message_sending_error">Ваше повідомлення до \'%s\' не було надіслано</string>
     <string name="add_person">Додати учасник а</string>
     <string name="attachment">Вкладення</string>
     <string name="no_conversations_found">Немає збережених листувань</string>
     <string name="start_conversation">Почати листування</string>
     <string name="reply">Відповідь</string>
     <string name="show_character_counter">Показувати кількість символів</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="loading_messages">Завантаження повідомлень…</string>
+    <string name="no_reply_support">Відправник не підтримує відповіді</string>
+    <string name="draft">Чернетка</string>
+    <string name="sending">Надсилання…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-
+    <string name="unpin_conversation">Відкріпити</string>
+    <string name="forward_message">Переслати</string>
+    <string name="compress_error">Не вдається стиснути зображення до вибраного розміру</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Дубльований елемент не включено</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">та інший %d</item>
+        <item quantity="few">та інші %d</item>
+        <item quantity="many">та інші %d</item>
+        <item quantity="other">та інші %d</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Нове листування</string>
     <string name="add_contact_or_number">Додати контакт аба номер…</string>
     <string name="suggestions">Пропозиція</string>
-
+    <!-- Group conversation -->
+    <string name="members">Учасники</string>
+    <string name="conversation_name">Назва розмови</string>
+    <string name="conversation_details">Деталі розмови</string>
+    <string name="rename_conversation">Перейменувати розмову</string>
+    <string name="rename_conversation_warning">Тільки ви можете бачити цю назву розмови</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Заплановане повідомлення</string>
+    <string name="schedule_message">Розклад повідомлення</string>
+    <string name="schedule_send">Розклад відправки</string>
+    <string name="cancel_schedule_send">Скасувати розклад надсилання</string>
+    <string name="must_pick_time_in_the_future">Ви повинні вибрати час у майбутньому</string>
+    <string name="schedule_send_warning">Тримайте телефон увімкненим і переконайтеся, що ніщо не завершує застосунок у фоновому режимі.</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Надіслати зараз</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Отримано повідомлення</string>
     <string name="new_message">Нове повідомлення</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
+    <string name="me">Me</string>
     <string name="use_custom_notifications">Use custom notifications</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Видалити усі повідомлення у цьому листуванні?</string>
-
+    <string name="delete_whole_conversation_confirmation">Справді видалити всі повідомлення у цьому листуванні\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d листування</item>
+        <item quantity="few">%d листувань</item>
         <item quantity="many">%d листувань</item>
+        <item quantity="other">%d листувань</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d повідомлення</item>
+        <item quantity="few">%d повідомлень</item>
         <item quantity="many">%d повідомлень</item>
+        <item quantity="other">%d повідомлень</item>
     </plurals>
-
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-
+    <string name="lock_screen_visibility">Видимість сповіщень на екрані блокування</string>
+    <string name="sender_and_message">Відправник і повідомлення</string>
+    <string name="sender_only">Лише відправник</string>
+    <string name="enable_delivery_reports">Увімкнути звіти про доставку</string>
+    <string name="use_simple_characters">Видаляти наголоси та діакритичні знаки під час надсилання повідомлень</string>
+    <string name="send_on_enter">Надішліть повідомлення, натиснувши Enter</string>
+    <string name="mms_file_size_limit">Змінювати розмір зображень, що надсилаються в MMS</string>
+    <string name="mms_file_size_limit_none">Без обмежень</string>
+    <string name="outgoing_messages">Вихідні повідомлення</string>
+    <string name="group_message_mms">Надсилати групові повідомлення як MMS</string>
+    <string name="send_long_message_mms">Надсилати довгі повідомлення як MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Експорт MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
-
+    <string name="import_mms">Імпорт MMS</string>
+    <string name="no_option_selected">Потрібно вибрати принаймні один елемент</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Неможливо надіслати повідомлення на порожній номер</string>
+    <string name="unable_to_save_message">Неможливо зберегти повідомлення до бази даних телефону</string>
+    <string name="error_service_is_unavailable">Не вдалося надіслати повідомлення, послуга недоступна</string>
+    <string name="error_radio_turned_off">Не вдалося надіслати повідомлення, радіо вимкнено</string>
+    <string name="carrier_send_error">Не вдалося надіслати повідомлення, помилка оператора</string>
+    <string name="unknown_error_occurred_sending_message">Не вдалося надіслати повідомлення, код помилки: %d</string>
+    <string name="invalid_short_code">Не можна відповідати на такі короткі коди</string>
+    <string name="invalid_short_code_desc">Ви можете відповідати лише на короткі коди з цифрами, як-от \"503501\", але не на коди, що містять літери та цифри, як-от \"AB-CD0\".</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Чому додаток потрубує доступу до інтернету?</string>
-    <string name="faq_1_text">Нажаль, це необхідно для відправки вкладень MMS. Неспроможність надсилати MMS-повідомлення була б великим недоліком нашого додатку порівняно з іншими, тому ми так зробили.
-    Тим не менше, як і в інших наших додатках, цей не містить реклами, відстеження та аналітики. Інтернет використовується лише для відправки MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - просте управління SMS</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Простий та швидкий спосіб управління повідомленнями SMS та MMS без реклами.</string>
-    <string name="app_long_description">
-        SMS/MMS-повідомлення — це чудовий спосіб підтримувати зв\'язок із близькими. Додаток також правильно опрацьовує групові повідомлення та блокування номера на Android 7+.
-
-        Підтримується багато форматів часу, щоб вам було зручно користуватися додатком. Також ви можете вибирати між 12- та 24-годинним форматом часу.
-
-        Наш додаток має малий розмір в порівнянні з додатками конкурентів, що робить його завантаження таким швидким.
-
-        За замовчуванням використовується матеріальний дизайн та темна тема, що забезпечую зручне використання. Відсутність доступу в інтернет забезпечую вам більшу приватність порівняно з іншими додатками. 
-
-        Цей додаток не буде показувати рекламу, потрібні лише найнеобхідніші дозволи. Додаток має повністю відкритий програмний код, кольори оформлення можна легко налаштувати.
-
-        <b>Ознакомьтеся з повним набором інструментів Simple тут:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="faq_1_title">Чому додаток вимагає доступ до Інтернету\?</string>
+    <string name="faq_1_text">Нажаль, це необхідно для відправки вкладень MMS. Неспроможність надсилати MMS-повідомлення була б великим недоліком нашого додатку порівняно з іншими, тому ми так зробили. Тим не менше, як і в інших наших додатках, цей не містить реклами, відстеження та аналітики. Інтернет використовується лише для відправки MMS.</string>
+    <string name="faq_2_title">Інша сторона не отримує мого MMS, чи можу я щось з цим зробити\?</string>
+    <string name="faq_2_text">Розмір MMS обмежений операторами, ви можете спробувати зменшити ліміт у налаштуваннях програми.</string>
+    <string name="faq_3_title">Чи підтримує застосунок заплановані повідомлення\?</string>
+    <string name="faq_3_text">Так, ви можете запланувати надсилання повідомлень у майбутньому, довго натискаючи кнопку «Надіслати» та вибираючи потрібну дату й час.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

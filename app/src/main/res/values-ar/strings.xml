@@ -19,15 +19,43 @@
     <string name="pin_conversation">تثبيت في الأعلى</string>
     <string name="unpin_conversation">ازالة التثبيت</string>
     <string name="forward_message">اعادة ارسال</string>
+    <string name="compress_error">غير قادر على ضغط الصورة إلى الحجم المحدد</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">لم يتم تضمين عنصر مكرر</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="zero">و %d أخرى</item>
+        <item quantity="one">و %d أخرى</item>
+        <item quantity="two">و %d أخرى</item>
+        <item quantity="few">و %d أخرون</item>
+        <item quantity="many">و %d أخرون</item>
+        <item quantity="other">و %d أخرى</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">محادثة جديدة</string>
     <string name="add_contact_or_number">إضافة جهة اتصال أو رقم …</string>
     <string name="suggestions">اقتراحات</string>
+    <!-- Group conversation -->
+    <string name="members">الأعضاء</string>
+    <string name="conversation_name">اسم المحادثة</string>
+    <string name="conversation_details">تفاصيل المحادثة</string>
+    <string name="rename_conversation">إعادة تسمية المحادثة</string>
+    <string name="rename_conversation_warning">يمكنك أنت وحدك رؤية اسم المحادثة هذا</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">رسالة مجدولة</string>
+    <string name="schedule_message">جدولة الرسالة</string>
+    <string name="schedule_send">جدولة الإرسال</string>
+    <string name="cancel_schedule_send">إلغاء جدولة الإرسال</string>
+    <string name="must_pick_time_in_the_future">يجب عليك اختيار وقت في المستقبل</string>
+    <string name="schedule_send_warning">استمر في تشغيل الهاتف وتأكد من عدم وجود شيء يقتل التطبيق أثناء وجوده في الخلفية.</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">ارسل الان</string>
     <!-- Notifications -->
     <string name="channel_received_sms">تم تلقي الرسائل القصيرة</string>
     <string name="new_message">رسالة جديدة</string>
     <string name="mark_as_read">ضع إشارة مقروء</string>
     <string name="mark_as_unread">وضع علامة كغير مقروءة</string>
+    <string name="me">Me</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">هل أنت متأكد أنك تريد حذف كافة رسائل هذه المحادثة؟</string>
@@ -55,10 +83,12 @@
     <string name="sender_only">المرسل فقط</string>
     <string name="enable_delivery_reports">تمكين تقارير التسليم</string>
     <string name="use_simple_characters">إزالة اللهجات والتشكيل عند إرسال الرسائل</string>
+    <string name="send_on_enter">إرسال رسالة عند الضغط على Enter</string>
     <string name="mms_file_size_limit">تغيير حجم صور MMS المرسلة</string>
     <string name="mms_file_size_limit_none">لا يوجد حد</string>
     <string name="outgoing_messages">الرسائل المرسلة</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">إرسال رسائل جماعية كرسائل MMS</string>
+    <string name="send_long_message_mms">إرسال رسائل طويلة كرسائل MMS</string>
     <!-- Export / Import -->
     <string name="messages">الرسائل</string>
     <string name="export_messages">تصدير الرسائل</string>
@@ -68,15 +98,24 @@
     <string name="import_sms">استيراد الرسائل القصيرة</string>
     <string name="import_mms">استيراد رسائل الوسائط المتعددة</string>
     <string name="no_option_selected">يجب عليك تحديد عنصر واحد على الأقل</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">لا يمكن إرسال رسالة إلى رقم فارغ</string>
+    <string name="unable_to_save_message">غير قادر على حفظ الرسالة في قاعدة بيانات الاتصالات الهاتفية</string>
+    <string name="error_service_is_unavailable">لا يمكن إرسال رسالة، الخدمة غير متوفرة</string>
+    <string name="error_radio_turned_off">لا يمكن إرسال الرسالة، الراديو متوقف</string>
+    <string name="carrier_send_error">لا يمكن إرسال الرسالة، خطأ في الناقل</string>
+    <string name="unknown_error_occurred_sending_message">تعذر إرسال الرسالة، رمز الخطأ: %d</string>
+    <string name="invalid_short_code">لا يمكن الرد على أمثال هذه الرموز القصيرة</string>
+    <string name="invalid_short_code_desc">يمكنك فقط الرد على الرموز القصيرة بأرقام مثل \"503501\" ولكن ليس على الرموز التي تحتوي على أحرف وأرقام مثل \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">الرسائل البسيطة - إدارة الرسائل بسهولة</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">طريقة سهلة وسريعة لإدارة الرسائل القصيرة ورسائل الوسائط المتعددة بدون إعلانات.</string>
-    <string name="app_long_description"> .طريقة رائعة للبقاء على اتصال مع أقاربك، عن طريق إرسال رسائل SMS وMMS على حد سواء. يتعامل التطبيق بشكل صحيح مع المراسلات الجماعية أيضا ، تماما مثل حظر الأرقام من Android 7+. وهو يقدم العديد من تنسيقات التاريخ للاختيار من بينها، لتجعلك تشعر بالراحة في استخدامه. يمكنك التبديل بين تنسيق الوقت 12 و 24 ساعة أيضا. لديها حجم التطبيق صغيرة حقا بالمقارنة مع المنافسة، مما يجعلها سريعة حقا لتحميل. لأنه يأتي مع تصميم المواد وموضوع الظلام افتراضيا، ويوفر تجربة مستخدم كبيرة لسهولة الاستخدام. عدم الوصول إلى الإنترنت يمنحك المزيد من الخصوصية والأمان والاستقرار أكثر من التطبيقات الأخرى. لا يحتوي على إعلانات أو أذونات غير ضرورية. فمن مفتوحة المصدر تماما، ويوفر ألوان قابلة للتخصيص. <b> تحقق من مجموعة كاملة من أدوات بسيطة هنا: </b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools . </string>
+    <string name="faq_2_title">الطرف الآخر لا يستقبل رسائل الوسائط المتعددة الخاصة بي ، فهل هناك أي شيء يمكنني القيام به حيال ذلك؟</string>
+    <string name="faq_2_text">حجم MMS محدود بواسطة شركات الاتصالات ، يمكنك محاولة تعيين حد أصغر في إعدادات التطبيق.</string>
+    <string name="faq_3_title">هل يدعم التطبيق الرسائل المجدولة؟</string>
+    <string name="faq_3_text">نعم ، يمكنك جدولة الرسائل ليتم إرسالها في المستقبل عن طريق الضغط مع الاستمرار على الزر \"إرسال\" واختيار التاريخ والوقت المطلوبين.</string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>

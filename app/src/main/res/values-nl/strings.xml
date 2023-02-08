@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Eenvoudig Berichtenbeheer (SMS)</string>
     <string name="app_launcher_name">Berichten</string>
@@ -18,45 +19,64 @@
     <string name="pin_conversation">Bovenaan vastzetten</string>
     <string name="unpin_conversation">Losmaken</string>
     <string name="forward_message">Doorsturen</string>
-
+    <string name="compress_error">Kon de afbeelding niet comprimeren naar de gekozen grootte</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Dubbel item was niet inbegrepen</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">en %d andere</item>
+        <item quantity="other">en %d anderen</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>
     <string name="add_contact_or_number">Contact of nummer toevoegen…</string>
     <string name="suggestions">Suggesties</string>
-
+    <!-- Group conversation -->
+    <string name="members">Gespreksleden</string>
+    <string name="conversation_name">Gespreksnaam</string>
+    <string name="conversation_details">Gespreksdetails</string>
+    <string name="rename_conversation">Gesprek hernoemen</string>
+    <string name="rename_conversation_warning">Deze gespreksnaam wordt alleen lokaal gebruikt</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Ingepland bericht</string>
+    <string name="schedule_message">Bericht inplannen</string>
+    <string name="schedule_send">Verzending inplannen</string>
+    <string name="cancel_schedule_send">Geplande verzending annuleren</string>
+    <string name="must_pick_time_in_the_future">Kies een tijd in de toekomst</string>
+    <string name="schedule_send_warning">Zorg ervoor dat het toestel blijft ingeschakeld en dat de app niet op de achtergrond wordt afgesloten.</string>
+    <string name="update_message">Bericht aanpassen</string>
+    <string name="send_now">Nu versturen</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ontvangen berichten</string>
     <string name="new_message">Nieuw bericht</string>
     <string name="mark_as_read">Als gelezen markeren</string>
     <string name="mark_as_unread">Als ongelezen markeren</string>
+    <string name="me">Ik</string>
     <string name="use_custom_notifications">Use custom notifications</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Alle berichten in dit gesprek verwijderen?</string>
-
+    <string name="delete_whole_conversation_confirmation">Alle berichten in dit gesprek verwijderen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d gesprek</item>
         <item quantity="other">%d gesprekken</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d bericht</item>
         <item quantity="other">%d berichten</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Meldingen op vergrendelscherm</string>
     <string name="sender_and_message">Afzender en bericht</string>
     <string name="sender_only">Alleen afzender</string>
     <string name="enable_delivery_reports">Bezorgingsrapporten inschakelen</string>
     <string name="use_simple_characters">Accenten en diakritische tekens verwijderen bij het verzenden van berichten</string>
+    <string name="send_on_enter">Bericht versturen met Enter-toets</string>
     <string name="mms_file_size_limit">Afbeelding verkleinen voor MMS</string>
     <string name="mms_file_size_limit_none">Geen limiet</string>
     <string name="outgoing_messages">Uitgaande berichten</string>
     <string name="group_message_mms">Groepsberichten sturen als MMS</string>
-
+    <string name="send_long_message_mms">Lange berichten als MMS versturen</string>
     <!-- Export / Import -->
     <string name="messages">Berichten</string>
     <string name="export_messages">Berichten exporteren</string>
@@ -66,40 +86,22 @@
     <string name="import_sms">SMS-berichten importeren</string>
     <string name="import_mms">MMS-berichten importeren</string>
     <string name="no_option_selected">Selecteer tenminste één van de opties</string>
-
+    <!-- Errors -->
+    <string name="empty_destination_address">Voer een nummer in om dit bericht te kunnen versturen</string>
+    <string name="unable_to_save_message">Kan het bericht niet opslaan in de database</string>
+    <string name="error_service_is_unavailable">Kon het bericht niet verzenden: geen bereik</string>
+    <string name="error_radio_turned_off">Kon het bericht niet verzenden: vliegtuigmodus</string>
+    <string name="carrier_send_error">Kon het bericht niet verzenden: netwerkfout</string>
+    <string name="unknown_error_occurred_sending_message">Kon het bericht niet verzenden: foutcode %1$d</string>
+    <string name="invalid_short_code">Er kan niet gereageerd worden op korte codes zoals deze</string>
+    <string name="invalid_short_code_desc">Er kan alleen worden gereageerd op korte codes met cijfers, zoals \"503501\", maar niet op codes met letters en cijfers, zoals \"AB-CD0\".</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet?</string>
-    <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen.
-    Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
-    <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen?</string>
+    <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet\?</string>
+    <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
+    <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen\?</string>
     <string name="faq_2_text">Providers limiteren de grootte van MMS-berichten. Probeer in de instellingen de limiet voor de afbeeldingsgrootte te verlagen.</string>
-
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Eenvoudig Berichtenbeheer - Verstuur snel SMS/MMS</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Beheer eenvoudig en snel SMS- en MMS-berichten, zonder advertenties.</string>
-    <string name="app_long_description">
-        Blijf gemakkelijk in contact met familieleden en vrienden door het versuren van SMS- en MMS-berichten. De app ondersteunt groepsberichten, evenals het blokkeren van nummers (vanaf Android 7).
-
-        Het datumformaat kan worden ingesteld naar voorkeur. Ook kan geschakeld worden tussen 12- of 24-uursnotatie.
-
-        Vergeleken met de competitie is deze app zeer compact en dus erg snel gedownload.
-
-        De app is ontworpen volgens material design en heeft standaard een donker thema. De app heeft geen toegang tot het internet nodig en voorziet van meer privacy, veiligheid en stabiliteit dan andere apps.
-
-        Bevat geen advertenties of onnodige machtigingen. Volledig open-source. Kleuren van de app kunnen worden aangepast.
-
-        <b>Probeer ook eens de andere apps van Simple Tools:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

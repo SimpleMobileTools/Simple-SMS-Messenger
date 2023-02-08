@@ -9,6 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.simplemobiletools.commons.extensions.darkenColor
 import com.simplemobiletools.commons.extensions.getContrastColor
+import com.simplemobiletools.commons.extensions.getProperBackgroundColor
 import com.simplemobiletools.commons.extensions.normalizeString
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
@@ -34,7 +35,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
                 isFocusable = false
             }
 
-            val backgroundColor = activity.config.backgroundColor
+            val backgroundColor = activity.getProperBackgroundColor()
             findViewById<RelativeLayout>(R.id.item_contact_holder).setBackgroundColor(backgroundColor.darkenColor())
 
             findViewById<TextView>(R.id.item_contact_name).setTextColor(backgroundColor.getContrastColor())
@@ -42,7 +43,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
 
             if (contact != null) {
                 findViewById<TextView>(R.id.item_contact_name).text = contact.name
-                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
+                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first().normalizedNumber
                 SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
             }
         }

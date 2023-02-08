@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Απλός SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
@@ -18,45 +19,64 @@
     <string name="pin_conversation">Καρφίτσωμα στην κορυφή</string>
     <string name="unpin_conversation">Ξεκαρφίτσωμα</string>
     <string name="forward_message">Προώθηση</string>
-
+    <string name="compress_error">Αδυναμία συμπίεσης εικόνας στο επιλεγμένο μέγεθος</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Δεν συμπεριλήφθηκε διπλότυπο στοιχείο</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">και άλλος %d</item>
+        <item quantity="other">και άλλοι %d</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
     <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
     <string name="suggestions">Προτάσεις</string>
-
+    <!-- Group conversation -->
+    <string name="members">Μέλη</string>
+    <string name="conversation_name">Όνομα συνομιλίας</string>
+    <string name="conversation_details">Λεπτομέρειες συνομιλίας</string>
+    <string name="rename_conversation">Μετονομασία συνομιλίας</string>
+    <string name="rename_conversation_warning">Μόνο εσείς βλέπετε αυτό το όνομα συνομιλίας</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Προγραμματισμένο μήνυμα</string>
+    <string name="schedule_message">Προγραμματισμός μηνύματος</string>
+    <string name="schedule_send">Προγραμματισμός αποστολής</string>
+    <string name="cancel_schedule_send">Ακύρωση προγρ/τισμού αποστολής</string>
+    <string name="must_pick_time_in_the_future">Πρέπει να επιλέξετε μια χρονική στιγμή στο μέλλον</string>
+    <string name="schedule_send_warning">Κρατήστε το τηλέφωνο ανοιχτό και βεβαιωθείτε ότι δεν υπάρχει τίποτα που να κλείνει την εφαρμογή ενώ βρίσκεται στο παρασκήνιο.</string>
+    <string name="update_message">Ενημέρωση μηνύματος</string>
+    <string name="send_now">Αποστολή τώρα</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
-    <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
-    <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
+    <string name="mark_as_read">Σήμανση ως Αναγνωσμένο</string>
+    <string name="mark_as_unread">Σήμανση ως Μη Αναγνωσμένο</string>
+    <string name="me">Εγώ</string>
     <string name="use_custom_notifications">Use custom notifications</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
-
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d συνομιλία</item>
         <item quantity="other">%d συνομιλίες</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d μήνυμα</item>
         <item quantity="other">%d μηνύματα</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Εμφάνιση ειδοπ/σεων σε Κλειδωμένη οθόνη</string>
     <string name="sender_and_message">Αποστολέας και μήνυμα</string>
     <string name="sender_only">Αποστολέας μόνο</string>
     <string name="enable_delivery_reports">Ενεργοποίηση αναφορών παράδοσης</string>
     <string name="use_simple_characters">Αφαίρεση τονισμών και διακριτικών κατά την αποστολή μηνυμάτων</string>
+    <string name="send_on_enter">Αποστολή μηνύματος πατώντας Enter</string>
     <string name="mms_file_size_limit">Αλλαγή μεγέθους απεσταλμένων εικόνων MMS</string>
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>
     <string name="group_message_mms">Αποστολή ομαδικών μηνυμάτων ως MMS</string>
-
+    <string name="send_long_message_mms">Αποστολή μεγάλων μηνυμάτων ως MMS</string>
     <!-- Export / Import -->
     <string name="messages">Μηνύματα</string>
     <string name="export_messages">Εξαγωγή μηνυμάτων</string>
@@ -66,40 +86,22 @@
     <string name="import_sms">Εισαγωγή SMS</string>
     <string name="import_mms">Εισαγωγή MMS</string>
     <string name="no_option_selected">Πρέπει να επιλέξετε τουλάχιστον ένα στοιχείο</string>
-
+    <!-- Errors -->
+    <string name="empty_destination_address">Αδυναμία αποστολής του μηνύματος σε έναν κενό αριθμό</string>
+    <string name="unable_to_save_message">Αδυναμία αποθήκευσης μηνύματος στη βάση δεδομένων τηλεφωνίας</string>
+    <string name="error_service_is_unavailable">Αδυναμία αποστολής μηνύματος. Η υπηρεσία δεν είναι διαθέσιμη</string>
+    <string name="error_radio_turned_off">Αδυναμία αποστολής μηνύματος, η οπρόσβαση radio απενεργοποιήθηκε</string>
+    <string name="carrier_send_error">Αδυναμία αποστολής μηνύματος, σφάλμα φορέα</string>
+    <string name="unknown_error_occurred_sending_message">Αδυναμία αποστολής μηνύματος, κωδικός σφάλματος: %1$d</string>
+    <string name="invalid_short_code">Αδυναμία απάντησης σε σύντομους κωδικούς όπως αυτός</string>
+    <string name="invalid_short_code_desc">Μπορείτε να απαντήσετε μόνο σε σύντομους κωδικούς με αριθμούς όπως \"503501\" αλλά όχι σε κωδικούς που περιέχουν γράμματα και αριθμούς όπως \"AB-CD0\".</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
-    <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο.
-    Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
+    <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο διαδίκτυο;</string>
+    <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο. Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
     <string name="faq_2_title">Το άλλο άκρο δεν λαμβάνει τα MMS μου, μπορώ να κάνω κάτι γι\' αυτό;</string>
     <string name="faq_2_text">Το μέγεθος των MMS περιορίζεται από τους παρόχους, μπορείτε να δοκιμάσετε να ορίσετε ένα μικρότερο όριο στις ρυθμίσεις της εφαρμογής.</string>
-
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Απλός SMS Messenger - Εύκολη διαχείριση μηνυμάτων</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Ένας εύκολος και γρήγορος τρόπος διαχείρισης SMS και MMS χωρίς διαφημίσεις.</string>
-    <string name="app_long_description">
-        Ένας εξαιρετικός τρόπος για να μείνετε σε επαφή με τους συγγενείς σας, στέλνοντας μηνύματα SMS και MMS. Η εφαρμογή χειρίζεται σωστά και την ομαδική ανταλλαγή μηνυμάτων, όπως και τον αποκλεισμό αριθμών από Android 7+.
-
-        Προσφέρει πολλές μορφές ημερομηνίας για να διαλέξετε, ώστε να αισθάνεστε άνετα να τις χρησιμοποιήσετε. Μπορείτε επίσης να κάνετε εναλλαγή μεταξύ 12 και 24 ωρών.
-
-        Έχει πραγματικά πολύ μικρό μέγεθος εφαρμογής σε σύγκριση με τον ανταγωνισμό, καθιστώντας την πραγματικά γρήγορη στη λήψη της.
-
-        Διατίθεται με σχεδίαση υλικού και σκούρο θέμα από προεπιλογή, παρέχει εξαιρετική εμπειρία χρήστη για εύκολη χρήση. Η έλλειψη πρόσβασης στο διαδίκτυο σάς παρέχει περισσότερο απόρρητο, ασφάλεια και σταθερότητα από ό,τι άλλες εφαρμογές.
-
-        Δεν περιέχει διαφημίσεις ή περιττά δικαιώματα. Είναι πλήρως ανοιχτού κώδικα, παρέχει προσαρμόσιμα χρώματα.
-
-        <b>Δείτε την πλήρη σειρά Simple Tools εδώ:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="faq_3_title">Υποστηρίζει η εφαρμογή προγραμματισμένα μηνύματα;</string>
+    <string name="faq_3_text">Ναι, μπορείτε να προγραμματίσετε την αποστολή μηνυμάτων στο μέλλον πατώντας παρατεταμένα το κουμπί \"Αποστολή\" και επιλέγοντας την επιθυμητή ημερομηνία και ώρα.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

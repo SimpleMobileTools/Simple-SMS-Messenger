@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/medium_margin"
-    android:layout_marginBottom="@dimen/medium_margin"
     android:foreground="@drawable/selector"
     android:paddingStart="@dimen/activity_margin"
     android:paddingEnd="@dimen/activity_margin">
@@ -24,7 +23,9 @@
             android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:divider="@drawable/linear_layout_vertical_divider"
+            android:orientation="vertical"
+            android:showDividers="middle" />
 
         <ImageView
             android:id="@+id/thread_message_play_outline"
@@ -49,4 +50,15 @@
             android:textSize="@dimen/normal_text_size"
             tools:text="Sent message" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/thread_message_scheduled_icon"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:layout_margin="@dimen/tiny_margin"
+        android:src="@drawable/ic_clock_vector"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

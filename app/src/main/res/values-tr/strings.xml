@@ -1,33 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Basit SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">Bir mesaj yazın…</string>
-    <string name="message_not_sent_short">Mesaj gönderilmedi</string>
+    <string name="app_name">Basit SMS İletiler</string>
+    <string name="app_launcher_name">SMS İletiler</string>
+    <string name="type_a_message">Bir ileti yazın…</string>
+    <string name="message_not_sent_short">İleti gönderilmedi</string>
     <string name="message_not_sent_touch_retry">Gönderilmedi. Yeniden denemek için dokunun.</string>
-    <string name="message_sending_error">\'%s\' kişisine mesajınız gönderilmedi</string>
+    <string name="message_sending_error">\'%s\' kişisine iletiniz gönderilmedi</string>
     <string name="add_person">Kişi Ekle</string>
     <string name="attachment">Ek</string>
     <string name="no_conversations_found">Kaydedilmiş görüşme bulunamadı</string>
     <string name="start_conversation">Bir görüşme başlat</string>
     <string name="reply">Yanıtla</string>
-    <string name="show_character_counter">Mesaj yazarken bir karakter sayacı göster</string>
-    <string name="loading_messages">Mesajlar yükleniyor…</string>
+    <string name="show_character_counter">İleti yazarken bir karakter sayacı göster</string>
+    <string name="loading_messages">İletiler yükleniyor…</string>
     <string name="no_reply_support">Gönderen, yanıtları desteklemiyor</string>
     <string name="draft">Taslak</string>
     <string name="sending">Gönderiliyor…</string>
     <string name="pin_conversation">En üste sabitle</string>
     <string name="unpin_conversation">Sabitlemeyi kaldır</string>
     <string name="forward_message">İlet</string>
+    <string name="compress_error">Resim seçilen boyuta sıkıştırılamıyor</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Yinelenen öge dahil edilmedi</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">ve %d diğeri</item>
+        <item quantity="other">ve %d diğeri</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Yeni görüşme</string>
     <string name="add_contact_or_number">Kişi veya Numara Ekle…</string>
     <string name="suggestions">Öneriler</string>
+    <!-- Group conversation -->
+    <string name="members">Üyeler</string>
+    <string name="conversation_name">Görüşme adı</string>
+    <string name="conversation_details">Görüşme ayrıntıları</string>
+    <string name="rename_conversation">Görüşmeyi yeniden adlandır</string>
+    <string name="rename_conversation_warning">Bu görüşme adını yalnızca siz görebilirsiniz</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Zamanlanan ileti</string>
+    <string name="schedule_message">İletiyi zamanla</string>
+    <string name="schedule_send">Göndermeyi zamanla</string>
+    <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
+    <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>
+    <string name="schedule_send_warning">Telefonu açık tutun ve arka planda uygulamayı sonlandıran hiçbir şey olmadığından emin olun.</string>
+    <string name="update_message">İletiyi güncelle</string>
+    <string name="send_now">Şimdi gönder</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS alındı</string>
-    <string name="new_message">Yeni mesaj</string>
+    <string name="new_message">Yeni ileti</string>
     <string name="mark_as_read">Okundu olarak işaretle</string>
     <string name="mark_as_unread">Okunmadı olarak işaretle</string>
+    <string name="me">Ben</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını silmek istediğinizden emin misiniz\?</string>
@@ -38,59 +62,46 @@
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d mesaj</item>
-        <item quantity="other">%d mesaj</item>
+        <item quantity="one">%d ileti</item>
+        <item quantity="other">%d ileti</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Kilit ekranı bildirim görünürlüğü</string>
-    <string name="sender_and_message">Gönderen ve mesaj</string>
+    <string name="sender_and_message">Gönderen ve ileti</string>
     <string name="sender_only">Yalnızca gönderen</string>
     <string name="enable_delivery_reports">İletim raporlarını etkinleştir</string>
-    <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
+    <string name="use_simple_characters">İleti gönderirken aksan ve vurguları kaldır</string>
+    <string name="send_on_enter">Enter tuşuna basıldığında ileti gönder</string>
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
-    <string name="outgoing_messages">Giden mesajlar</string>
-    <string name="group_message_mms">Grup mesajlarını MMS olarak gönder</string>
+    <string name="outgoing_messages">Giden iletiler</string>
+    <string name="group_message_mms">Grup iletilerini MMS olarak gönder</string>
+    <string name="send_long_message_mms">Uzun iletileri MMS olarak gönder</string>
     <!-- Export / Import -->
-    <string name="messages">Mesajlar</string>
-    <string name="export_messages">Mesajları dışa aktar</string>
+    <string name="messages">İletiler</string>
+    <string name="export_messages">İletileri dışa aktar</string>
     <string name="export_sms">SMS\'i dışa aktar</string>
     <string name="export_mms">MMS\'i dışa aktar</string>
-    <string name="import_messages">Mesajları içe aktar</string>
+    <string name="import_messages">İletileri içe aktar</string>
     <string name="import_sms">SMS\'i içe aktar</string>
     <string name="import_mms">MMS\'i içe aktar</string>
     <string name="no_option_selected">En az bir öge seçmelisiniz</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Boş bir numaraya mesaj gönderilemez</string>
+    <string name="unable_to_save_message">Mesaj telefon veri tabanına kaydedilemiyor</string>
+    <string name="error_service_is_unavailable">Mesaj gönderilemedi, hizmet kullanılabilir değil</string>
+    <string name="error_radio_turned_off">Mesaj gönderilemedi, radyo kapalı</string>
+    <string name="carrier_send_error">Mesaj gönderilemedi, operatör hatası</string>
+    <string name="unknown_error_occurred_sending_message">Mesaj gönderilemedi, hata kodu: %d</string>
+    <string name="invalid_short_code">Bunun gibi kısa kodlara yanıt verilemiyor</string>
+    <string name="invalid_short_code_desc">Yalnızca \"503501\" gibi sayı içeren kısa kodlara yanıt verebilirsiniz, ancak \"AB-CD0\" gibi harf ve rakam içeren kodlara yanıt veremezsiniz.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor\?</string>
-    <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik.
-    Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
+    <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik. Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
     <string name="faq_2_title">Karşı taraf MMS\'imi almıyor, bu konuda yapabileceğim bir şey var mı\?</string>
     <string name="faq_2_text">MMS boyutu operatörler tarafından sınırlandırılır, uygulama ayarlarında daha küçük bir sınır belirlemeyi deneyebilirsiniz.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Basit SMS Messenger - Mesajları kolayca yönetin</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">SMS ve MMS mesajlarını reklamsız yönetmenin kolay ve hızlı bir yolu.</string>
-    <string name="app_long_description">
-        Hem SMS hem de MMS göndererek iletişim halinde kalmanın harika bir yolu. Uygulama, tıpkı Android 7 ve üzerinden gelen numaraları engellemek gibi grup mesajlaşmasını da düzgün bir şekilde yönetiyor.
-
-        Kullanırken kendinizi rahat hissetmeniz için pek çok tarih formatı sunar. 12 ve 24 saatlik zaman formatı arasında da geçiş yapabilirsiniz.
-
-        Rakiplerine kıyasla gerçekten çok küçük bir uygulama boyutuna sahip ve indirmeyi gerçekten hızlı hale getiriyor.
-
-        Varsayılan olarak materyal tasarım ve koyu tema ile birlikte gelir, kolay kullanım için harika bir kullanıcı deneyimi sağlar. İnternet erişiminin olmaması size diğer uygulamalardan daha fazla gizlilik, güvenlik ve istikrar sağlar.
-
-        Hiçbir reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar.
-
-        <b>Basit Araçlar paketinin tamamına buradan göz atın:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="faq_3_title">Uygulama zamanlanan mesajları destekliyor mu\?</string>
+    <string name="faq_3_text">Evet, gönder düğmesine uzun basarak ve istediğiniz tarih ve saati seçerek iletileri gelecekte gönderilmek üzere zamanlayabilirsiniz.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

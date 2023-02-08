@@ -2,13 +2,13 @@
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Viestit</string>
-    <string name="type_a_message">Lähetä viesti…</string>
+    <string name="type_a_message">Kirjoita viesti…</string>
     <string name="message_not_sent_short">Viestiä ei lähetetty</string>
     <string name="message_not_sent_touch_retry">Ei lähetetty. Yritä uudelleen koskemalla.</string>
     <string name="message_sending_error">Viestiäsi henkilölle \'%s\' ei lähetetty</string>
     <string name="add_person">Lisää henkilö</string>
     <string name="attachment">Liite</string>
-    <string name="no_conversations_found">Tallennettuja keskusteluja ei löytyny</string>
+    <string name="no_conversations_found">Tallennettuja keskusteluja ei löytynyt</string>
     <string name="start_conversation">Aloita keskustelu</string>
     <string name="reply">Vastaa</string>
     <string name="show_character_counter">Näytä merkkimäärä kirjoittaessasi viestejä</string>
@@ -16,81 +16,92 @@
     <string name="no_reply_support">Lähettäjä ei tue vastauksia</string>
     <string name="draft">Luonnos</string>
     <string name="sending">Lähetetään…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
+    <string name="pin_conversation">Kiinnitä yläosaan</string>
+    <string name="unpin_conversation">Poista</string>
+    <string name="forward_message">Välitä</string>
+    <string name="compress_error">Kuvan pakkaaminen valittuun kokoon ei onnistu</string>
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">ja %d muu</item>
+        <item quantity="other">ja %d muuta</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Uusi keskustelu</string>
     <string name="add_contact_or_number">Lisää yhteystieto tai numero…</string>
     <string name="suggestions">Ehdotuksia</string>
+    <!-- Group conversation -->
+    <string name="members">Members</string>
+    <string name="conversation_name">Conversation name</string>
+    <string name="conversation_details">Conversation details</string>
+    <string name="rename_conversation">Rename conversation</string>
+    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Ajastettu viesti</string>
+    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_send">Ajasta lähetys</string>
+    <string name="cancel_schedule_send">Peru ajastettu lähetys</string>
+    <string name="must_pick_time_in_the_future">Valitse tuleva ajankohta</string>
+    <string name="schedule_send_warning">Pidä puhelin päällä ja varmista, ettei sovellusta lopeteta taustalla.</string>
+    <string name="update_message">Päivitä viesti</string>
+    <string name="send_now">Lähetä nyt</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Vastaanotettu tekstiviesti</string>
     <string name="new_message">Uusi viesti</string>
     <string name="mark_as_read">Merkitse luetuksi</string>
     <string name="mark_as_unread">Merkitse lukemattomaksi</string>
+    <string name="me">Minä</string>
     <string name="use_custom_notifications">Use custom notifications</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Haluatko varmasti poistaa kaikki tämän keskustelun viestit\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">yhden keskustelun</item>
+        <item quantity="one">%d keskustelu</item>
         <item quantity="other">%d keskustelua</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">yhden viestin</item>
+        <item quantity="one">%d viesti</item>
         <item quantity="other">%d viestiä</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
+    <string name="lock_screen_visibility">Lukitusnäytön ilmoitusten näkyvyys</string>
+    <string name="sender_and_message">Lähettäjä ja viesti</string>
+    <string name="sender_only">Vain lähettäjä</string>
     <string name="enable_delivery_reports">Ota käyttöön viestin toimitustiedot</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="use_simple_characters">Poista aksentit ja diakriittiset merkit lähetettäessä viestejä</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="mms_file_size_limit">Lähetettyjen MMS-kuvien koon muuttaminen</string>
+    <string name="mms_file_size_limit_none">Ei rajoitusta</string>
+    <string name="outgoing_messages">Lähtevät viestit</string>
+    <string name="group_message_mms">Lähetä ryhmäviestit MMS:nä</string>
+    <string name="send_long_message_mms">Lähetä pitkät viestit MMS:nä</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="messages">Viestit</string>
+    <string name="export_messages">Vie viestejä</string>
+    <string name="export_sms">Vie tekstiviestit</string>
+    <string name="export_mms">Vie MMS</string>
+    <string name="import_messages">Tuo viestejä</string>
+    <string name="import_sms">Tuo tekstiviestejä</string>
+    <string name="import_mms">Tuo MMS</string>
+    <string name="no_option_selected">Sinun on valittava vähintään yksi kohde</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty number</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
+    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
+    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden\?</string>
-    <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin-liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla.
-    Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, iternetiä käytetään vain multimediaviestien lähettämiseen.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Helppo tapa SMS- ja MMS- viestien hallintaan ilman mainoksia.</string>
-    <string name="app_long_description">
-        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
-
-        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
-
-        It has a really tiny app size compared to the competition, making it really fast to download.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla. Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, internetiä käytetään vain multimediaviestien lähettämiseen.</string>
+    <string name="faq_2_title">Vastaanottaja ei vastaanota MMS-viestejäni, voinko tehdä asialle mitään\?</string>
+    <string name="faq_2_text">Operaattorit rajoittavat MMS-kokoa, voit yrittää asettaa pienemmän rajan sovelluksen asetuksissa.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

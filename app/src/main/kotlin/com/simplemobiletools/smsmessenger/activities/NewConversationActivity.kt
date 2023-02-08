@@ -3,8 +3,8 @@ package com.simplemobiletools.smsmessenger.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import android.view.WindowManager
+import android.widget.Toast
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
@@ -14,25 +14,28 @@ import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.messaging.isShortCodeWithLetters
 import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<SimpleContact>()
     private var privateContacts = ArrayList<SimpleContact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_conversation)
         title = getString(R.string.new_conversation)
         updateTextColors(new_conversation_holder)
+
+        updateMaterialActivityViews(new_conversation_coordinator, contacts_list, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(contacts_list, new_conversation_toolbar)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         new_conversation_address.requestFocus()
@@ -45,13 +48,10 @@ class NewConversationActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        no_contacts_placeholder_2.setTextColor(getAdjustedPrimaryColor())
+        setupToolbar(new_conversation_toolbar, NavigationIcon.Arrow)
+        no_contacts_placeholder_2.setTextColor(getProperPrimaryColor())
         no_contacts_placeholder_2.underlineText()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        updateMenuItemColors(menu)
-        return super.onCreateOptionsMenu(menu)
+        suggestions_label.setTextColor(getProperPrimaryColor())
     }
 
     private fun initContacts() {
@@ -60,15 +60,14 @@ class NewConversationActivity : SimpleActivity() {
         }
 
         fetchContacts()
-        new_conversation_address.onTextChangeListener {
-            val searchString = it
+        new_conversation_address.onTextChangeListener { searchString ->
             val filteredContacts = ArrayList<SimpleContact>()
-            allContacts.forEach {
-                if (it.phoneNumbers.any { it.contains(searchString, true) } ||
-                    it.name.contains(searchString, true) ||
-                    it.name.contains(searchString.normalizeString(), true) ||
-                    it.name.normalizeString().contains(searchString, true)) {
-                    filteredContacts.add(it)
+            allContacts.forEach { contact ->
+                if (contact.phoneNumbers.any { it.normalizedNumber.contains(searchString, true) } ||
+                    contact.name.contains(searchString, true) ||
+                    contact.name.contains(searchString.normalizeString(), true) ||
+                    contact.name.normalizeString().contains(searchString, true)) {
+                    filteredContacts.add(contact)
                 }
             }
 
@@ -78,9 +77,14 @@ class NewConversationActivity : SimpleActivity() {
             new_conversation_confirm.beVisibleIf(searchString.length > 2)
         }
 
-        new_conversation_confirm.applyColorFilter(config.textColor)
+        new_conversation_confirm.applyColorFilter(getProperTextColor())
         new_conversation_confirm.setOnClickListener {
             val number = new_conversation_address.value
+            if (isShortCodeWithLetters(number)) {
+                new_conversation_address.setText("")
+                toast(R.string.invalid_short_code, length = Toast.LENGTH_LONG)
+                return@setOnClickListener
+            }
             launchThreadActivity(number, number)
         }
 
@@ -92,12 +96,12 @@ class NewConversationActivity : SimpleActivity() {
             }
         }
 
-        val adjustedPrimaryColor = getAdjustedPrimaryColor()
-        contacts_letter_fastscroller.textColor = config.textColor.getColorStateList()
-        contacts_letter_fastscroller.pressedTextColor = adjustedPrimaryColor
+        val properPrimaryColor = getProperPrimaryColor()
+        contacts_letter_fastscroller.textColor = getProperTextColor().getColorStateList()
+        contacts_letter_fastscroller.pressedTextColor = properPrimaryColor
         contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
-        contacts_letter_fastscroller_thumb?.textColor = adjustedPrimaryColor.getContrastColor()
-        contacts_letter_fastscroller_thumb?.thumbColor = adjustedPrimaryColor.getColorStateList()
+        contacts_letter_fastscroller_thumb?.textColor = properPrimaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.thumbColor = properPrimaryColor.getColorStateList()
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -145,16 +149,22 @@ class NewConversationActivity : SimpleActivity() {
                 val contact = it as SimpleContact
                 val phoneNumbers = contact.phoneNumbers
                 if (phoneNumbers.size > 1) {
-                    val items = ArrayList<RadioItem>()
-                    phoneNumbers.forEachIndexed { index, phoneNumber ->
-                        items.add(RadioItem(index, phoneNumber, phoneNumber))
-                    }
+                    val primaryNumber = contact.phoneNumbers.find { it.isPrimary }
+                    if (primaryNumber != null) {
+                        launchThreadActivity(primaryNumber.value, contact.name)
+                    } else {
+                        val items = ArrayList<RadioItem>()
+                        phoneNumbers.forEachIndexed { index, phoneNumber ->
+                            val type = getPhoneNumberTypeText(phoneNumber.type, phoneNumber.label)
+                            items.add(RadioItem(index, "${phoneNumber.normalizedNumber} ($type)", phoneNumber.normalizedNumber))
+                        }
 
-                    RadioGroupDialog(this, items) {
-                        launchThreadActivity(it as String, contact.name)
+                        RadioGroupDialog(this, items) {
+                            launchThreadActivity(it as String, contact.name)
+                        }
                     }
                 } else {
-                    launchThreadActivity(phoneNumbers.first(), contact.name)
+                    launchThreadActivity(phoneNumbers.first().normalizedNumber, contact.name)
                 }
             }.apply {
                 contacts_list.adapter = this
@@ -171,7 +181,7 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
-        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+        val privateCursor = getMyContactsCursor(false, true)
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val suggestions = getSuggestedContacts(privateContacts)
@@ -187,13 +197,13 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
-                            suggested_contact_name.setTextColor(baseConfig.textColor)
+                            suggested_contact_name.setTextColor(getProperTextColor())
 
                             if (!isDestroyed) {
                                 SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                                 suggestions_holder.addView(this)
                                 setOnClickListener {
-                                    launchThreadActivity(contact.phoneNumbers.first(), contact.name)
+                                    launchThreadActivity(contact.phoneNumbers.first().normalizedNumber, contact.name)
                                 }
                             }
                         }
@@ -217,6 +227,7 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun launchThreadActivity(phoneNumber: String, name: String) {
+        hideKeyboard()
         val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
         val numbers = phoneNumber.split(";").toSet()
         val number = if (numbers.size == 1) phoneNumber else Gson().toJson(numbers)
