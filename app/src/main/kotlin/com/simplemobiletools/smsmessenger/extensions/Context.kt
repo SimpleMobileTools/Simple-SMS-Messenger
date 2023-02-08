@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.extensions
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.app.NotificationManager
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context

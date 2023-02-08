@@ -47,7 +47,7 @@ class NotificationsDialog(val activity: BaseSimpleActivity, val threadId: Long, 
 
         AlertDialog.Builder(activity)
             .setPositiveButton(R.string.ok) { _, _ -> { } }
-            .create().apply {
+            .apply {
                 activity.setupDialogStuff(view, this)
             }
     }
