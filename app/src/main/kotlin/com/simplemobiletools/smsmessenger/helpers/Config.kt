@@ -67,6 +67,7 @@ class Config(context: Context) : BaseConfig(context) {
     fun removePinnedConversations(conversations: List<Conversation>) {
         pinnedConversations = pinnedConversations.minus(conversations.map { it.threadId.toString() })
     }
+
     var exportSms: Boolean
         get() = prefs.getBoolean(EXPORT_SMS, true)
         set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()
