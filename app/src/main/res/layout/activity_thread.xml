@@ -22,12 +22,20 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
+        <include
+            android:id="@+id/search_wrapper"
+            layout="@layout/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/thread_add_contacts"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <RelativeLayout
             android:id="@+id/thread_add_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_wrapper"
             tools:visibility="visible">
 
             <LinearLayout

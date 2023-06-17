@@ -30,16 +30,15 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
+import android.widget.*
 import android.widget.LinearLayout.LayoutParams
-import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -50,10 +49,12 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
+import com.simplemobiletools.commons.views.MyEditText
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
+import com.simplemobiletools.smsmessenger.adapters.TextSearchListener
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
@@ -108,16 +109,29 @@ class ThreadActivity : SimpleActivity() {
 
     private var isAttachmentPickerVisible = false
 
+    private var textSearchListener: TextSearchListener? = null
+    private var isSearchActive = false
+    private lateinit var searchQueryET: MyEditText
+    private lateinit var searchPrevBtn: ImageView
+    private lateinit var searchNextBtn: ImageView
+    private lateinit var searchClearBtn: ImageView
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         finish()
-        startActivity(intent)  
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
+
+        searchQueryET = findViewById(R.id.search_query)
+        searchPrevBtn = findViewById(R.id.search_previous)
+        searchNextBtn = findViewById(R.id.search_next)
+        searchClearBtn = findViewById(R.id.search_clear)
+
         setupOptionsMenu()
         refreshMenuItems()
 
@@ -164,6 +178,7 @@ class ThreadActivity : SimpleActivity() {
         setupAttachmentPickerView()
         setupKeyboardListener()
         hideAttachmentPicker()
+        setupSearchButtons()
     }
 
     override fun onResume() {
@@ -208,11 +223,14 @@ class ThreadActivity : SimpleActivity() {
     }
 
     override fun onBackPressed() {
-        isAttachmentPickerVisible = false
-        if (attachment_picker_holder.isVisible()) {
-            hideAttachmentPicker()
-        } else {
-            super.onBackPressed()
+        when {
+            isSearchActive -> closeSearch()
+            attachment_picker_holder.isVisible() -> {
+                isAttachmentPickerVisible = false
+                hideAttachmentPicker()
+            }
+
+            else -> super.onBackPressed()
         }
     }
 
@@ -247,6 +265,7 @@ class ThreadActivity : SimpleActivity() {
             }
 
             when (menuItem.itemId) {
+                R.id.search -> handleSearchClick()
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
                 R.id.rename_conversation -> renameConversation()
@@ -385,8 +404,10 @@ class ThreadActivity : SimpleActivity() {
                 itemClick = { handleItemClick(it) },
                 deleteMessages = { deleteMessages(it) }
             )
+            textSearchListener = currAdapter
 
             thread_messages_list.adapter = currAdapter
+            (thread_messages_list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             thread_messages_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
                 override fun updateBottom() {}
 
@@ -1709,5 +1730,64 @@ class ThreadActivity : SimpleActivity() {
         resources.getColor(R.color.you_bottom_bar_color)
     } else {
         getBottomNavigationBackgroundColor()
+    }
+
+    private fun setupSearchButtons() {
+        searchQueryET.onTextChangeListener {
+            textSearchListener?.onSearchTextChanged(it)
+        }
+
+        searchPrevBtn.setOnClickListener {
+            textSearchListener?.onSearchPreviousOccurrenceClicked()
+        }
+
+        searchNextBtn.setOnClickListener {
+            textSearchListener?.onSearchNextOccurrenceClicked()
+        }
+
+        searchClearBtn.setOnClickListener {
+            closeSearch()
+        }
+
+        searchQueryET.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchNextBtn.performClick()
+                return@OnEditorActionListener true
+            }
+
+            false
+        })
+
+        search_wrapper.setBackgroundColor(getProperPrimaryColor())
+        val contrastColor = getProperPrimaryColor().getContrastColor()
+        arrayListOf(searchPrevBtn, searchNextBtn, searchClearBtn).forEach {
+            it.applyColorFilter(contrastColor)
+        }
+    }
+
+    private fun handleSearchClick() {
+        if (isSearchActive) {
+            closeSearch()
+        } else {
+            openSearch()
+        }
+    }
+
+    private fun openSearch() {
+        isSearchActive = true
+        search_wrapper.beVisible()
+        showKeyboard(searchQueryET)
+
+        searchQueryET.postDelayed({
+            searchQueryET.requestFocus()
+        }, 250)
+    }
+
+    private fun closeSearch() {
+        textSearchListener?.onSearchClosed()
+        searchQueryET.text?.clear()
+        isSearchActive = false
+        search_wrapper.beGone()
+        hideKeyboard(searchQueryET)
     }
 }

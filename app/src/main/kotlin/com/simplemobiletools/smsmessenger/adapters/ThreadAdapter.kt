@@ -12,6 +12,7 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -53,12 +54,19 @@ import kotlinx.android.synthetic.main.item_thread_loading.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
+interface TextSearchListener {
+    fun onSearchTextChanged(query: String)
+    fun onSearchNextOccurrenceClicked()
+    fun onSearchPreviousOccurrenceClicked()
+    fun onSearchClosed()
+}
+
 class ThreadAdapter(
     activity: SimpleActivity,
     recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit,
     val deleteMessages: (messages: List<Message>) -> Unit
-) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick) {
+) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick), TextSearchListener {
     private var fontSize = activity.getTextSize()
 
     @SuppressLint("MissingPermission")
@@ -279,6 +287,18 @@ class ThreadAdapter(
         }
     }
 
+    private fun highlightSearchResult(textView: TextView, message: Message, matchedColor: Int, selectedColor: Int) {
+        if (searchMatches.isNotEmpty()) {
+            val hasSelectedSearchResult = searchMatches[searchIndex].first == currentList.indexOf(message)
+            val selectedIndex = if (hasSelectedSearchResult) {
+                searchMatches[searchIndex].second
+            } else {
+                -1
+            }
+            textView.multiColorHighlightText(searchQuery, matchedColor, selectedColor, selectedIndex)
+        }
+    }
+
     private fun setupReceivedMessageView(view: View, message: Message) {
         view.apply {
             thread_message_sender_photo.beVisible()
@@ -292,6 +312,10 @@ class ThreadAdapter(
             }
             thread_message_body.setTextColor(textColor)
             thread_message_body.setLinkTextColor(context.getProperPrimaryColor())
+
+            val highlightSearchColor = properPrimaryColor
+            val highlightSelectedSearchColor = baseConfig.customAccentColor
+            highlightSearchResult(thread_message_body, message, highlightSearchColor, highlightSelectedSearchColor)
 
             if (!activity.isFinishing && !activity.isDestroyed) {
                 val contactLetterIcon = SimpleContactsHelper(context).getContactLetterIcon(message.senderName)
@@ -321,6 +345,10 @@ class ThreadAdapter(
             val contrastColor = background.getContrastColor()
             thread_message_body.setTextColor(contrastColor)
             thread_message_body.setLinkTextColor(contrastColor)
+
+            val highlightSearchColor = baseConfig.customBackgroundColor
+            val highlightSelectedSearchColor = baseConfig.customAccentColor
+            highlightSearchResult(thread_message_body, message, highlightSearchColor, highlightSelectedSearchColor)
 
             val padding = thread_message_body.paddingStart
             if (message.isScheduled) {
@@ -488,6 +516,97 @@ class ThreadAdapter(
         if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
             Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
         }
+    }
+
+    override fun onSearchTextChanged(query: String) {
+        resetSearchElements()
+
+        if (query.length > 1) {
+            updateSearchMatches(query)
+
+            if (searchMatches.isNotEmpty()) {
+                scrollToSearchOccurrence(searchMatches.lastIndex)
+            }
+        }
+
+        notifyDataSetChanged()
+    }
+
+    private fun updateSearchMatches(query: String) {
+        currentList.forEachIndexed { index, item ->
+            if (item is Message && item.body.contains(query, true)) {
+                val matches = item.body.searchMatches(query);
+                matches.forEach { match ->
+                    searchMatches.add(Pair(index, match))
+                }
+            }
+        }
+        searchQuery = query
+        searchIndex = searchMatches.lastIndex
+    }
+
+    private fun scrollToSearchOccurrence(index: Int) {
+        recyclerView.smoothScrollToPosition(searchMatches[index].first)
+    }
+
+    override fun onSearchNextOccurrenceClicked() {
+        if (searchMatches.isNotEmpty()) {
+            goToNextSearchResult()
+        }
+    }
+
+    override fun onSearchPreviousOccurrenceClicked() {
+        if (searchMatches.isNotEmpty()) {
+            goToPrevSearchResult()
+        }
+    }
+
+    private fun notifySearchItemChanged(index: Int) {
+        val itemIndex = searchMatches[index].first
+        notifyItemChanged(itemIndex)
+    }
+
+    override fun onSearchClosed() {
+        resetSearchElements()
+    }
+
+    private fun resetSearchElements() {
+        searchMatches.clear()
+        searchQuery = ""
+        searchIndex = 0
+    }
+
+    private var searchQuery = ""
+    private var searchIndex = 0
+    private var searchMatches = mutableListOf<Pair<Int, Int>>()
+
+    private fun goToPrevSearchResult() {
+        val oldItemIndex = searchIndex;
+        if (searchIndex > 0) {
+            searchIndex--
+        } else {
+            searchIndex = searchMatches.lastIndex
+        }
+
+        notifySearchItemChanged(oldItemIndex)
+        goToSearchResult(searchIndex)
+    }
+
+    private fun goToNextSearchResult() {
+        val oldItemIndex = searchIndex;
+        if (searchIndex < searchMatches.lastIndex) {
+            searchIndex++
+        } else {
+            searchIndex = 0
+        }
+
+        notifySearchItemChanged(oldItemIndex)
+        goToSearchResult(searchIndex)
+    }
+
+    private fun goToSearchResult(index: Int) {
+        notifySearchItemChanged(index)
+        scrollToSearchOccurrence(index)
     }
 }
 
