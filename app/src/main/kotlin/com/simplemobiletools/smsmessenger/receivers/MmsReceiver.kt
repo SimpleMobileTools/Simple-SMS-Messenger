@@ -22,10 +22,7 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
 
     override fun onMessageReceived(context: Context, messageUri: Uri) {
         val mms = context.getLatestMMS() ?: return
-        val participant = mms.participants.firstOrNull {
-            it.name == mms.senderName
-        } ?: mms.participants.firstOrNull()
-        val address = participant?.phoneNumbers?.first()?.normalizedNumber ?: ""
+        val address = mms.participants.firstOrNull()?.phoneNumbers?.first()?.normalizedNumber ?: ""
 
         val size = context.resources.getDimension(R.dimen.notification_large_icon_size).toInt()
         ensureBackgroundThread {
