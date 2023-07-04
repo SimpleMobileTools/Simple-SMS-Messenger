@@ -165,7 +165,7 @@
     <com.simplemobiletools.commons.views.MyButton
         android:id="@+id/thread_send_message"
         android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="@dimen/normal_icon_size"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/small_margin"
         android:alpha="0.4"
         android:background="?selectableItemBackgroundBorderless"
@@ -175,6 +175,7 @@
         android:paddingVertical="@dimen/small_margin"
         android:text="@string/sms"
         android:textSize="@dimen/smaller_text_size"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintBottom_toBottomOf="@+id/thread_type_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/thread_type_message" />
