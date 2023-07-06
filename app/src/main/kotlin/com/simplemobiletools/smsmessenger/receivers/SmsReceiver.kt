@@ -9,6 +9,7 @@ import android.provider.Telephony
 import com.simplemobiletools.commons.extensions.baseConfig
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.extensions.isNumberBlocked
+import com.simplemobiletools.commons.extensions.isPhoneNumber
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.PhoneNumber
@@ -47,6 +48,10 @@ class SmsReceiver : BroadcastReceiver() {
                     if (exists) {
                         handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
                     }
+                }
+            } else if (context.baseConfig.blockHiddenNumbers) {
+                if (address.isPhoneNumber()) {
+                    handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
                 }
             } else {
                 handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
