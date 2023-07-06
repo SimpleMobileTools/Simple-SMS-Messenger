@@ -296,7 +296,7 @@ class MainActivity : SimpleActivity() {
 
             updateUnreadCountBadge(conversations)
             runOnUiThread {
-                setupConversations(conversations, cached = true)
+                showOrHideProgress(true)
                 getNewConversations(conversations)
             }
             conversations.forEach {
@@ -354,6 +354,7 @@ class MainActivity : SimpleActivity() {
             val allConversations = conversationsDB.getAll() as ArrayList<Conversation>
             runOnUiThread {
                 setupConversations(allConversations)
+                showOrHideProgress(false)
             }
 
             if (config.appRunCount == 1) {
