@@ -142,6 +142,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
             putExtra(WAS_PROTECTION_HANDLED, true)
+            putExtra(IS_ARCHIVED, true)
             startActivity(this)
         }
     }

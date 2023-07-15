@@ -586,8 +586,8 @@ fun Context.checkAndDeleteOldArchivedConversations(callback: (() -> Unit)? = nul
         config.lastArchiveCheck = System.currentTimeMillis()
         ensureBackgroundThread {
             try {
-                for (conversation in conversationsDB.getOldArchived(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
-                    deleteConversation(conversation.threadId)
+                for (message in messagesDB.getOldArchived(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
+                    deleteMessage(message.id, message.isMMS)
                 }
                 callback?.invoke()
             } catch (e: Exception) {
@@ -631,13 +631,12 @@ fun Context.deleteConversation(threadId: Long) {
     messagesDB.deleteThreadMessages(threadId)
 }
 
-fun Context.moveConversationToRecycleBin(threadId: Long) {
-    conversationsDB.archiveConversation(
-        ArchivedConversation(
-            threadId = threadId,
-            deletedTs = System.currentTimeMillis()
-        )
-    )
+fun Context.moveConversationToArchive(threadId: Long) {
+    conversationsDB.archiveConversation(threadId, System.currentTimeMillis())
+}
+
+fun Context.moveMessageToArchive(id: Long) {
+    messagesDB.archiveMessage(id, System.currentTimeMillis())
 }
 
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {

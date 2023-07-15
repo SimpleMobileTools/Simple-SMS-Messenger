@@ -1,9 +1,7 @@
 package com.simplemobiletools.smsmessenger.interfaces
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.simplemobiletools.smsmessenger.models.ArchivedMessage
 import com.simplemobiletools.smsmessenger.models.Message
 
 @Dao
@@ -20,8 +18,14 @@ interface MessagesDao {
     @Query("SELECT * FROM messages")
     fun getAll(): List<Message>
 
-    @Query("SELECT * FROM messages WHERE thread_id = :threadId")
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE messages.thread_id = :threadId AND archived_messages.id IS NULL")
     fun getThreadMessages(threadId: Long): List<Message>
+
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE messages.thread_id = :threadId AND archived_messages.id IS NOT NULL")
+    fun getArchivedThreadMessages(threadId: Long): List<Message>
+
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE archived_messages.deleted_ts < :timestamp AND archived_messages.id IS NOT NULL")
+    fun getOldArchived(timestamp: Long): List<Message>
 
     @Query("SELECT * FROM messages WHERE thread_id = :threadId AND is_scheduled = 1")
     fun getScheduledThreadMessages(threadId: Long): List<Message>
@@ -31,6 +35,9 @@ interface MessagesDao {
 
     @Query("SELECT * FROM messages WHERE body LIKE :text")
     fun getMessagesWithText(text: String): List<Message>
+
+    @Query("SELECT COUNT(*) FROM archived_messages")
+    fun getArchivedCount(): Int
 
     @Query("UPDATE messages SET read = 1 WHERE id = :id")
     fun markRead(id: Long)
@@ -46,6 +53,17 @@ interface MessagesDao {
 
     @Query("DELETE FROM messages WHERE id = :id")
     fun delete(id: Long)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertArchivedMessage(archivedMessage: ArchivedMessage)
+
+    @Transaction
+    fun archiveMessage(id: Long, timestamp: Long) {
+        insertArchivedMessage(ArchivedMessage(id, timestamp))
+    }
+
+    @Query("DELETE FROM archived_messages WHERE id = :id")
+    fun unarchiveMessage(id: Long)
 
     @Query("DELETE FROM messages WHERE thread_id = :threadId")
     fun deleteThreadMessages(threadId: Long)

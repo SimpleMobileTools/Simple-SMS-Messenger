@@ -37,6 +37,7 @@ const val SCHEDULED_MESSAGE_ID = "scheduled_message_id"
 const val SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height"
 const val IS_MMS = "is_mms"
 const val MESSAGE_ID = "message_id"
+const val IS_ARCHIVED = "is_archived"
 const val USE_ARCHIVE = "use_archive"
 const val LAST_ARCHIVE_CHECK = "last_archive_check"
 

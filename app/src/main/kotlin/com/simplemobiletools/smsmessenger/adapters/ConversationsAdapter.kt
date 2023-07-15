@@ -142,7 +142,7 @@ class ConversationsAdapter(
             if (skipRecycleBin || activity.config.useArchive.not()) {
                 activity.deleteConversation(it.threadId)
             } else {
-                activity.moveConversationToRecycleBin(it.threadId)
+                activity.moveConversationToArchive(it.threadId)
             }
             activity.notificationManager.cancel(it.threadId.hashCode())
         }

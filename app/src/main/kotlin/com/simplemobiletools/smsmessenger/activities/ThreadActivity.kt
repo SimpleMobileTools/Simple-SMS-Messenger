@@ -96,6 +96,7 @@ class ThreadActivity : SimpleActivity() {
     private var participants = ArrayList<SimpleContact>()
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
+    private var archivedMessages = ArrayList<Long>()
     private val availableSIMCards = ArrayList<SIMCard>()
     private var lastAttachmentUri: String? = null
     private var capturedImageUri: Uri? = null
@@ -103,6 +104,7 @@ class ThreadActivity : SimpleActivity() {
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
     private var wasProtectionHandled = false
+    private var isArchived = false
 
     private var isScheduledMessage: Boolean = false
     private var scheduledMessage: Message? = null
@@ -135,6 +137,7 @@ class ThreadActivity : SimpleActivity() {
 
         clearAllMessagesIfNeeded()
         threadId = intent.getLongExtra(THREAD_ID, 0L)
+        isArchived = intent.getBooleanExtra(IS_ARCHIVED, false)
         intent.getStringExtra(THREAD_TITLE)?.let {
             thread_toolbar.title = it
         }
@@ -159,8 +162,10 @@ class ThreadActivity : SimpleActivity() {
         }
 
         setupAttachmentPickerView()
-        setupKeyboardListener()
-        hideAttachmentPicker()
+        if (!isArchived) {
+            setupKeyboardListener()
+            hideAttachmentPicker()
+        }
     }
 
     override fun onResume() {
@@ -269,6 +274,7 @@ class ThreadActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
+                R.id.unarchive -> unarchive()
                 R.id.rename_conversation -> renameConversation()
                 R.id.conversation_details -> showConversationDetails()
                 R.id.add_number_to_contact -> addNumberToContact()
@@ -300,7 +306,12 @@ class ThreadActivity : SimpleActivity() {
     private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
             messages = try {
-                messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+                if (isArchived) {
+                    messagesDB.getArchivedThreadMessages(threadId).toMutableList() as ArrayList<Message>
+                } else {
+                    archivedMessages = messagesDB.getArchivedThreadMessages(threadId).map { it.id }.toMutableList() as ArrayList<Long>
+                    messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+                }
             } catch (e: Exception) {
                 ArrayList()
             }
@@ -335,7 +346,7 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
 
             val cachedMessagesCode = messages.clone().hashCode()
-            messages = getMessages(threadId, true)
+            messages = getMessages(threadId, true).filter { !archivedMessages.contains(it.id) }.toMutableList() as ArrayList<Message>
 
             val hasParticipantWithoutName = participants.any { contact ->
                 contact.phoneNumbers.map { it.normalizedNumber }.contains(contact.name)
@@ -402,8 +413,9 @@ class ThreadActivity : SimpleActivity() {
             currAdapter = ThreadAdapter(
                 activity = this,
                 recyclerView = thread_messages_list,
+                isArchived = isArchived,
                 itemClick = { handleItemClick(it) },
-                deleteMessages = { deleteMessages(it) }
+                moveOrDeleteMessages = { messages, toArchive, fromArchive -> moveOrDeleteMessages(messages, toArchive, fromArchive) }
             )
 
             thread_messages_list.adapter = currAdapter
@@ -411,7 +423,9 @@ class ThreadActivity : SimpleActivity() {
                 override fun updateBottom() {}
 
                 override fun updateTop() {
-                    fetchNextMessages()
+                    if (!isArchived) {
+                        fetchNextMessages()
+                    }
                 }
             }
         }
@@ -490,7 +504,7 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun deleteMessages(messagesToRemove: List<Message>) {
+    private fun moveOrDeleteMessages(messagesToRemove: List<Message>, toArchive: Boolean, fromArchive: Boolean) {
         val deletePosition = threadItems.indexOf(messagesToRemove.first())
         messages.removeAll(messagesToRemove.toSet())
         threadItems = getThreadItems()
@@ -512,7 +526,13 @@ class ThreadActivity : SimpleActivity() {
                 deleteScheduledMessage(messageId)
                 cancelScheduleSendPendingIntent(messageId)
             } else {
-                deleteMessage(messageId, message.isMMS)
+                if (toArchive) {
+                    moveMessageToArchive(messageId)
+                } else if (fromArchive) {
+                    messagesDB.unarchiveMessage(messageId)
+                } else {
+                    deleteMessage(messageId, message.isMMS)
+                }
             }
         }
         updateLastConversationMessage(threadId)
@@ -572,17 +592,19 @@ class ThreadActivity : SimpleActivity() {
                 setupButtons()
                 setupConversation()
                 setupCachedMessages {
-                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
-                    intent.removeExtra(SEARCHED_MESSAGE_ID)
-                    if (searchedMessageId != -1L) {
-                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
-                        if (index != -1) {
-                            thread_messages_list.smoothScrollToPosition(index)
+                    if (!isArchived) {
+                        val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
+                        intent.removeExtra(SEARCHED_MESSAGE_ID)
+                        if (searchedMessageId != -1L) {
+                            val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
+                            if (index != -1) {
+                                thread_messages_list.smoothScrollToPosition(index)
+                            }
                         }
-                    }
 
-                    setupThread()
-                    setupScrollFab()
+                        setupThread()
+                        setupScrollFab()
+                    }
                 }
             } else {
                 finish()
@@ -752,6 +774,7 @@ class ThreadActivity : SimpleActivity() {
             }
             runOnUiThread {
                 maybeDisableShortCodeReply()
+                maybeDisableArchivedReply()
             }
         }
     }
@@ -762,7 +785,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun maybeDisableShortCodeReply() {
-        if (isSpecialNumber()) {
+        if (isSpecialNumber() && !isArchived) {
             thread_send_message_holder.beGone()
             reply_disabled_info_holder.beVisible()
             val textColor = getProperTextColor()
@@ -779,6 +802,13 @@ class ThreadActivity : SimpleActivity() {
                     tooltipText = getString(R.string.more_info)
                 }
             }
+        }
+    }
+
+    private fun maybeDisableArchivedReply() {
+        if (isArchived) {
+            thread_send_message_holder.beGone()
+            reply_disabled_info_holder.beGone()
         }
     }
 
@@ -888,18 +918,28 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun unarchive() {
+        ensureBackgroundThread {
+            conversationsDB.deleteThreadFromArchivedConversations(threadId)
+            runOnUiThread {
+                refreshMessages()
+                finish()
+            }
+        }
+    }
+
     private fun askConfirmDelete() {
-        val confirmationMessage = if (config.useArchive) {
+        val confirmationMessage = if (config.useArchive && !isArchived) {
             R.string.archive_whole_conversation_confirmation
         } else {
             R.string.delete_whole_conversation_confirmation
         }
-        DeleteConfirmationDialog(this, getString(confirmationMessage), config.useArchive) { skipRecycleBin ->
+        DeleteConfirmationDialog(this, getString(confirmationMessage), config.useArchive && !isArchived) { skipRecycleBin ->
             ensureBackgroundThread {
-                if (skipRecycleBin || config.useArchive.not()) {
+                if (skipRecycleBin || config.useArchive.not() || isArchived) {
                     deleteConversation(threadId)
                 } else {
-                    moveConversationToRecycleBin(threadId)
+                    moveConversationToArchive(threadId)
                 }
                 runOnUiThread {
                     refreshMessages()
@@ -1443,6 +1483,10 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        if (isArchived) {
+            return
+        }
+
         refreshedSinceSent = true
         allMessagesFetched = false
         oldestMessageDate = -1

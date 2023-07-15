@@ -1,7 +1,6 @@
 package com.simplemobiletools.smsmessenger.interfaces
 
 import androidx.room.*
-import com.simplemobiletools.smsmessenger.models.ArchivedConversation
 import com.simplemobiletools.smsmessenger.models.Conversation
 
 @Dao
@@ -9,20 +8,19 @@ interface ConversationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(conversation: Conversation): Long
 
-    @Query("SELECT conversations.* FROM conversations LEFT OUTER JOIN archived_conversations ON conversations.thread_id = archived_conversations.thread_id WHERE archived_conversations.deleted_ts is NULL")
+    @Query("SELECT * FROM conversations WHERE (SELECT COUNT(*) FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE archived_messages.id IS NULL AND messages.thread_id = conversations.thread_id) > 0")
     fun getNonArchived(): List<Conversation>
 
-    @Query("SELECT conversations.* FROM archived_conversations INNER JOIN conversations ON conversations.thread_id = archived_conversations.thread_id")
+    @Query("SELECT (SELECT body FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE archived_messages.id IS NOT NULL AND messages.thread_id = conversations.thread_id ORDER BY date DESC LIMIT 1) as snippet, conversations.* FROM conversations WHERE (SELECT COUNT(*) FROM messages LEFT OUTER JOIN archived_messages ON messages.id = archived_messages.id WHERE archived_messages.id IS NOT NULL AND messages.thread_id = conversations.thread_id) > 0")
     fun getAllArchived(): List<Conversation>
 
-    @Query("SELECT COUNT(*) FROM archived_conversations")
-    fun getArchivedCount(): Int
+    @Query("INSERT INTO archived_messages SELECT id, :timestamp as deleted_ts FROM messages WHERE thread_id = :threadId")
+    fun archiveConversationMessages(threadId: Long, timestamp: Long)
 
-    @Query("SELECT * FROM archived_conversations WHERE deleted_ts < :timestamp")
-    fun getOldArchived(timestamp: Long): List<ArchivedConversation>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun archiveConversation(archivedConversation: ArchivedConversation)
+    @Transaction
+    fun archiveConversation(threadId: Long, timestamp: Long) {
+        archiveConversationMessages(threadId, timestamp)
+    }
 
     @Query("SELECT * FROM conversations WHERE thread_id = :threadId")
     fun getConversationWithThreadId(threadId: Long): Conversation?
@@ -42,12 +40,16 @@ interface ConversationsDao {
     @Query("DELETE FROM conversations WHERE thread_id = :threadId")
     fun deleteThreadFromConversations(threadId: Long)
 
-    @Query("DELETE FROM archived_conversations WHERE thread_id = :threadId")
-    fun deleteThreadFromArchivedConversations(threadId: Long)
+    @Transaction
+    fun deleteThreadFromArchivedConversations(threadId: Long) {
+        unarchiveThreadMessages(threadId)
+    }
+
+    @Query("DELETE FROM archived_messages WHERE id IN (SELECT id FROM messages WHERE thread_id = :threadId)")
+    fun unarchiveThreadMessages(threadId: Long)
 
     @Transaction
     fun deleteThreadId(threadId: Long) {
         deleteThreadFromConversations(threadId)
-        deleteThreadFromArchivedConversations(threadId)
     }
 }

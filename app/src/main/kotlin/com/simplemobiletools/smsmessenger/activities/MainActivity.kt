@@ -455,6 +455,7 @@ class MainActivity : SimpleActivity() {
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
             putExtra(WAS_PROTECTION_HANDLED, wasProtectionHandled)
+            putExtra(IS_ARCHIVED, false)
             startActivity(this)
         }
     }

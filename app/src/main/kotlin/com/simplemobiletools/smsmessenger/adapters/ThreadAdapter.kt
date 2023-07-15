@@ -23,7 +23,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.adapters.MyRecyclerViewListAdapter
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -33,6 +32,7 @@ import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
+import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -56,8 +56,9 @@ import kotlinx.android.synthetic.main.item_thread_success.view.*
 class ThreadAdapter(
     activity: SimpleActivity,
     recyclerView: MyRecyclerView,
+    private val isArchived: Boolean,
     itemClick: (Any) -> Unit,
-    val deleteMessages: (messages: List<Message>) -> Unit
+    val moveOrDeleteMessages: (messages: List<Message>, toArchive: Boolean, fromArchive: Boolean) -> Unit,
 ) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick) {
     private var fontSize = activity.getTextSize()
 
@@ -82,6 +83,7 @@ class ThreadAdapter(
             findItem(R.id.cab_share).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_forward_message).isVisible = isOneItemSelected
             findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
+            findItem(R.id.cab_unarchive).isVisible = isArchived
         }
     }
 
@@ -96,6 +98,7 @@ class ThreadAdapter(
             R.id.cab_share -> shareText()
             R.id.cab_forward_message -> forwardMessage()
             R.id.cab_select_text -> selectText()
+            R.id.cab_unarchive -> unarchive()
             R.id.cab_delete -> askConfirmDelete()
             R.id.cab_select_all -> selectAll()
         }
@@ -184,6 +187,15 @@ class ThreadAdapter(
         }
     }
 
+    private fun unarchive() {
+        ensureBackgroundThread {
+            val messagesToRemove = getSelectedItems()
+            if (messagesToRemove.isNotEmpty()) {
+                moveOrDeleteMessages(messagesToRemove.filterIsInstance<Message>(), false, true)
+            }
+        }
+    }
+
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
 
@@ -195,14 +207,19 @@ class ThreadAdapter(
             return
         }
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = if (activity.config.useArchive && !isArchived) {
+            R.string.archive_confirmation
+        } else {
+            R.string.deletion_confirmation
+        }
         val question = String.format(resources.getString(baseString), items)
 
-        ConfirmationDialog(activity, question) {
+        DeleteConfirmationDialog(activity, question, activity.config.useArchive && !isArchived) { skipRecycleBin ->
             ensureBackgroundThread {
                 val messagesToRemove = getSelectedItems()
                 if (messagesToRemove.isNotEmpty()) {
-                    deleteMessages(messagesToRemove.filterIsInstance<Message>())
+                    val archive = skipRecycleBin || activity.config.useArchive.not() || isArchived
+                    moveOrDeleteMessages(messagesToRemove.filterIsInstance<Message>(), !archive, false)
                 }
             }
         }

@@ -11,7 +11,7 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
+import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.extensions.removeAllArchivedConversations
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -19,7 +19,7 @@ import java.util.*
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
-    private var archiveConversations = 0
+    private var archivedMessages = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -266,22 +266,22 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupEmptyRecycleBin() {
         ensureBackgroundThread {
-            archiveConversations = conversationsDB.getArchivedCount()
+            archivedMessages = messagesDB.getArchivedCount()
             runOnUiThread {
                 settings_empty_archive_size.text =
-                    resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
+                    resources.getQuantityString(R.plurals.delete_messages, archivedMessages, archivedMessages)
             }
         }
 
         settings_empty_archive_holder.setOnClickListener {
-            if (archiveConversations == 0) {
+            if (archivedMessages == 0) {
                 toast(R.string.archive_is_empty)
             } else {
                 ConfirmationDialog(this, "", R.string.empty_archive_confirmation, R.string.yes, R.string.no) {
                     removeAllArchivedConversations()
-                    archiveConversations = 0
+                    archivedMessages = 0
                     settings_empty_archive_size.text =
-                        resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
+                        resources.getQuantityString(R.plurals.delete_messages, archivedMessages, archivedMessages)
                 }
             }
         }
