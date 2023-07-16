@@ -33,6 +33,7 @@ import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
 import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
+import com.simplemobiletools.smsmessenger.dialogs.MessageDetailsDialog
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -84,6 +85,7 @@ class ThreadAdapter(
             findItem(R.id.cab_forward_message).isVisible = isOneItemSelected
             findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_unarchive).isVisible = isArchived
+            findItem(R.id.cab_properties).isVisible = isOneItemSelected
         }
     }
 
@@ -101,6 +103,7 @@ class ThreadAdapter(
             R.id.cab_unarchive -> unarchive()
             R.id.cab_delete -> askConfirmDelete()
             R.id.cab_select_all -> selectAll()
+            R.id.cab_properties -> showMessageDetails()
         }
     }
 
@@ -194,6 +197,11 @@ class ThreadAdapter(
                 moveOrDeleteMessages(messagesToRemove.filterIsInstance<Message>(), false, true)
             }
         }
+    }
+
+    private fun showMessageDetails() {
+        val message = getSelectedItems().firstOrNull() as? Message ?: return
+        MessageDetailsDialog(activity, message)
     }
 
     private fun askConfirmDelete() {
