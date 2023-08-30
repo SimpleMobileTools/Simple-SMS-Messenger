@@ -13,4 +13,8 @@ dependencyResolutionManagement {
         maven { setUrl("https://jitpack.io") }
     }
 }
+rootProject.name = "Simple-SMS-Messenger"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+include(":commons")
+project(":commons").projectDir = file("../Simple-Commons/commons")

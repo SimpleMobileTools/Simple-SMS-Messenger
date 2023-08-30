@@ -418,13 +418,21 @@ class ThreadAdapter(
             .load(uri)
             .apply(options)
             .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                     threadMessagePlayOutline.beGone()
                     threadMessageAttachmentsHolder.removeView(imageView.root)
                     return false
                 }
 
-                override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) = false
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
             })
 
         // limit attachment sizes to avoid causing OOM

@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
+import com.simplemobiletools.commons.activities.TestManageBlockedNumbers
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
