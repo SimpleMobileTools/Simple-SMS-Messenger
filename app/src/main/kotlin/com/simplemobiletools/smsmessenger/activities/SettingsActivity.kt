@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
-import com.simplemobiletools.commons.activities.TestManageBlockedNumbers
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -20,10 +19,10 @@ import com.simplemobiletools.smsmessenger.extensions.emptyMessagesRecycleBin
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.util.*
 import kotlin.system.exitProcess
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
