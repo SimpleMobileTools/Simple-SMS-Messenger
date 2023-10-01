@@ -1,6 +1,40 @@
 Changelog
 ==========
 
+Version 5.19.1 *(2023-09-20)*
+----------------------------
+
+ * Allow archiving conversations
+ * Add an optional Recycle bin for messages
+ * Added some stability and translation improvements
+
+Version 5.19.0 *(2023-09-19)*
+----------------------------
+
+ * Allow archiving conversations
+ * Add an optional Recycle bin for messages
+ * Added some stability and translation improvements
+
+Version 5.18.2 *(2023-05-19)*
+----------------------------
+
+ * Fixed some smaller glitches at sending and receiving messages
+ * Fixed an issue at importing messages
+ * Added some stability and translation improvements
+
+Version 5.18.1 *(2023-03-25)*
+----------------------------
+
+ * Improved image resizing at sending
+ * Fixed an error with sending MMS
+ * Added some stability and translation improvements
+
+Version 5.17.5 *(2023-03-04)*
+----------------------------
+
+ * Fixed a glitch at renaming conversations being reset
+ * Added some stability and translation improvements
+
 Version 5.17.4 *(2023-02-08)*
 ----------------------------
 

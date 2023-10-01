@@ -32,18 +32,33 @@ fun Context.isLongMmsMessage(text: String, settings: Settings = getSendMessageSe
 }
 
 /** Sends the message using the in-app SmsManager API wrappers if it's an SMS or using android-smsmms for MMS. */
-fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?, attachments: List<Attachment>) {
+fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?, attachments: List<Attachment>, messageId: Long? = null) {
     val settings = getSendMessageSettings()
     if (subId != null) {
         settings.subscriptionId = subId
     }
 
+    val messagingUtils = messagingUtils
     val isMms = attachments.isNotEmpty() || isLongMmsMessage(text, settings) || addresses.size > 1 && settings.group
     if (isMms) {
-        messagingUtils.sendMmsMessage(text, addresses, attachments, settings)
+        // we send all MMS attachments separately to reduces the chances of hitting provider MMS limit.
+        if (attachments.isNotEmpty()) {
+            val lastIndex = attachments.lastIndex
+            if (attachments.size > 1) {
+                for (i in 0 until lastIndex) {
+                    val attachment = attachments[i]
+                    messagingUtils.sendMmsMessage("", addresses, attachment, settings, messageId)
+                }
+            }
+
+            val lastAttachment = attachments[lastIndex]
+            messagingUtils.sendMmsMessage(text, addresses, lastAttachment, settings, messageId)
+        } else {
+            messagingUtils.sendMmsMessage(text, addresses, null, settings, messageId)
+        }
     } else {
         try {
-            messagingUtils.sendSmsMessage(text, addresses.toSet(), settings.subscriptionId, settings.deliveryReports)
+            messagingUtils.sendSmsMessage(text, addresses.toSet(), settings.subscriptionId, settings.deliveryReports, messageId)
         } catch (e: SmsException) {
             when (e.errorCode) {
                 EMPTY_DESTINATION_ADDRESS -> toast(id = R.string.empty_destination_address, length = LENGTH_LONG)
