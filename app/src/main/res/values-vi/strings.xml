@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Tin nhắn</string>
+    <string name="type_a_message">Nhập một tin nhắn…</string>
+    <string name="message_not_sent_short">Tin nhắn chưa được gửi</string>
+    <string name="message_not_sent_touch_retry">Chưa gửi. Nhấn để thử lại.</string>
+    <string name="message_sending_error">Tin nhắn của bạn đến \'%s\' chưa được gửi.</string>
+    <string name="add_person">Thêm người</string>
+    <string name="attachment">Đính kèm</string>
+    <string name="no_conversations_found">Không hội thoại đã lưu trữ nào được tìm thấy</string>
+    <string name="start_conversation">Bắt đầu cuộc hội thoại</string>
+    <string name="reply">Trả lời</string>
+    <string name="show_character_counter">Hiển thị bộ đếm ký tự khi viết tin nhắn</string>
+    <string name="loading_messages">Đang tải tin nhắn…</string>
+    <string name="no_reply_support">Người gửi không hỗ trợ trả lời</string>
+    <string name="draft">Nháp</string>
+    <string name="sending">Đang gửi…</string>
+    <string name="pin_conversation">Ghim lên trên cùng</string>
+    <string name="unpin_conversation">Bỏ ghim</string>
+    <string name="forward_message">Chuyển tiếp</string>
+    <string name="compress_error">Không thể nén hình ảnh sang kích thước đã chọn</string>
+    <!-- Attachments -->
+    <!--Đính kèm-->
+    <string name="duplicate_item_warning">Các mục trùng lặp không được bao gồm</string>
+    <!-- vCard -->
+    <plurals name="and_other_contacts">
+        <item quantity="one">và %d người khác</item>
+        <item quantity="other">và %d người khác</item>
+    </plurals>
+    <!-- New conversation -->
+    <!--Hội thoại mới-->
+    <string name="new_conversation">Hội thoại mới</string>
+    <string name="add_contact_or_number">Thêm liên hệ hoặc số điện thoại…</string>
+    <string name="suggestions">Gợi ý</string>
+    <!-- Group conversation -->
+    <!--Trò chuyện nhóm-->
+    <string name="members">Thành viên</string>
+    <string name="conversation_name">Tên hội thoại</string>
+    <string name="conversation_details">Thông tin hội thoại</string>
+    <string name="rename_conversation">Đổi tên hội thoại</string>
+    <string name="rename_conversation_warning">Chỉ có bạn mới có thể xem tên hội thoại</string>
+    <!-- Schedule send -->
+    <!--Lên lịch gửi-->
+    <string name="scheduled_message">Tin nhắn đã lên lịch</string>
+    <string name="schedule_message">Lên lịch tin nhắn</string>
+    <string name="schedule_send">Lên lịch gửi</string>
+    <string name="cancel_schedule_send">Hủy bỏ lên lịch gửi</string>
+    <string name="must_pick_time_in_the_future">Bạn cần phải chọn ra một thời điểm trong tương lai</string>
+    <string name="schedule_send_warning"> Giữ điện thoại bật và đảm bảo không có gì khiến ứng dụng bị dừng trong chế độ nền</string>
+    <string name="update_message">Cập nhật tin nhắn</string>
+    <string name="send_now">Gửi ngay</string>
+    <!-- Message details -->
+    <!--Thông tin tin nhắn-->
+    <string name="message_details">Thông tin tin nhắn</string>
+    <string name="message_details_sender">Người gửi</string>
+    <string name="message_details_receiver">Người nhận</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
+    <!-- Notifications -->
+    <!--Thông báo-->
+    <string name="channel_received_sms">Đã nhận được tin nhắn MS</string>
+    <string name="new_message">Tin nhắn mới</string>
+    <string name="mark_as_read">Đánh dấu là đã đọc</string>
+    <string name="mark_as_unread">Đánh dấu là chưa đọc</string>
+    <string name="me">Tôi</string>
+    <!-- Archive -->
+    <!--Lưu trữ-->
+    <string name="unarchive">Hủy lưu trữ</string>
+    <string name="empty_archive">Xóa tất cả các hội thoại đã lưu trữ</string>
+    <string name="archived_conversations">Lưu trữ</string>
+    <string name="show_archived_conversations">Hiển thị các hội thoại đã lưu trữ</string>
+    <string name="archive">Lưu trữ</string>
+    <string name="no_archived_conversations">Không có hội thoại đã lưu trữ nào được tìm thấy</string>
+    <string name="archive_emptied_successfully">Kho Lưu trữ đã được dọn sạch thành công</string>
+    <string name="empty_archive_confirmation">Bạn có chắc chắn muốn dọn sạch kho lưu trữ không? Tất cả các hội thoại đã lưu trữ sẽ bị mất vĩnh viễn.</string>
+    <!-- Recycle bin -->
+    <!--Thùng rác-->
+    <string name="restore">Khôi phục</string>
+    <string name="restore_all_messages">Khôi phục tất cả tin nhắn</string>
+    <string name="empty_recycle_bin_messages_confirmation">Bạn có chắc chắn muốn dọn sạch Thùng rác không? Các tin nhắn sẽ bị mất vĩnh viễn.</string>
+    <string name="skip_the_recycle_bin_messages">Bỏ qua Thùng rác, xóa tin nhắn trực tiếp</string>
+    <!-- Confirmation dialog -->
+    <!--Hộp thoại xác nhận-->
+    <string name="delete_whole_conversation_confirmation">Bạn có chắc là muốn xóa hết tất cả tin nhắn của cuộc hội thoại này không?</string>
+    <string name="archive_confirmation">Bạn có chắc là bạn muốn lưu trữ %s?</string>
+    <string name="restore_whole_conversation_confirmation">Bạn có chắc là muốn khôi phục tất cả tin nhắn của cuộc hội thoại này không?</string>
+    <string name="restore_confirmation">Bạn có chắc là muốn khôi phục %s?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <!--Bạn có chắc là muốn xóa 5 cuộc hội thoại-->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d cuộc hội thoại</item>
+        <item quantity="other">%d cuộc hội thoại</item>
+    </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
+    <!--Bạn có chắc là muốn xóa 5 tin nhắn-->
+    <plurals name="delete_messages">
+        <item quantity="one">%d tin nhắn</item>
+        <item quantity="other">%d tin nhắn</item>
+    </plurals>
+    <!-- Settings -->
+    <!--Cài đặt-->
+    <string name="keyword">Từ khóa</string>
+    <string name="blocked_keywords">Từ khóa bị chặn</string>
+    <string name="manage_blocked_keywords">Quản lý từ khóa bị chặn</string>
+    <string name="not_blocking_keywords">Bạn hiện đang không chặn bất kỳ từ khóa nào. Bạn có thể thêm từ khóa tại đây để chặn tất cả các tin nhắn có chứa chúng</string>
+    <string name="add_a_blocked_keyword">Thêm từ khóa bị chặn</string>
+    <string name="lock_screen_visibility">Hiển thị thông báo trên màn hình khóa</string>
+    <string name="sender_and_message">Người gửi và tin nhắn</string>
+    <string name="sender_only">Chỉ người gửi</string>
+    <string name="enable_delivery_reports">Bật báo cáo gửi</string>
+    <string name="use_simple_characters">Bỏ dấu khi gửi tin nhắn</string>
+    <string name="send_on_enter">Gửi tin nhắn khi nhấn Enter</string>
+    <string name="mms_file_size_limit">Thay đổi kích thước hình ảnh MMS đã gửi</string>
+    <string name="mms_file_size_limit_none">Không giới hạn</string>
+    <string name="outgoing_messages">Tin nhắn đi</string>
+    <string name="group_message_mms">Gửi tin nhắn nhóm dưới dạng MMS</string>
+    <string name="send_long_message_mms">Gửi tin nhắn dài dưới dạng MMS</string>
+    <!-- Export / Import -->
+    <!--Nhập / Xuất-->
+    <string name="messages">Tin nhắn</string>
+    <string name="export_messages">Xuất tin nhắn</string>
+    <string name="export_sms">Xuất tin nhắn SMS</string>
+    <string name="export_mms">Xuất tin nhắn MMS</string>
+    <string name="import_messages">Nhập tin nhắn</string>
+    <string name="import_sms">Nhập tin nhắn SMS</string>
+    <string name="import_mms">Nhập tin nhắn MMS</string>
+    <string name="no_option_selected">Bạn cần phải chọn ít nhất một mục</string>
+    <!-- Errors -->
+    <!--Lỗi-->
+    <string name="empty_destination_address">Không thể gửi tin nhắn đến số trống</string>
+    <string name="unable_to_save_message">Không thể lưu tin nhắn vào cơ sở dữ liệu điện thoại</string>
+    <string name="error_service_is_unavailable">Không thể gửi tin nhắn, dịch vụ không khả dụng</string>
+    <string name="error_radio_turned_off">Không thể gửi tin nhắn, đài Radio đã bị tắt</string>
+    <string name="carrier_send_error">Không thể gửi tin nhắn, lỗi nhà mạng</string>
+    <string name="unknown_error_occurred_sending_message">Không thể gửi tin nhắn, mã lỗi: %d</string>
+    <string name="invalid_short_code">Không thể trả lời các mã ngắn như thế này</string>
+    <string name="invalid_short_code_desc">Bạn chỉ có thể trả lời những mã ngắn có số như \"503501\" chứ không thể trả lời những mã chứa chữ cái và số như \"AB-CD0\".</string>
+    <string name="attachment_sized_exceeds_max_limit">Kích thước tập tin đính kèm vượt quá giới hạn MMS tối đa</string>
+    <string name="sim_card_not_available">Thẻ SIM không khả dụng</string>
+    <string name="couldnt_download_mms">Không thể tải xuống MMS</string>
+    <!-- FAQ -->
+    <!--Câu hỏi thường gặp-->
+    <string name="faq_1_title">Tại sao ứng dụng cần truy cập Internet?</string>
+    <string name="faq_1_text">Đáng buồn là nó lại cần thiết để gửi tệp đính kèm MMS. Không thể gửi MMS sẽ là một bất lợi thực sự rất lớn so với các ứng dụng khác, vì vậy chúng tôi quyết định đi theo hướng này.
+    Tuy nhiên, như thường lệ, không có quảng cáo, theo dõi hay phân tích nào, internet chỉ được sử dụng để gửi MMS.</string>
+    <string name="faq_2_title">Đầu bên kia không nhận được MMS của tôi, tôi có thể làm gì được không?</string>
+    <string name="faq_2_text">Kích thước MMS bị giới hạn bởi nhà cung cấp dịch vụ, bạn có thể thử đặt giới hạn nhỏ hơn trong cài đặt ứng dụng.</string>
+    <string name="faq_3_title">Ứng dụng có hỗ trợ lên lịch gửi tin nhắn không?</string>
+    <string name="faq_3_text">Có, bạn có thể lên lịch gửi tin nhắn trong tương lai bằng cách nhấn và giữ nút Gửi và chọn ngày giờ mong muốn.</string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
