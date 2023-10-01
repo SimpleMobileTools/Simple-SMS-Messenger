@@ -76,29 +76,31 @@ class ConversationDetailsActivity : SimpleActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupCustomNotifications() {
-        notifications_heading.beVisible()
-        custom_notifications_holder.beVisible()
-        custom_notifications.isChecked = config.customNotifications.contains(threadId.toString())
-        custom_notifications_button.beVisibleIf(custom_notifications.isChecked)
+        binding.apply {
+            notificationsHeading.beVisible()
+            customNotificationsHolder.beVisible()
+            customNotifications.isChecked = config.customNotifications.contains(threadId.toString())
+            customNotificationsButton.beVisibleIf(customNotifications.isChecked)
 
-        custom_notifications_holder.setOnClickListener {
-            custom_notifications.toggle()
-            if (custom_notifications.isChecked) {
-                custom_notifications_button.beVisible()
-                config.addCustomNotificationsByThreadId(threadId)
-                createNotificationChannel()
-            } else {
-                custom_notifications_button.beGone()
-                config.removeCustomNotificationsByThreadId(threadId)
-                removeNotificationChannel()
+            customNotificationsHolder.setOnClickListener {
+                customNotifications.toggle()
+                if (customNotifications.isChecked) {
+                    customNotificationsButton.beVisible()
+                    config.addCustomNotificationsByThreadId(threadId)
+                    createNotificationChannel()
+                } else {
+                    customNotificationsButton.beGone()
+                    config.removeCustomNotificationsByThreadId(threadId)
+                    removeNotificationChannel()
+                }
             }
-        }
 
-        custom_notifications_button.setOnClickListener {
-            Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
-                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                putExtra(Settings.EXTRA_CHANNEL_ID, threadId.hashCode().toString())
-                startActivity(this)
+            customNotificationsButton.setOnClickListener {
+                Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                    putExtra(Settings.EXTRA_CHANNEL_ID, threadId.hashCode().toString())
+                    startActivity(this)
+                }
             }
         }
     }

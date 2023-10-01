@@ -62,7 +62,7 @@
             android:text="@string/customize_notifications" />
 
         <include
-            android:id="@+id/settings_conversation_name_divider"
+            android:id="@+id/settings_conversation_notifications_divider"
             layout="@layout/divider" />
 
         <TextView
