@@ -48,10 +48,10 @@
     <string name="send_now">Küldés most</string>
     <!-- Message details -->
     <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details_sender">Feladó</string>
+    <string name="message_details_receiver">Fogadó</string>
+    <string name="message_details_sent_at">Elküldve:</string>
+    <string name="message_details_received_at">Fogadva:</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS fogadva</string>
     <string name="new_message">Új üzenet</string>
@@ -59,24 +59,24 @@
     <string name="mark_as_unread">Megjelölés olvasatlanként</string>
     <string name="me">Nekem</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Archiválás visszavonása</string>
+    <string name="empty_archive">Az összes archivált beszélgetés törlése</string>
+    <string name="archived_conversations">Archiválás</string>
+    <string name="show_archived_conversations">Az archivált beszélgetések megjelenítése</string>
+    <string name="archive">Archiválás</string>
+    <string name="no_archived_conversations">Nem találhatók archivált beszélgetések</string>
+    <string name="archive_emptied_successfully">Az archívum ürítése sikeres</string>
+    <string name="empty_archive_confirmation">Biztos, hogy üríti az archívumot\? Az összes archivált beszélgetés véglegesen el fog veszni.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Helyreállítás</string>
+    <string name="restore_all_messages">Összes üzenet helyreállítása</string>
+    <string name="empty_recycle_bin_messages_confirmation">Biztos, hogy üríti a Kukát\? Az üzenetek véglegesen elvesznek.</string>
+    <string name="skip_the_recycle_bin_messages">Kuka kihagyása, az üzenetek közvetlen törlése</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Biztos, hogy törli az összes üzenetet ebből a beszélgetésből\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="archive_confirmation">Biztos, hogy archiválja a következőt: %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Biztos, hogy helyreállítja a beszélgetés összes üzenetét\?</string>
+    <string name="restore_confirmation">Biztos, hogy helyreállítja a következőt: %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d beszélgetést</item>
@@ -88,9 +88,9 @@
         <item quantity="other">%d üzeneteket</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="keyword">Kulcsszó</string>
+    <string name="blocked_keywords">Blokkolt kulcsszavak</string>
+    <string name="manage_blocked_keywords">Blokkolt kulcsszavak kezelése</string>
     <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
     <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Értesítés láthatósága zárolt képernyőnél</string>
