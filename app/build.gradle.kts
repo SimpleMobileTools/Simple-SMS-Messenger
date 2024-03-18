@@ -22,16 +22,17 @@ if (keystorePropertiesFile.exists()) {
 
 android {
 
-    compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
+    compileSdk = 34
     buildToolsVersion = "34.0.0"
     ndkVersion = "25.1.8937393"
 
+    namespace = "com.simplemobiletools.smsmessenger"
     defaultConfig {
-        applicationId = libs.versions.app.version.appId.get()
-        minSdk = project.libs.versions.app.build.minimumSDK.get().toInt()
-        targetSdk = project.libs.versions.app.build.targetSDK.get().toInt()
-        versionName = project.libs.versions.app.version.versionName.get()
-        versionCode = project.libs.versions.app.version.versionCode.get().toInt()
+        applicationId = "com.simplemobiletools.smsmessenger"
+        minSdk = 23
+        targetSdk = 34
+        versionName = "5.19.4"
+        versionCode = 86
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
@@ -81,16 +82,13 @@ android {
     }
 
     compileOptions {
-        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
-        sourceCompatibility = currentJavaVersionFromLibs
-        targetCompatibility = currentJavaVersionFromLibs
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = project.libs.versions.app.build.kotlinJVMTarget.get()
+        kotlinOptions.jvmTarget = "1.8"
     }
-
-    namespace = libs.versions.app.version.appId.get()
 
     lint {
         checkReleaseBuilds = false
