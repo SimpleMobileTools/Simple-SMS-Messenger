@@ -21,7 +21,10 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
+
+    compileSdkVersion(project.libs.versions.app.build.compileSDKVersion.get().toInt())
+    buildToolsVersion = "34.0.0"
+    ndkVersion = "25.1.8937393"
 
     defaultConfig {
         applicationId = libs.versions.app.version.appId.get()
