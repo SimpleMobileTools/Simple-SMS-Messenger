@@ -57,9 +57,12 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            isMinifyEnabled = false
+            ndk.abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
         }
         release {
             isMinifyEnabled = true
+            ndk.abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
