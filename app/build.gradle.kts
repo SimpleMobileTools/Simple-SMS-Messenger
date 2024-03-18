@@ -22,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
 
-    compileSdkVersion(project.libs.versions.app.build.compileSDKVersion.get().toInt())
+    compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
     buildToolsVersion = "34.0.0"
     ndkVersion = "25.1.8937393"
 
@@ -81,7 +81,7 @@ android {
     }
 
     compileOptions {
-        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get().toString())
+        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
         sourceCompatibility = currentJavaVersionFromLibs
         targetCompatibility = currentJavaVersionFromLibs
     }
