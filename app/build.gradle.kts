@@ -21,14 +21,18 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
 
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
+    ndkVersion = "25.1.8937393"
+
+    namespace = "com.simplemobiletools.smsmessenger"
     defaultConfig {
-        applicationId = libs.versions.app.version.appId.get()
-        minSdk = project.libs.versions.app.build.minimumSDK.get().toInt()
-        targetSdk = project.libs.versions.app.build.targetSDK.get().toInt()
-        versionName = project.libs.versions.app.version.versionName.get()
-        versionCode = project.libs.versions.app.version.versionCode.get().toInt()
+        applicationId = "com.simplemobiletools.smsmessenger"
+        minSdk = 23
+        targetSdk = 34
+        versionName = "5.19.4"
+        versionCode = 86
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
@@ -53,9 +57,12 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            isMinifyEnabled = false
+            ndk.abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
         }
         release {
             isMinifyEnabled = true
+            ndk.abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -73,21 +80,14 @@ android {
         register("prepaid")
     }
 
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-    }
-
     compileOptions {
-        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get().toString())
-        sourceCompatibility = currentJavaVersionFromLibs
-        targetCompatibility = currentJavaVersionFromLibs
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = project.libs.versions.app.build.kotlinJVMTarget.get()
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     }
-
-    namespace = libs.versions.app.version.appId.get()
 
     lint {
         checkReleaseBuilds = false

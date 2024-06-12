@@ -7,14 +7,14 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.*
 
 @Serializable(with = BackupSerializer::class)
-sealed class MessagesBackup() {
+sealed class MessagesBackup {
     @SerialName("backupType")
     abstract val backupType: BackupType
 }
 
 object BackupSerializer :
     JsonContentPolymorphicSerializer<MessagesBackup>(MessagesBackup::class) {
-    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out MessagesBackup> {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<MessagesBackup> {
         return when (element.jsonObject["backupType"]?.jsonPrimitive?.content) {
             "sms" -> SmsBackup.serializer()
             "mms" -> MmsBackup.serializer()
