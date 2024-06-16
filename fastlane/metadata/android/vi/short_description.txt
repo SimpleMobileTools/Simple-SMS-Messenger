@@ -1,0 +1,1 @@
+Ứng dụng nhắn tin SMS và MMS cho Android, gửi tin nhắn nhanh, UI đẹp
